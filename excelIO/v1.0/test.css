@@ -1,0 +1,38 @@
+
+        #target {
+            height: 400px;
+            width: 700px;
+            background-color: #f8f8f8;
+            margin: 200px auto;
+            overflow:hidden;
+            border-radius:5px;
+            box-shadow:2px 2px 5px #888;
+        }    
+        .hover::before {
+            content: '请将excel文件拖到这里';
+            width: 100%;
+            height: 100%;
+            display: block;
+            text-align: center;
+            line-height: 400px;
+            font-size: 24px;
+            font-family: '微软雅黑';
+        }
+        #target>table{
+            height:250px;
+            width:400px;
+            border:1px solid #ccc;
+            border-radius:3px;
+            margin:75px auto;
+        }
+        #target>table td{
+            text-align:center;
+            border-top:1px solid #ccc;
+            border-left:1px solid #ccc;
+        }
+         #target>table tr:first-child>td{
+             border-top:0px solid #ccc;
+         }
+         #target>table tr>td:first-child{
+             border-left:0px solid #ccc;
+         }
