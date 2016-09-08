@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312"/>
+	<title>jQuery动态圆圈运动背景特效 - 站长素材</title>
+	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/colpick.css" type="text/css"/>
+	<link href="css/jquery.nouislider.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/demo.css" type="text/css"/>
+</head>
+<body>
+	<div id="bubbles"></div>
+
+	<div id="intro">
+		<h1>站长素材</h1>
+		<a href="http://sc.chinaz.com/jiaoben/">访问jQuery特效</a>
+	</div>
+
+	<form id="demoform">
+		<a href="#">x</a>
+		<div><label>Color</label> <input type="text" value="#1D2833" id="color" style="background:#1D2833;color:#1D2833;"/></div>
+		<div><label>Bubbles</label> <input class="slide" type="hidden" value="20" data-min="1" data-max="100" data-name="ammount"/></div>
+		<div><label>Min size</label> <input class="slide" type="hidden" value="0.1" data-min="0.1" data-max="0.9" data-name="min"/></div>
+		<div><label>Max size</label> <input class="slide" type="hidden" value="0.5" data-min="0.1" data-max="0.9" data-name="max"/></div>
+		<div><label>Speed</label> <input class="slide" type="hidden" value="60" data-min="1" data-max="80" data-name="time"/></div>
+		<div><label>Vertical</label> <input type="checkbox" id="vertical" checked="checked"/></div>
+		<div><label>Horizontal</label> <input type="checkbox" id="horizontal" checked="checked"/></div>
+		<div><label>Fullscreen</label> <input type="checkbox" id="fullscreen" checked="checked"/></div>
+		<div><input type="button" id="update" value="Update"/></div>
+	</form>
+	
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="js/bubbler.jquery.js"></script>
+
+	<!-- For demo -->
+	<script type="text/javascript" src="js/colpick.js"></script>
+	<script type="text/javascript" src="js/jquery.nouislider.js" ></script>
+	<script type="text/javascript" src="js/demo.js"></script>
+<div style="text-align:center;clear:both">
+<p>适用浏览器：360、FireFox、Chrome、Safari、Opera、傲游、搜狗、世界之窗. 不支持IE8及以下浏览器。</p>
+<p>来源：<a href="http://sc.chinaz.com/" target="_blank">站长素材</a></p>
+</div>
+</body>
+</html>
