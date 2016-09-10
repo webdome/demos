@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="reminder">
+<head>
+	<meta charset="UTF-8">
+	<title>03</title>
+	<script src="script/angular.min.js"></script>
+  <script>
+    // 把我们的应用作用单独的一个模块 和系统中的其他模块解耦
+    var reminder = angular.module('reminder',[]);
+    // 在我们的模块上创建一个控制器  来控制本模块中某个局部的可见数据
+    var num = 1004;
+    var code = 67;
+    var arr = ['nan','nv'];
+    reminder.controller('mainController',['$scope',function($scope){
+      $scope.students = [
+        {id:1001,name:'A',sex:'nan'},
+        {id:1002,name:'B',sex:'nv'},
+        {id:1003,name:'C',sex:'nan'},
+      ]
+      $scope.addStudent = function(){
+        this.students.push({
+          id:num++,
+          name:function(){
+            code=(code==90?65:++code);
+            return String.fromCharCode(code);
+          }(), 
+          sex:arr[ Math.random()>0.5?0:1 ]
+        });
+      }
+    }]
+    );
+  </script>
+</head>
+<body ng-controller="mainController">
+	<table>
+    <thead>
+        <th>
+         	<td>姓名</td>
+          <td>学号</td>
+          <td>性别</td>
+        </th>
+    </thead>
+    <tbody>
+      <!-- ng-repeat 指令能从作用的$scopes身上取到数据，帮我们完成渲染-->
+      <!-- 他会在每次数据变动的时候帮我们重新渲染 -->
+      <tr ng-repeat="v in students">
+        <td>{{v.name}}</td>
+        <td>{{v.id}}</td>
+        <td>{{v.sex}}</td>
+      </tr>
+      <tr>
+        <td><button ng-click="addStudent()">添加</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <h1></h1>
+</body>
+</html>

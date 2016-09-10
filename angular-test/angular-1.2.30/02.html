@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!-- ng-app 属性将用来告诉 Angular 页面中的哪一部分需要接受它的管理 -->
+<html lang="en" ng-app>
+<head>
+	<meta charset="UTF-8">
+	<title>Your Shopping Cart</title>
+	<script src="script/angular.min.js"></script>
+	<script>
+		function CartController($scope){
+			$scope.items = [
+				{title:'paint pots', quantity: 8, price: 3.95},
+				{title: 'Polka dots', quantity: 17, price: 12.95},
+				{title: 'Pebbles', quantity: 5, price: 6.95}
+			];
+			$scope.remove = function(index){
+				$scope.items.splice(index,1);
+			}
+		}
+	</script>
+</head>
+<body ng-controller='CartController'>
+	<h1>Your Order</h1>
+	<div ng-repeat='item in items'>
+		<span>{{item.title}}</span>
+		<input ng-model='item.quantity'>
+		<span>{{item.price | currency}}</span>
+		<span>{{item.price * item.quantity | currency}}</span>
+		<button ng-click="remove($index)">Remove</button>
+	</div>
+</body>
+</html>

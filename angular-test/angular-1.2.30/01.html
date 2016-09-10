@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<!-- ng-controller用来指定每个控制器负责监视视图中的哪一部分 -->
+<div ng-controller='HelloController'>
+<!-- ng-model用来把输入数据绑定到模型中的一部分属性上 -->
+	<input type="text" ng-model='greeting.text'>
+<!-- {{ }} 实现数据绑定 -->
+	<p> {{greeting.text}} World </p> 
+</div>
+	<script src="script/angular.min.js"></script>
+	<!-- <script src="controllers.js"></script> -->
+	<script>
+		function HelloController($scope) {
+			$scope.greeting = { text: 'Hello' };
+		}
+	</script>
+</body>
+</html>
