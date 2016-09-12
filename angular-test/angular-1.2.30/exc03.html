@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="store">
+<head>
+<meta charset="UTF-8">
+<title>filter</title>
+<link rel="stylesheet" href="style/bootstrap.min.css">
+</head>
+<body ng-controller="StoreController as store">
+<section ng-repeat="product in store.products" ng-controller="PanelController as panel">
+	<ul class="list-group">
+		<li class="list-group-item">
+			<h3>
+				{{product.name}}
+				<!-- format this into currency -->
+				<em class="pull-right">{{product.price | currency}}</em>
+				<img ng-src="{{product.images[0].full}}"/>
+			</h3>
+		</li>
+	</ul>
+	<ul class="nav nav-pills">
+		<li ng-class="{active:panel.isSelected(1)}"><a href ng-click="panel.selectTab(1)">Description</a></li>
+		<li ng-class="{active:panel.isSelected(2)}"><a href ng-click="panel.selectTab(2)">Specifications</a></li>
+		<li ng-class="{active:panel.isSelected(3)}"><a href ng-click="panel.selectTab(3)">Reviews</a></li>
+	</ul>
+	<div class="panel" ng-show="panel.isSelected(1)">
+		<h4>Description</h4>
+		<p>{{product.description}}</p>
+	</div>
+	<div class="panel" ng-show="panel.isSelected(2)">
+		<h4>Specifications</h4>
+		<blockquote>None yet</blockquote>
+	</div>
+	<div class="panel" ng-show="panel.isSelected(3)">
+		<h4>Reviews</h4>
+		<!-- how can i let my users add content? -->
+		<blockquote ng-repeat="review in product.reviews">
+			<b>Stars:{{review.stars}}</b>
+			{{review.body}}
+			<cite>by:{{review.author}}</cite>
+		</blockquote>
+		<form name="reviewForm">
+		<blockquote>
+			<b>Stars:{{review.stars}}</b>
+			{{review.body}}
+			<cite>by:{{review.author}}</cite>
+		</blockquote>
+			<select ng-model = "review.stars">
+				<option value="1">1 star</option>
+				<option value="2">2 star</option>
+				<option value="3">3 star</option>
+				<option value="4">4 star</option>
+				<option value="5">5 star</option>
+			</select>
+			<textarea ng-model="review.body"></textarea>
+			<label>by:</label>
+			<input type="email" ng-model="review.author">
+			<input type="submit" value="submit">
+		</form>
+	</div>
+</section>
+	<script src="script/angular.min.js"></script>
+	<script src="script/app2.js"></script>
+</body>
+</html>

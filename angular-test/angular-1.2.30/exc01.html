@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html ng-app="store"> 
+<!-- 
+'ng-app' run the module('store') inside of 'app.js',when the document loads
+will going to treat the HTML inside of the element as part of the Angular app
+and this means we can start writing expressions
+-->
+<head>
+	<meta charset="UTF-8">
+	<title>Tempalte</title>
+	<link rel="stylesheet" type="text/css" href="style/bootstrap.min.css">
+</head>
+<body ng-controller="StoreController as store">
+	<!-- load our data into this part of the page -->
+	<!-- we all only have access to the StoreController inside the div ; the scope of the controller is only inside that DOM element-->
+	<!-- repeat this section for each product -->
+	<div ng-repeat="product in store.products">
+		<h1> Product Name : {{product.name}}</h1>
+		<h2> Product Price : ${{product.price}}</h2>
+		<p> Product Description : {{product.description}}</p>
+		<!-- only show this button when the property "canPurchase" of gem is "true";
+		default : false;
+		-->
+		<button ng-show="store.product.canPurchase"> Add to Cart </button>
+	</div>
+	<!-- would never print a value 
+	<h1> Product Name : {{store.product.name}}</h1>-->
+	<script src="script/angular.min.js"></script>
+	<script src="script/app1.js"></script>
+	<!-- <p>
+		{{"hello " + " you"}}
+	</p> -->
+</body>
+</html>
