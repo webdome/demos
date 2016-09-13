@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" ng-app>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="style/bootstrap.min.css">
+	<script src="script/jquery-3.1.0.min.js"></script>
+	<script src="script/angular.min.js"></script>
+</head>
+<body class="container">
+	<header class="page-header"><h1>Index</h1></header>
+	<div ng-controller="test">
+		<div>hello element</div>
+		<div>
+			<input type="text" ng-model="w"/>
+			<span>宽度：{{w}}</span>
+			<button ng-click="changew()" class="btn">增加宽度</button>
+			<input type="text" ng-model="h"/>
+			<span>高度：{{h}}</span>
+			<button ng-click="changeh()" class="btn">增加高度</button>
+		</div>
+		<div>
+			<input type="text" ng-model="name"/>
+			{{name}}
+		</div>
+		<div>
+			<span ng-bind="info.title"></span>
+			<span ng-bind="info.price"></span>
+		</div>
+	</div>
+	<script>
+	/*$scope $element $watch*/
+		function test($scope,$element){
+			var e = $element.children().eq(0);
+			e.css('background-color', '#8AE78A');
+			$scope.w = e.width();
+			$scope.h = e.height();
+			$scope.$watch("w",function(to,from){
+				e.width(to);
+			});
+			$scope.$watch("h",function(to,from){
+				e.height(to);
+			});
+			$scope.name = "test";
+			$scope.info = {title:"angularjs",price:10};
+			$scope.changew = function(){
+
+			}
+			$scope.changeh = function(){
+				
+			}
+		}
+	</script>
+	<footer class="navbar-fixed-bottom text-center">
+		<span>&copy; 2016</span>
+	</footer>
+</body>
+</html>
