@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML5开发</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<!-- 载入Swiper移动端触摸滑动插件，与swiper.jquery.min.js文件同时使用 -->
+<link href="css/swiper.min.css" rel="stylesheet" />
+<!-- 载入CSS3动画库，配合Swiper动画控制器swiper.animate.js文件同时使用 -->
+<link href="css/animate.min.css" rel="stylesheet" />
+<!-- 载入loading进度条显示样式，与loading.js文件同时使用 -->
+<link href="css/loading.css" rel="stylesheet" />
+<!-- 载入index.css文件，用于控制页面中动画元素的显示样式 -->
+<link href="css/index.css" rel="stylesheet" />
+<!-- 载入jQuery核心框架 -->
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<!-- 载入Swiper移动端触摸滑动插件，与swiper.min.css文件同时使用 -->
+<script type="text/javascript" src="js/swiper.min.js"></script>
+<!-- 载入Swiper动画控制器，与swiper.animate.param.js文件同时使用 -->
+<script src="js/swiper.animate.min.js"></script>
+<!-- 载入Swiper动画控制器初始化文件，与swiper.animate.js文件同时使用 -->
+<script src="js/swiper.animate.param.js"></script>
+<!-- 载入loading进度条控制脚本，与loading.css文件同时使用 -->
+<script src="js/loading.js"></script>
+<script language="javascript">
+		// 在全局范围内创建主动画控制器与子动画控制器
+		var myAC_main1 = new animateControl("main1_ani_");
+		var myAC_child1 = new animateControl("child1_ani_");
+		var myAC_child2 = new animateControl("child2_ani_");
+		var myAC_child3 = new animateControl("child3_ani_");
+		// 在文档结构加载完成之后，载入swiper幻灯片，并初始化所有的动画控制器
+		$(document).ready(function(){
+			// 第 1 个子swiper幻灯片
+			var mySwiper_child1 = new Swiper('.swiper-container-child1',{
+				direction: 'horizontal',
+				grabCursor : true,
+				loop : true,
+				onInit: function(swiper){
+					myAC_child1.init(swiperAnimateParam_child1, swiper);
+				},
+				onSlideChangeEnd: function(swiper){
+					myAC_child1.play();
+				},
+			});
+			// 第 2 个子swiper幻灯片
+			var mySwiper_child2 = new Swiper('.swiper-container-child2',{
+				direction: 'horizontal',
+				grabCursor : true,
+				loop : true,
+				onInit: function(swiper){
+					myAC_child2.init(swiperAnimateParam_child2, swiper);
+				},
+				onSlideChangeEnd: function(swiper){
+					myAC_child2.play();
+				},
+			});
+			// 第 3 个子swiper幻灯片
+			var mySwiper_child3 = new Swiper('.swiper-container-child3',{
+				direction: 'horizontal',
+				grabCursor : true,
+				loop : true,
+				onInit: function(swiper){
+					myAC_child3.init(swiperAnimateParam_child3, swiper);
+				},
+				onSlideChangeEnd: function(swiper){
+					myAC_child3.play();
+				},
+			});
+			// 主swiper幻灯片
+			var mySwiper = new Swiper('.swiper-container-main1',{
+				direction: 'vertical',
+				grabCursor : true,
+				loop: true,
+				nextButton: '.swiper-button-next',
+				onInit: function(swiper){
+					myAC_main1.init(swiperAnimateParam_main1, swiper);
+					myAC_main1.addChild(2, myAC_child1);
+					myAC_main1.addChild(3, myAC_child2);
+					myAC_main1.addChild(4, myAC_child3);
+					//myAC_main1.play(); // 如果页面中未使用Loading效果，则必须取消本行代码的注释，以开启myAC_main1主动画控制器中动画的播放
+				},
+				onSlideChangeEnd: function(swiper){
+					myAC_main1.play();
+				},
+			});
+		});
+		</script>
+<style type="text/css">
+html, body {
+	position: relative;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+.swiper-container {
+	width: 100%;
+	height: 100%;
+}
+.swiper-button-next {
+	background-image: url("img/icon_up.png");
+	background-size: 80%;
+	top: 95%;
+	left: 50%;
+	animation: fadeInUp ease 1s both infinite;
+}
+#inner{
+	background-image:url(../nuanlianlianPC/include/images/logo_bg.png);
+}
+</style>
+</head>
+<body>
+<div class="swiper-container swiper-container-main1">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide" style="background-color:#083846;">
+    	<img class="main1_ani_01" src="img/cover.png" />
+        <img class="main1_ani_02" src="img/wording_cover.png" />
+    </div>
+    <div class="swiper-slide">
+      <div class="swiper-container swiper-container-child1">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" style="background-color:#9261BF;"> <img class="child1_ani_01" src="img/wording.png" /> <img class="child1_ani_02" src="img/circle.png" /> <img class="child1_ani_03" src="img/people.png" /> <img class="child1_ani_04" src="img/check_develop.png" /> <img class="child1_ani_05" src="img/floating_develop.png" /> </div>
+          <div class="swiper-slide" style="background-color:#9261BF;"> <img class="child1_ani_06" src="img/introduction.png" /> <img class="child1_ani_07" src="img/btn_develop.png" /> </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-slide">
+      <div class="swiper-container swiper-container-child2">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" style="background-color:#F3533C;"> <img class="child2_ani_01" src="img/wording_design.png" /> <img class="child2_ani_02" src="img/circle-design.png" /> <img class="child2_ani_03" src="img/people_design.png" /> <img class="child2_ani_04" src="img/check_design.png" /> <img class="child2_ani_05" src="img/floating_design.png" /> </div>
+          <div class="swiper-slide" style="background-color:#F3533C;"> <img class="child2_ani_06" src="img/introduction_design.png" /> <img class="child2_ani_07" src="img/btn_design.png" /> </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-slide">
+      <div class="swiper-container swiper-container-child3">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" style="background-color:#FFBF50;"> <img class="child3_ani_01" src="img/wording_production.png" /> <img class="child3_ani_02" src="img/circle-production.png" /> <img class="child3_ani_03" src="img/people_production.png" /> <img class="child3_ani_04" src="img/check_production.png" /> <img class="child3_ani_05" src="img/floating_production.png" /> <img class="child3_ani_06" src="img/pic_shadow_production.png" /> </div>
+          <div class="swiper-slide" style="background-color:#FFBF50;"> <img class="child3_ani_07" src="img/introduction_production.png" /> <img class="child3_ani_08" src="img/btn_production.png" /> </div>
+        </div>
+      </div>
+    </div>
+    <div class="swiper-slide" style="background-color:#083846;">
+    	<img class="main1_ani_03" src="img/pic_back.png" />
+        <a href="http://www.zhuhaicec.com"><img class="main1_ani_04" src="img/btn_join.png" /></a>
+    </div>
+    <div class="swiper-slide" style="background-color:#083846;">
+    	<img class="main1_ani_05" src="img/cover.png" />
+        <img class="main1_ani_06" src="img/wording_cover.png" />
+    </div>
+  </div>
+  <div class="swiper-button-next"></div>
+</div>
+</body>
+</html>
