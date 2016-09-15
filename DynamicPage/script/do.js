@@ -1,3 +1,3 @@
 getData({
-	"gid": "1015"
+	"gid": "1399"
 }, "giftsService.do", "getGiftDetail", "gift");// 1399  1015  1369

@@ -2,12 +2,12 @@ function dataDeal(returnMsg, category) {
 	switch (category) {
 		case "gift":
 			/*begin*/
-			console.log(returnMsg.gift);
+			// console.log(returnMsg.gift);
 			var obj01 = returnMsg.gift;
 			$("title").text(obj01.giftName);
-			console.log(returnMsg.giftPages);
+			// console.log(returnMsg.giftPages);
 			var obj02 = returnMsg.giftPages;
-			console.log(returnMsg.giftPageElements);
+			// console.log(returnMsg.giftPageElements);
 			var obj03 = returnMsg.giftPageElements;
 			// pageJs 为帧页面动画js代码
 			var pageJs = "var swiperAnimateParam_main1 = {";
@@ -15,6 +15,8 @@ function dataDeal(returnMsg, category) {
 			for (var i = 0; i < obj02.length; i++) {
 				// pageBox 为帧页面容器
 				var pageBox = $('<div class="swiper-slide"></div>');
+				var contentBox = $('<div class="contentBox"></div>');
+				var bgBox = $('<div class="bgBox"></div>');
 				// pageHtml 为帧页面html内容
 				var pageHtml = "";
 				pageJs += "slide_" + (i + 1) + ":{";
@@ -38,11 +40,11 @@ function dataDeal(returnMsg, category) {
 						// 如果该元素是文字 则创建p
 						if (obj03[j].ele.eleType == 296) {
 							// 获取元素的样式
-							var width = obj03[j].width / 100 + 'rem';
-							var left = obj03[j].left / 100 + 'rem';
-							var top = obj03[j].top / 100 + 'rem';
+							var width = obj03[j].width + 'px';
+							var left = obj03[j].left + 'px';
+							var top = obj03[j].top-40 + 'px';
 							var zIndex = obj03[j].zIndex;
-							var fonts = obj03[j].fontSize;
+							var fonts = parseFloat(parseFloat(obj03[j].fontSize)*100)+'px';
 							var color = obj03[j].color;
 							var fontw = obj03[j].fontWeight;
 							pageHtml += '<p class="main1_ani_' + n + '" style="width:' +
@@ -54,16 +56,16 @@ function dataDeal(returnMsg, category) {
 							// 如果该元素是图片 则创建img 或者 background-image
 							if (obj03[j].ele.eleType == 62) {
 								// 获取元素的样式
-								var width = obj03[j].width / 100 + 'rem';
-								var left = obj03[j].left / 100 + 'rem';
-								var top = obj03[j].top / 100 + 'rem';
+								var width = obj03[j].width + 'px';
+								var left = obj03[j].left + 'px';
+								var top = obj03[j].top-40 + 'px';
 								var zIndex = obj03[j].zIndex;
 								pageHtml += '<img class="main1_ani_' + n +
 									'" src="http://119.90.34.85:81/image/' + obj03[j].ele.path +
 									'" style="width:' + width + ';top:' + top +
 									';left:' + left + ';z-index:' + zIndex + ';"/>';
 							} else if (obj03[j].isbg) {
-								pageBox.css('background-image',
+								bgBox.css('background',
 									'url("http://119.90.34.85:81/image/' +
 									obj03[j].ele.path + '") no-repeat');
 							}
@@ -72,7 +74,9 @@ function dataDeal(returnMsg, category) {
 				}
 				// 每个帧页面循环完后 封闭js对象 将帧页面html附加到页面上
 				pageJs += '},';
-				pageBox.append(pageHtml);
+				contentBox.append(pageHtml);
+				pageBox.append(bgBox);
+				pageBox.append(contentBox);
 				$(".swiper-wrapper").append(pageBox);
 			}
 			// 帧页面全部循环完后 封闭全部js代码 创建script标签加入js代码添加到页面
