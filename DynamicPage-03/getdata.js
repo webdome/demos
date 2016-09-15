@@ -10,7 +10,7 @@ function getData(packets, interName, methName, category) {
 	var signMD5 = CryptoJS.MD5(sign).toString();
 	$.ajax({
 		// url: 'http://192.168.1.7:8080/love/' + interName,
-		// url: 'http://119.90.34.86:8080/love/' + interName,
+		url: 'http://119.90.34.86:8080/love/' + interName,
 		type: 'get',
 		dataType: 'json',
 		data: {

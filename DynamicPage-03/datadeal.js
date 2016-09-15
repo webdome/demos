@@ -2,6 +2,7 @@ function dataDeal(returnMsg, category) {
 	switch (category) {
 		case "gift":
 			/*begin*/
+			// console.log(returnMsg);
 			// console.log(returnMsg.gift);
 			var obj01 = returnMsg.gift;
 			$("title").text(obj01.giftName);

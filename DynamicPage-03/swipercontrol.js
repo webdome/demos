@@ -2,11 +2,11 @@
 		var myAC_main1 = new animateControl("main1_ani_");
 		// 在文档结构加载完成之后，载入swiper幻灯片，并初始化所有的动画控制器
 		function callback(){
-			var mySwiper = new Swiper('.swiper-container-main1',{
+			var mySwiper = new Swiper('.swiper-container',{
 				direction: 'vertical',
 				grabCursor : true,
 				loop: true,
-				nextButton: '.swiper-button-next',
+				// nextButton: '.swiper-button-next',
 				onInit: function(swiper){
 					myAC_main1.init(swiperAnimateParam_main1, swiper);
 					myAC_main1.play(); 
