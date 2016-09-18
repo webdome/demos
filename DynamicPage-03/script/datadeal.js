@@ -2,12 +2,12 @@ function dataDeal(returnMsg, category) {
 	switch (category) {
 		case "gift":
 			/*begin*/
-			console.log(returnMsg.gift);
+			// console.log(returnMsg.gift);
 			var obj01 = returnMsg.gift;
 			$("title").text(obj01.giftName);
-			console.log(returnMsg.giftPages);
+			// console.log(returnMsg.giftPages);
 			var obj02 = returnMsg.giftPages;
-			console.log(returnMsg.giftPageElements);
+			// console.log(returnMsg.giftPageElements);
 			var obj03 = returnMsg.giftPageElements;
 			// 创建 container wrapper  外层容器
 			var container = $('<div class="swiper-container"></div>');
@@ -42,7 +42,7 @@ function dataDeal(returnMsg, category) {
 							var pleft = obj03[j].left / 100 + 'rem';
 							var ptop = obj03[j].top / 100 + 'rem';
 							var zIndex = obj03[j].zIndex;
-							var fonts = obj03[j].fontSize / 100 + 'rem';
+							var fonts = obj03[j].fontSize;
 							var color = obj03[j].color;
 							var fontw = obj03[j].fontWeight;
 							pageHtml += '<p class="main1_ani_' + n + '" style="width:' +
@@ -55,7 +55,6 @@ function dataDeal(returnMsg, category) {
 								var width = obj03[j].width / 100 + 'rem';
 								var pleft = obj03[j].left / 100 + 'rem';
 								var ptop = obj03[j].top / 100 + 'rem';
-
 								var zIndex = obj03[j].zIndex;
 								pageHtml += '<img class="main1_ani_' + n +
 									'" src="http://119.90.34.85:81/image/' + obj03[j].ele.path +

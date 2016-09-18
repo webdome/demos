@@ -6,14 +6,14 @@
 	app.controller('StoreController', function() {
 		this.products = gems;
 	});
-	app.controller('PanelController', function(){
+	app.controller('PanelController', function() {
 		this.tab = 1;
-		this.selectTab = function(setTab){
+		this.selectTab = function(setTab) {
 			this.tab = setTab;
 		};
-		this.isSelected = function(checkTab){
+		this.isSelected = function(checkTab) {
 			return this.tab === checkTab;
-		}
+		};
 
 	});
 	/*set this gem equal to a property of this controller (product)*/
@@ -27,14 +27,14 @@
 				full: 'images/p.png',
 				thumb: 'images/p.png',
 			}],
-			reviews:[{
-				stars:5,
-				body:"i love this product!",
-				author:"sdsd@asd.com",
-			},{
-				stars:1,
-				body:"this product sucks",
-				author:"sdsd@asd.com",
+			reviews: [{
+				stars: 5,
+				body: "i love this product!",
+				author: "sdsd@asd.com",
+			}, {
+				stars: 1,
+				body: "this product sucks",
+				author: "sdsd@asd.com",
 			}],
 		}, {
 			name: "Pentagonal Gem",
@@ -46,16 +46,16 @@
 				full: 'images/d.png',
 				thumb: 'images/d.png',
 			}],
-			reviews:[{
-				stars:4,
-				body:"i love this product!",
-				author:"sdqweed@asd.com",
-			},{
-				stars:2,
-				body:"this product sucks",
-				author:"sdjkhgsd@asd.com",
+			reviews: [{
+				stars: 4,
+				body: "i love this product!",
+				author: "sdqweed@asd.com",
+			}, {
+				stars: 2,
+				body: "this product sucks",
+				author: "sdjkhgsd@asd.com",
 			}],
 		},
 
-	]
+	];
 })();

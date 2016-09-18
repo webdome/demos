@@ -13,7 +13,8 @@ function setScale() {
 	}
 	//console.log('screen.width', width, 'screen.height', height, 'setScale', pageScale);
 	// meta
-	var content = 'width=640, initial-scale=' + pageScale + ', maximum-scale=' + pageScale + ', user-scalable=no';
+	var content = 'width=640, initial-scale=' + pageScale + ', maximum-scale=' +
+		pageScale + ', user-scalable=no';
 	document.getElementById('viewport').setAttribute('content', content);
 }
 setScale();

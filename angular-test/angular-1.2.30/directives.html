@@ -1,15 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" ng-app>
+
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
 	<link rel="stylesheet" href="style/bootstrap.min.css">
 	<script src="script/jquery-3.1.0.min.js"></script>
+	<script src="script/bootstrap.min.js"></script>
 	<script src="script/angular.min.js"></script>
 </head>
+
 <body class="container">
 	<div ng-include="'header.html'"></div>
-	<div></div>
+	<div ng-init="url='about.html'">
+		<ul class="nav nav-pills">
+			<li class="active"><a href data-toggle="tab" ng-click="url='about.html'">About</a></li>
+			<li><a href data-toggle="tab" ng-click="url='email.html'">Email</a></li>
+			<li><a href data-toggle="tab" ng-click="url='profie.html'">Profie</a></li>
+		</ul>
+		<div ng-include="url"></div>
+	</div>
 	<div ng-include="'footer.html'"></div>
+	<script type="text/javascript">
+	</script>
 </body>
+
 </html>
