@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML5donghua</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<!-- 载入Swiper移动端触摸滑动插件，与swiper.jquery.min.js文件同时使用 -->
+<link href="css/swiper.min.css" rel="stylesheet" />
+<!-- 载入CSS3动画库，配合Swiper动画控制器swiper.animate.js文件同时使用 -->
+<link href="css/animate.min.css" rel="stylesheet" />
+<!-- 载入loading进度条显示样式，与loading.js文件同时使用 -->
+<link href="css/loading.css" rel="stylesheet" />
+<!-- 载入动态添加页的css样式 -->
+<link href="css/index.css" rel="stylesheet" />
+<!-- 载入jQuery核心框架 -->
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<!-- 载入Swiper移动端触摸滑动插件，与swiper.min.css文件同时使用 -->
+<script type="text/javascript" src="js/swiper.min.js"></script>
+<!-- 载入Swiper动画控制器，与swiper.animate.param.js文件同时使用 -->
+<script src="js/swiper.animate.min.js"></script>
+<!-- 载入loading进度条控制脚本，与loading.css文件同时使用 -->
+<script src="js/loading.js"></script>
+<script src="swipercontrol.js"></script>
+<script src="script/aes.js"></script>
+<script src="script/md5.js"></script>
+<script src="script/mode-ecb.js"></script>
+<script src="script/pad-pkcs7.js"></script>
+<script src="script/callback.js"></script>
+<script src="script/getData.js"></script>
+</head>
+<body>
+<div class="swiper-container swiper-container-main1">
+  <div class="swiper-wrapper">
+		<!-- 内容显示区域 -->
+  </div>
+  <div class="swiper-button-next"></div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		getData({"gid":"1399"}, "giftsService.do", "getGiftDetail", "gift");
+	})
+	// 1399  1015  1369
+</script>
+</body>
+</html>

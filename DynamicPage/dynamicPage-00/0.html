@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>HTML5donghua</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+<!-- 载入Swiper移动端触摸滑动插件，与swiper.jquery.min.js文件同时使用 -->
+<link href="css/swiper.min.css" rel="stylesheet" />
+<!-- 载入CSS3动画库，配合Swiper动画控制器swiper.animate.js文件同时使用 -->
+<link href="css/animate.min.css" rel="stylesheet" />
+<!-- 载入loading进度条显示样式，与loading.js文件同时使用 -->
+<link href="css/loading.css" rel="stylesheet" />
+<!-- 载入动态添加页的css样式 -->
+<link href="css/index.css" rel="stylesheet" />
+<!-- 载入jQuery核心框架 -->
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<!-- 载入Swiper移动端触摸滑动插件，与swiper.min.css文件同时使用 -->
+<script type="text/javascript" src="js/swiper.min.js"></script>
+<!-- 载入Swiper动画控制器，与swiper.animate.param.js文件同时使用 -->
+<script src="js/swiper.animate.min.js"></script>
+<!-- 载入Swiper动画控制器初始化文件，与swiper.animate.js文件同时使用 -->
+<!--<script src="js/swiper.animate.param.js"></script>-->
+<!-- 载入loading进度条控制脚本，与loading.css文件同时使用 -->
+<script src="js/loading.js"></script>
+<script language="javascript">
+		// 在全局范围内创建主动画控制器与子动画控制器
+		var myAC_main1 = new animateControl("main1_ani_");
+		// 在文档结构加载完成之后，载入swiper幻灯片，并初始化所有的动画控制器
+		function _collback(){
+			var mySwiper = new Swiper('.swiper-container-main1',{
+				direction: 'vertical',
+				grabCursor : true,
+				loop: true,
+				nextButton: '.swiper-button-next',
+				onInit: function(swiper){
+					myAC_main1.init(swiperAnimateParam_main1, swiper);
+					//myAC_main1.play(); 
+					// 如果页面中未使用Loading效果，则必须取消本行代码的注释，以开启myAC_main1主动画控制器中动画的播放
+				},
+				onSlideChangeEnd: function(swiper){
+					myAC_main1.play();
+				},
+			});
+		}
+		</script>
+<script type="text/javascript">
+	function test(var arg){
+		window.android.test(arg);
+	}
+</script>
+</head>
+<body>
+<div class="swiper-container swiper-container-main1">
+  <div class="swiper-wrapper">
+
+  </div>
+  <div class="swiper-button-next"></div>
+</div>
+<script type="text/javascript">
+		$(document).ready(function(){
+			$.ajax({
+		        type : "get",
+		        async : false,
+		        url :"http://119.90.34.86:8080/love/giftsService.do?op=browse&gid=1015", // 1369 192.168.1.30
+		        cache : false,
+		        dataType : "jsonp",
+		        jsonp: "callback",
+		        jsonpCallback:"jsonpCallback",
+		        success : function(json){
+		        	console.log(json);
+		        	var obj2=json.giftPages;
+		        	var obj3=json.giftPageElements;
+		        	var result="";
+		        	// 插入动画效果js		 
+		        	var jsConfig="var swiperAnimateParam_main1 = {";
+		        	for(var i=0;i<obj2.length;i++){
+		        	    var osection = $('<div class="swiper-slide"></div>');
+		        	    jsConfig+="slide_"+(i+1)+":{";
+	                	for(var j=0;j<obj3.length;j++){
+	                		var _width=obj3[j].width/100+'rem';
+	                		var _index=obj3[j].zIndex;
+	                		var _top=obj3[j].top==''?0:obj3[j].top.trim()/100+'rem';
+	                		var _left=obj3[j].left==''?0:obj3[j].left.trim()/100+'rem';
+	                		var _transform=obj3[j].rotaAngle==""?'rotate(0deg)':'rotate(obj3[j].rotaAngle.trim()+"deg")';
+	                		if(obj2[i].id==obj3[j].giftPageId){
+	                			if(obj3[j].effect){
+	                				jsConfig+="animate_0"+(j+1)+":{element:'main1_ani_0"+(j+1)+"', animation:'"+obj3[j].effect+"',duration:'"+obj3[j].duration+"s',delay:'"+obj3[j].delay+"s'}, ";
+	                			}	                			
+	                		    if(obj3[j].ele.eleType==296){
+	                                result='<p class="main1_ani_0'+(j+1)+'" style="width:'+_width+';top:'+_top+';left:'+_left+';z-index:'+_index+';transform:'+_transform+'">'+obj3[j].ele.path+'</p>'
+	                		    }else{
+	                		    	if(obj3[j].isbg=="bgBox"){
+	                		    		osection.css({"background-image":"url(http://119.90.34.85:81/image/"+obj3[j].ele.path+")"});
+	                		    	}else{
+	                		    	    result='<img class="main1_ani_0'+(j+1)+'" src="http://119.90.34.85:81/image/'+obj3[j].ele.path+'" style="width:'+_width+';top:'+_top+';left:'+_left+';z-index:'+_index+';transform:'+_transform+'">'
+	                		    	}
+	                		    }            			
+	                			osection.append(result);
+	                		}                		
+		        	    }
+		        	    jsConfig+="},";
+		        	    $('.swiper-wrapper').append(osection);		        	                                           		
+		        	}
+		        	jsConfig+="};";
+		        	var o=document.createElement("script");         //动态创建script元素
+				    o.text=jsConfig;                    //输出语句。。是脚本中的代码
+				    document.documentElement.childNodes[0].appendChild(o);//将脚本添加到页面中
+
+		        	_collback();	        	
+		        },
+		        error:function(e){
+		            alert("error");
+		        }
+		    });
+		});
+</script>
+
+</body>
+</html>
