@@ -1,4 +1,4 @@
-* {
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, dl, dt, dd, ol, ul, li, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, footer, header, nav, section {
 	margin: 0;
 	padding: 0;
 }
@@ -10,6 +10,7 @@ html, body, .swiper-container, .swiper-wrapper, .page, .content, .bg {
 	height: 100%;
 }
 .bg {
+	background-image: url(../1.png);
 	background-origin: content-box;
 	background-size: cover;
 	background-position: 50% 50%;

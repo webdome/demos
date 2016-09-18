@@ -6,7 +6,8 @@ function getData(packets, interName, methName, category) {
 		mode: CryptoJS.mode.ECB,
 		padding: CryptoJS.pad.Pkcs7
 	}).toString();
-	var sign = "[" + [packetsAES, token].sort().toString().replace(",", ", ") + "]";
+	var sign = "[" + [packetsAES, token].sort().toString().replace(",", ", ") +
+		"]";
 	var signMD5 = CryptoJS.MD5(sign).toString();
 	$.ajax({
 		// url: 'http://192.168.1.7:8080/love/' + interName,
@@ -22,7 +23,7 @@ function getData(packets, interName, methName, category) {
 			var returnCode = res.returnCode;
 			var returnMsg = res.returnMsg;
 			if (returnCode === "000") {
-				var returnMsg = CryptoJS.AES.decrypt(returnMsg, key, {
+				returnMsg = CryptoJS.AES.decrypt(returnMsg, key, {
 					mode: CryptoJS.mode.ECB,
 					padding: CryptoJS.pad.Pkcs7
 				});
@@ -34,5 +35,5 @@ function getData(packets, interName, methName, category) {
 				console.log("dataDeal is not defined");
 			}
 		}
-	})
+	});
 }

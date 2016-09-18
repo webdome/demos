@@ -10,6 +10,7 @@ var returnMsg = CryptoJS.AES.decrypt(returnMsg, key, {
 	padding: CryptoJS.pad.Pkcs7
 });
 returnMsg = JSON.parse(returnMsg.toString(CryptoJS.enc.Utf8));
+// 处理
 console.log(returnMsg.gift);
 var obj01 = returnMsg.gift;
 $("title").text(obj01.giftName);
