@@ -1,202 +1,400 @@
 $(function() {
-
-
-	function newBox(elem) {
-		this.oDiv2 = elem;
-		this.oDiv = elem.find('.scale')[0];
+	function newBox(elem, width, height, minsize) {
+		this.box = elem;
+		this.container = elem[0].firstChild;
+		this.scale01 = elem.find('.scale01')[0];
+		this.scale02 = elem.find('.scale02')[0];
+		this.scale03 = elem.find('.scale03')[0];
+		this.scale04 = elem.find('.scale04')[0];
 		this.h2 = elem.find('.h2')[0];
 		this.right = elem.find('.right')[0];
 		this.bottom = elem.find('.bottom')[0];
+		this.left = elem.find('.left')[0];
+		this.top = elem.find('.top')[0];
+		this.rotate = elem.find('.rotate')[0];
 		this.mouseStart = {};
+		this.mouseCur = {};
+		this.boxPosition = {};
 		this.divStart = {};
 		this.rightStart = {};
 		this.bottomStart = {};
+		this.leftStart = {};
+		this.topStart = {};
+		this.width = width;
+		this.height = height;
+		this.minsize = minsize;
+		this.pleft = 0;
+		this.ptop = 0;
+		this.pbottom = 0;
+		this.pright = 0;
+		this.angle = 0;
+		var bAngle = 0;
 		var self = this;
-		// 向右拽
+		// 旋转
+		self.rotate.onmousedown = function() {
+			var e = window.event || arguments[0];
+			e.stopPropagation();
+			self.mouseStart.x = e.clientX;
+			self.mouseStart.y = e.clientY;
+			self.boxPosition.x = self.box[0].offsetLeft + self.width / 2;
+			self.boxPosition.y = self.box[0].offsetTop + self.height / 2;
+			document.addEventListener("mousemove", self.doDrag00, true);
+			document.addEventListener("mouseup", self.stopDrag00, true);
+		};
+		self.doDrag00 = function() {
+			var e = window.event || arguments[0];
+			e.stopPropagation();
+			self.mouseCur.x = e.clientX;
+			self.mouseCur.y = e.clientY;
+			var aLine = Math.sqrt(Math.abs(Math.pow((self.boxPosition.x - self.mouseStart.x), 2)) + Math.abs(Math.pow((self.boxPosition.y - self.mouseStart.y), 2)));
+			var bLine = Math.sqrt(Math.abs(Math.pow((self.mouseStart.x - self.mouseCur.x), 2)) + Math.abs(Math.pow((self.mouseStart.y - self.mouseCur.y), 2)));
+			var cLine = Math.sqrt(Math.abs(Math.pow((self.mouseCur.x - self.boxPosition.x), 2)) + Math.abs(Math.pow((self.mouseCur.y - self.boxPosition.y), 2)));
+			bAngle = Math.acos((Math.pow(bLine, 2) - Math.pow(aLine, 2) - Math.pow(cLine, 2)) / (-2 * aLine * cLine));
+			if ((self.mouseCur.x > self.boxPosition.x && self.mouseCur.y <= self.boxPosition.y) || (self.mouseCur.x > self.boxPosition.x && self.mouseCur.y > self.boxPosition.y)) {
+				if (self.mouseCur.y > self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				} else {
+					bAngle = self.angle - bAngle / 3 * 180;
+				}
+			}
+			if ((self.mouseCur.x <= self.boxPosition.x && self.mouseCur.y > self.boxPosition.y) || (self.mouseCur.x <= self.boxPosition.x && self.mouseCur.y <= self.boxPosition.y)) {
+				if (self.mouseCur.y > self.mouseStart.y) {
+					bAngle = self.angle + (3 - bAngle) / 3 * 180 + 180;
+				} else {
+					bAngle = self.angle - (3 - bAngle) / 3 * 180 + 180;
+				}
+			}
+			self.box[0].style.webkitTransform = 'rotate(' + bAngle + 'deg)';
+		};
+		self.stopDrag00 = function() {
+				self.angle = bAngle;
+				var e = window.event || arguments[0];
+				e.stopPropagation();
+				document.removeEventListener("mousemove", self.doDrag00, true);
+				document.removeEventListener("mouseup", self.stopDrag00, true);
+			}
+			// 右侧拽
 		self.right.onmousedown = function() {
 			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
 			self.mouseStart.x = oEvent.clientX;
 			self.mouseStart.y = oEvent.clientY;
-			self.rightStart.x = self.right.offsetLeft;
-			if (self.right.setCapture) {
-				self.right.onmousemove = self.doDrag1;
-				self.right.onmouseup = self.stopDrag1;
-				self.right.setCapture();
-			} else {
-				document.addEventListener("mousemove", self.doDrag1, true);
-				document.addEventListener("mouseup", self.stopDrag1, true);
-			}
+			document.addEventListener("mousemove", self.doDrag1, true);
+			document.addEventListener("mouseup", self.stopDrag1, true);
 		};
 		self.doDrag1 = function() {
 			var oEvent = window.event || arguments[0];
-			var l = oEvent.clientX - self.mouseStart.x + self.rightStart.x;
-			var w = l + self.oDiv.offsetWidth;
-
-			if (w < self.oDiv.offsetWidth) {
-				w = self.oDiv.offsetWidth;
-			} else if (w > document.documentElement.clientWidth - self.oDiv2[0].offsetLeft) {
-				w = document.documentElement.clientWidth - self.oDiv2[0].offsetLeft - 2;
+			oEvent.stopPropagation();
+			var w = oEvent.clientX - self.mouseStart.x;
+			if (self.width + w < self.minsize) {
+				return;
 			}
-			self.oDiv2[0].style.width = w + "px";
+			self.box[0].style.width = self.width + w + "px";
 		};
 		self.stopDrag1 = function() {
-			if (self.right.releaseCapture) {
-				self.right.onmousemove = null;
-				self.right.onmouseup = null;
-				self.right.releaseCapture();
-			} else {
-				document.removeEventListener("mousemove", self.doDrag1, true);
-				document.removeEventListener("mouseup", self.stopDrag1, true);
-			}
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.width = parseInt(self.box[0].style.width);
+			document.removeEventListener("mousemove", self.doDrag1, true);
+			document.removeEventListener("mouseup", self.stopDrag1, true);
 		};
-		// 向下拽
+		// 底部拽
 		self.bottom.onmousedown = function() {
 			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
 			self.mouseStart.x = oEvent.clientX;
 			self.mouseStart.y = oEvent.clientY;
-			self.bottomStart.y = self.bottom.offsetTop;
-			if (self.bottom.setCapture) {
-				self.bottom.onmousemove = self.doDrag2;
-				self.bottom.onmouseup = self.stopDrag2;
-				self.bottom.setCapture();
-			} else {
-				document.addEventListener("mousemove", self.doDrag2, true);
-				document.addEventListener("mouseup", self.stopDrag2, true);
-			}
+			document.addEventListener("mousemove", self.doDrag2, true);
+			document.addEventListener("mouseup", self.stopDrag2, true);
 		};
 		self.doDrag2 = function() {
 			var oEvent = window.event || arguments[0];
-			var t = oEvent.clientY - self.mouseStart.y + self.bottomStart.y;
-			var h = t + self.oDiv.offsetHeight;
-
-			if (h < self.oDiv.offsetHeight) {
-				h = self.oDiv.offsetHeight;
-			} else if (h > document.documentElement.clientHeight - self.oDiv2[0].offsetTop) {
-				h = document.documentElement.clientHeight - self.oDiv2[0].offsetTop - 2;
+			oEvent.stopPropagation();
+			var h = oEvent.clientY - self.mouseStart.y;
+			if (self.height + h < self.minsize) {
+				return;
 			}
-			self.oDiv2[0].style.height = h + "px";
+			self.box[0].style.height = self.height + h + "px";
 		};
 		self.stopDrag2 = function() {
-			if (self.bottom.releaseCapture) {
-				self.bottom.onmousemove = null;
-				self.bottom.onmouseup = null;
-				self.bottom.releaseCapture();
-			} else {
-				document.removeEventListener("mousemove", self.doDrag2, true);
-				document.removeEventListener("mouseup", self.stopDrag2, true);
-			}
-		};
-		// 右下角拽
-		self.oDiv.onmousedown = function() {
 			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.height = parseInt(self.box[0].style.height);
+			document.removeEventListener("mousemove", self.doDrag2, true);
+			document.removeEventListener("mouseup", self.stopDrag2, true);
+		};
+		// 左侧拽
+		self.left.onmousedown = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
 			self.mouseStart.x = oEvent.clientX;
 			self.mouseStart.y = oEvent.clientY;
-			self.divStart.x = self.oDiv.offsetLeft;
-			self.divStart.y = self.oDiv.offsetTop;
-			if (self.oDiv.setCapture) {
-				self.oDiv.onmousemove = self.doDrag;
-				self.oDiv.onmouseup = self.stopDrag;
-				self.oDiv.setCapture();
-			} else {
-				document.addEventListener("mousemove", self.doDrag, true);
-				document.addEventListener("mouseup", self.stopDrag, true);
-			}
-
-		};
-		self.doDrag = function() {
-			var oEvent = window.event || arguments[0];
-			var l = oEvent.clientX - self.mouseStart.x + self.divStart.x;
-			var t = oEvent.clientY - self.mouseStart.y + self.divStart.y;
-			var w = l + self.oDiv.offsetWidth;
-			var h = t + self.oDiv.offsetHeight;
-			if (w < self.oDiv.offsetWidth) {
-				w = self.oDiv.offsetWidth;
-			} else if (w > document.documentElement.clientWidth - self.oDiv2[0].offsetLeft) {
-				w = document.documentElement.clientWidth - self.oDiv2[0].offsetLeft - 2;
-			}
-			if (h < self.oDiv.offsetHeight) {
-				h = self.oDiv.offsetHeight;
-			} else if (h > document.documentElement.clientHeight - self.oDiv2[0].offsetTop) {
-				h = document.documentElement.clientHeight - self.oDiv2[0].offsetTop - 2;
-			}
-			self.oDiv2[0].style.width = w + "px";
-			self.oDiv2[0].style.height = h + "px";
-		};
-		self.stopDrag = function() {
-			if (self.oDiv.releaseCapture) {
-				self.oDiv.onmousemove = null;
-				self.oDiv.onmouseup = null;
-				self.oDiv.releaseCapture();
-			} else {
-				document.removeEventListener("mousemove", self.doDrag, true);
-				document.removeEventListener("mouseup", self.stopDrag, true);
-			}
-
-		};
-		// h2拖拽
-		self.h2.onmousedown = function() {
-			var oEvent = window.event || arguments[0];
-			self.mouseStart.x = oEvent.clientX;
-			self.mouseStart.y = oEvent.clientY;
-			self.divStart.x = self.oDiv2[0].offsetLeft;
-			self.divStart.y = self.oDiv2[0].offsetTop;
-			if (self.h2.setCapture) {
-				self.h2.onmousemove = self.doDrag3;
-				self.h2.onmouseup = self.stopDrag3;
-				self.h2.setCapture();
-			} else {
-				document.addEventListener("mousemove", self.doDrag3, true);
-				document.addEventListener("mouseup", self.stopDrag3, true);
-			}
-
+			document.addEventListener("mousemove", self.doDrag3, true);
+			document.addEventListener("mouseup", self.stopDrag3, true);
 		};
 		self.doDrag3 = function() {
 			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			var w = self.mouseStart.x - oEvent.clientX;
+			if (self.width + w < self.minsize) {
+				return;
+			}
+			self.box[0].style.width = self.width + w + "px";
+			self.box[0].style.left = self.pleft - w + "px";
+		};
+		self.stopDrag3 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.width = parseInt(self.box[0].style.width);
+			self.pleft = parseInt(self.box[0].style.left);
+			document.removeEventListener("mousemove", self.doDrag3, true);
+			document.removeEventListener("mouseup", self.stopDrag3, true);
+		};
+		// 顶部拽
+		self.top.onmousedown = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.mouseStart.x = oEvent.clientX;
+			self.mouseStart.y = oEvent.clientY;
+			self.topStart.y = self.top.offsetTop;
+			document.addEventListener("mousemove", self.doDrag4, true);
+			document.addEventListener("mouseup", self.stopDrag4, true);
+		};
+		self.doDrag4 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			var h = self.mouseStart.y - oEvent.clientY;
+			if (self.height + h < self.minsize) {
+				return;
+			}
+			self.box[0].style.height = self.height + h + "px";
+			self.box[0].style.top = self.ptop - h + "px";
+		};
+		self.stopDrag4 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.height = parseInt(self.box[0].style.height);
+			self.ptop = parseInt(self.box[0].style.top);
+			document.removeEventListener("mousemove", self.doDrag4, true);
+			document.removeEventListener("mouseup", self.stopDrag4, true);
+		};
+		// 右下角拽 ==>成比例
+		self.scale01.onmousedown = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.mouseStart.x = oEvent.clientX;
+			self.mouseStart.y = oEvent.clientY;
+			document.addEventListener("mousemove", self.doDrag01, true);
+			document.addEventListener("mouseup", self.stopDrag01, true);
+		};
+		self.doDrag01 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			var l = oEvent.clientX - self.mouseStart.x;
+			var t = oEvent.clientY - self.mouseStart.y;
+			if (l > t) {
+				var change = l;
+			} else {
+				var change = t;
+			}
+			if (self.height + change < self.minsize || self.width + change < self.minsize) {
+				return;
+			}
+			self.box[0].style.width = self.width + change + "px";
+			self.box[0].style.height = self.height + change + "px";
+		};
+		self.stopDrag01 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.width = parseInt(self.box[0].style.width);
+			self.height = parseInt(self.box[0].style.height);
+			document.removeEventListener("mousemove", self.doDrag01, true);
+			document.removeEventListener("mouseup", self.stopDrag01, true);
+		};
+		// 左下角拽
+		self.scale02.onmousedown = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.mouseStart.x = oEvent.clientX;
+			self.mouseStart.y = oEvent.clientY;
+			document.addEventListener("mousemove", self.doDrag02, true);
+			document.addEventListener("mouseup", self.stopDrag02, true);
+		};
+		self.doDrag02 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			var l = self.mouseStart.x - oEvent.clientX;
+			var t = oEvent.clientY - self.mouseStart.y;
+			if (l > t) {
+				var change = l;
+			} else {
+				var change = t;
+			}
+			if (self.height + change < self.minsize || self.width + change < self.minsize) {
+				return;
+			}
+			self.box[0].style.width = self.width + change + "px";
+			self.box[0].style.height = self.height + change + "px";
+			self.box[0].style.left = self.pleft - change + "px";
+		};
+		self.stopDrag02 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.width = parseInt(self.box[0].style.width);
+			self.height = parseInt(self.box[0].style.height);
+			self.pleft = parseInt(self.box[0].style.left);
+			document.removeEventListener("mousemove", self.doDrag02, true);
+			document.removeEventListener("mouseup", self.stopDrag02, true);
+		};
+		// 左上角拽
+		self.scale03.onmousedown = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.mouseStart.x = oEvent.clientX;
+			self.mouseStart.y = oEvent.clientY;
+			document.addEventListener("mousemove", self.doDrag03, true);
+			document.addEventListener("mouseup", self.stopDrag03, true);
+		};
+		self.doDrag03 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			var l = self.mouseStart.x - oEvent.clientX;
+			var t = self.mouseStart.y - oEvent.clientY;
+			if (l > t) {
+				var change = l;
+			} else {
+				var change = t;
+			}
+			if (self.height + change < self.minsize || self.width + change < self.minsize) {
+				return;
+			}
+			self.box[0].style.width = self.width + change + "px";
+			self.box[0].style.height = self.height + change + "px";
+			self.box[0].style.top = self.ptop - change + "px";
+			self.box[0].style.left = self.pleft - change + "px";
+		};
+		self.stopDrag03 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.width = parseInt(self.box[0].style.width);
+			self.height = parseInt(self.box[0].style.height);
+			self.ptop = parseInt(self.box[0].style.top);
+			self.pleft = parseInt(self.box[0].style.left);
+			document.removeEventListener("mousemove", self.doDrag03, true);
+			document.removeEventListener("mouseup", self.stopDrag03, true);
+		};
+		// 右上角拽
+		self.scale04.onmousedown = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.mouseStart.x = oEvent.clientX;
+			self.mouseStart.y = oEvent.clientY;
+			document.addEventListener("mousemove", self.doDrag04, true);
+			document.addEventListener("mouseup", self.stopDrag04, true);
+		};
+		self.doDrag04 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			var l = oEvent.clientX - self.mouseStart.x;
+			var t = self.mouseStart.y - oEvent.clientY;
+			if (l > t) {
+				var change = l;
+			} else {
+				var change = t;
+			}
+			if (self.height + change < self.minsize || self.width + change < self.minsize) {
+				return;
+			}
+			self.box[0].style.width = self.width + change + "px";
+			self.box[0].style.height = self.height + change + "px";
+			self.box[0].style.top = self.ptop - change + "px";
+		};
+		self.stopDrag04 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.width = parseInt(self.box[0].style.width);
+			self.height = parseInt(self.box[0].style.height);
+			self.ptop = parseInt(self.box[0].style.top);
+			document.removeEventListener("mousemove", self.doDrag04, true);
+			document.removeEventListener("mouseup", self.stopDrag04, true);
+		};
+		// 移动
+		self.container.onmousedown = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.mouseStart.x = oEvent.clientX;
+			self.mouseStart.y = oEvent.clientY;
+			self.divStart.x = self.box[0].offsetLeft;
+			self.divStart.y = self.box[0].offsetTop;
+			document.addEventListener("mousemove", self.doDrag0, true);
+			document.addEventListener("mouseup", self.stopDrag0, true);
+		};
+		self.doDrag0 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
 			var l = oEvent.clientX - self.mouseStart.x + self.divStart.x;
 			var t = oEvent.clientY - self.mouseStart.y + self.divStart.y;
 			if (l < 0) {
 				l = 0;
-			} else if (l > document.documentElement.clientWidth - self.oDiv2[0].offsetWidth) {
-				l = document.documentElement.clientWidth - self.oDiv2[0].offsetWidth;
+			} else if (l > document.documentElement.clientWidth - self.box[0].offsetWidth) {
+				l = document.documentElement.clientWidth - self.box[0].offsetWidth;
 			}
 			if (t < 0) {
 				t = 0;
-			} else if (t > document.documentElement.clientHeight - self.oDiv2[0].offsetHeight) {
-				t = document.documentElement.clientHeight - self.oDiv2[0].offsetHeight;
+			} else if (t > document.documentElement.clientHeight - self.box[0].offsetHeight) {
+				t = document.documentElement.clientHeight - self.box[0].offsetHeight;
 			}
-			self.oDiv2[0].style.left = l + "px";
-			self.oDiv2[0].style.top = t + "px";
+			self.box[0].style.left = l + "px";
+			self.box[0].style.top = t + "px";
 		};
-		self.stopDrag3 = function() {
-			if (self.h2.releaseCapture) {
-				self.h2.onmousemove = null;
-				self.h2.onmouseup = null;
-				self.h2.releaseCapture();
-			} else {
-				document.removeEventListener("mousemove", self.doDrag3, true);
-				document.removeEventListener("mouseup", self.stopDrag3, true);
-			}
-
+		self.stopDrag0 = function() {
+			var oEvent = window.event || arguments[0];
+			oEvent.stopPropagation();
+			self.pleft = parseInt(self.box[0].style.left);
+			self.ptop = parseInt(self.box[0].style.top);
+			document.removeEventListener("mousemove", self.doDrag0, true);
+			document.removeEventListener("mouseup", self.stopDrag0, true);
 		};
 	}
-	
-	// 添加一个div
 	$("#btn").on('click', function(event) {
 		event.preventDefault();
+		event.stopPropagation();
 		var box = $('<div class="box"></div>');
 		var c = $('<div></div>');
-		var h2 = $('<h2 class="h2">拖拽黄色区域移动<br>拖拽红色区域单向放大缩小<br>拖拽绿色虚线区域整体放大缩小</h2>');
-		var right = $('<div class="right"></div>');
-		var scale = $('<div class="scale">+</div>');
+		var scale01 = $('<div class="scale01"></div>');
+		var scale02 = $('<div class="scale02"></div>');
+		var scale03 = $('<div class="scale03"></div>');
+		var scale04 = $('<div class="scale04"></div>');
+		var rotate = $('<div class="rotate"></div>');
 		var bottom = $('<div class="bottom"></div>');
-		c.append(h2);
-		c.append(right);
-		c.append(scale);
-		c.append(bottom);
+		var right = $('<div class="right"></div>');
+		var left = $('<div class="left"></div>');
+		var top = $('<div class="top"></div>');
 		box.append(c);
+		box.append(scale01);
+		box.append(scale02);
+		box.append(scale03);
+		box.append(scale04);
+		box.append(right);
+		box.append(left);
+		box.append(top);
+		box.append(bottom);
+		box.append(rotate);
 		$("body").append(box);
-		new newBox(box);
-	});
+		new newBox(box, 200, 200, 10);
+		// 点击隐藏显示操作点
+		$(document).on('click', function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			$(".box").children().hide();
+		});
+		$(".box").on('click', function(event) {
+			event.preventDefault();
+			event.stopPropagation();
+			$(".box").children().hide();
+			$(this).children().show();
+		});
 
+	});
 
 })

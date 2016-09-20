@@ -24,74 +24,108 @@ h1 {
     width: 200px;
     height: 200px;
     position: absolute;
-    background: #EEEEEE;
-    border-right: 2px solid #f00;
-    border-bottom: 2px solid #f00;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
+    font: 14px/20px "microsoft yahei";
+    background: #ccc;
+    border-radius: 50%;
 }
-.scale {
-    width: 20px;
-    height: 20px;
-    border: 2px dashed green;
+.scale01,.scale02,.scale03,.scale04 {
+    width: 10px;
+    height: 10px;
+    border: 5px dashed green;
     position: absolute;
     right: -10px;
     bottom: -10px;
     cursor: nw-resize;
     overflow: hidden;
-    font-size: 12px;
     text-align: center;
-    line-height: 20px;
     color: #000;
-    font-size: 20px;
     font-weight: bold;
     float: right;
+    background-color: green;
     z-index: 3;
 }
+.scale02{
+    left: -10px;
+    bottom: -10px;
+    cursor: sw-resize;
+}
+.scale03{
+    left: -10px;
+    top: -10px;
+    cursor: nw-resize;
+}
+.scale04{
+    right: -10px;
+    top: -10px;
+    cursor: sw-resize;
+}
 .right {
-    width: 15px;
-    height: 100%;
+    width: 10px;
+    height: 10px;
     background: #f00;
     float: right;
     position: absolute;
-    right: 0;
-    top: 0;
+    right: -5px;
+    top: 50%;
+    margin-top: -5px;
     cursor: e-resize;
-    overflow: hidden;
-    opacity: 0;
-    filter: alpha(opacity:0);
-    opacity: 0;
-    z-index: 1;
+    z-index: 2;
+    border-radius: 50%;
 }
 .bottom {
-    width: 100%;
-    height: 15px;
+    width: 10px;
+    height: 10px;
     background: #f00;
     position: absolute;
-    left: 0;
-    bottom: 0;
+    left: 50%;
+    bottom: -5px;
+    margin-left: -5px;
+    cursor: s-resize;
+    z-index: 2;
+    border-radius: 50%;
+}
+.left {
+    width: 10px;
+    height: 10px;
+    background: #f00;
+    position: absolute;
+    left: -5px;
+    top: 50%;
+    margin-top: -5px;
+    cursor: w-resize;
+    z-index: 2;
+    border-radius: 50%;
+}
+.top {
+    width: 10px;
+    height: 10px;
+    background: #f00;
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    margin-left: -5px;
     cursor: n-resize;
-    overflow: hidden;
-    opacity: 0;
-    filter: alpha(opacity:0);
-    opacity: 0;
-    z-index: 1;
+    z-index: 2;
+    border-radius: 50%;
 }
-.box h2 {
-    width: 100%;
-    height: 50%;
-    font: 14px/20px "microsoft yahei";
-    background: #CC9900;
-    color: #FFFFFF;
-    text-align: center;
-    cursor: move;
-    overflow: hidden;
-}
-.box>div {
+.box>div:first-child {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    cursor: move;
+}
+.rotate{
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: blue;
+    border-radius: 50%;
+    margin-left: -10px;
+    cursor: url(Move_IcP.cur),crosshair;
 }
