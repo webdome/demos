@@ -34,36 +34,250 @@ $(function() {
 		self.rotate.onmousedown = function() {
 			var e = window.event || arguments[0];
 			e.stopPropagation();
-			self.mouseStart.x = e.clientX;
 			self.mouseStart.y = e.clientY;
+			var mf = e.offsetX;
+			if (mf < 10) {
+				self.mouseStart.x = e.clientX + (10 - mf);
+			} else if (mf > 10) {
+				self.mouseStart.x = e.clientX - (10 - (20 - mf));
+			} else {
+				self.mouseStart.x = e.clientX;
+			}
 			self.boxPosition.x = self.box[0].offsetLeft + self.width / 2;
 			self.boxPosition.y = self.box[0].offsetTop + self.height / 2;
 			document.addEventListener("mousemove", self.doDrag00, true);
 			document.addEventListener("mouseup", self.stopDrag00, true);
 		};
+		var aLine = 0; var bLine=0;var cLine=0;
+		self.calAngle = function(e){
+			self.mouseCur.x = e.clientX;
+			self.mouseCur.y = e.clientY;
+			aLine = Math.sqrt(Math.abs(Math.pow((self.boxPosition.x - self.mouseStart.x), 2)) + Math.abs(Math.pow((self.boxPosition.y - self.mouseStart.y), 2)));
+			bLine = Math.sqrt(Math.abs(Math.pow((self.mouseStart.x - self.mouseCur.x), 2)) + Math.abs(Math.pow((self.mouseStart.y - self.mouseCur.y), 2)));
+			cLine = Math.sqrt(Math.abs(Math.pow((self.mouseCur.x - self.boxPosition.x), 2)) + Math.abs(Math.pow((self.mouseCur.y - self.boxPosition.y), 2)));
+			bAngle = Math.acos((Math.pow(bLine, 2) - Math.pow(aLine, 2) - Math.pow(cLine, 2)) / (-2 * aLine * cLine));
+		}
 		self.doDrag00 = function() {
 			var e = window.event || arguments[0];
 			e.stopPropagation();
-			self.mouseCur.x = e.clientX;
-			self.mouseCur.y = e.clientY;
-			var aLine = Math.sqrt(Math.abs(Math.pow((self.boxPosition.x - self.mouseStart.x), 2)) + Math.abs(Math.pow((self.boxPosition.y - self.mouseStart.y), 2)));
-			var bLine = Math.sqrt(Math.abs(Math.pow((self.mouseStart.x - self.mouseCur.x), 2)) + Math.abs(Math.pow((self.mouseStart.y - self.mouseCur.y), 2)));
-			var cLine = Math.sqrt(Math.abs(Math.pow((self.mouseCur.x - self.boxPosition.x), 2)) + Math.abs(Math.pow((self.mouseCur.y - self.boxPosition.y), 2)));
-			bAngle = Math.acos((Math.pow(bLine, 2) - Math.pow(aLine, 2) - Math.pow(cLine, 2)) / (-2 * aLine * cLine));
-			if ((self.mouseCur.x > self.boxPosition.x && self.mouseCur.y <= self.boxPosition.y) || (self.mouseCur.x > self.boxPosition.x && self.mouseCur.y > self.boxPosition.y)) {
-				if (self.mouseCur.y > self.mouseStart.y) {
+			self.calAngle(e);
+			// bAngle = self.angle + (3 - bAngle) / 3 * 180 + 180;
+			// 缺少转过180deg的处理
+			// 存储的问题
+			/*起始点坐标(x>0,y>0)*/
+			if ((self.mouseStart.x > self.boxPosition.x && self.mouseStart.y < self.boxPosition.y)) {
+				// 右上
+				if (self.mouseCur.x > self.mouseStart.x && self.mouseCur.y < self.mouseStart.y) {
+					if (self.mouseCur.x - self.mouseStart.x > self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					} else if (self.mouseCur.x - self.mouseStart.x < self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle - bAngle / 3 * 180;
+					} else if (self.mouseCur.x - self.mouseStart.x == self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					}
+				}
+				// 右下
+				if (self.mouseCur.x > self.mouseStart.x && self.mouseCur.y > self.mouseStart.y) {
 					bAngle = self.angle + bAngle / 3 * 180;
-				} else {
+				}
+				// 左上
+				if (self.mouseCur.x < self.mouseStart.x && self.mouseCur.y < self.mouseStart.y) {
 					bAngle = self.angle - bAngle / 3 * 180;
 				}
-			}
-			if ((self.mouseCur.x <= self.boxPosition.x && self.mouseCur.y > self.boxPosition.y) || (self.mouseCur.x <= self.boxPosition.x && self.mouseCur.y <= self.boxPosition.y)) {
-				if (self.mouseCur.y > self.mouseStart.y) {
-					bAngle = self.angle + (3 - bAngle) / 3 * 180 + 180;
-				} else {
-					bAngle = self.angle - (3 - bAngle) / 3 * 180 + 180;
+				// 左下
+				if (self.mouseCur.x < self.mouseStart.x && self.mouseCur.y > self.mouseStart.y) {
+					if (self.mouseStart.x - self.mouseCur.x > self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle - bAngle / 3 * 180;
+					} else if (self.mouseStart.x - self.mouseCur.x < self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					} else if (self.mouseStart.x - self.mouseCur.x == self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					}
+				}
+				// 上 / 左
+				if ((self.mouseCur.x == self.mouseStart.x && self.mouseCur.y - self.mouseStart.y < 0) || (self.mouseCur.y == self.mouseStart.y && self.mouseCur.x - self.mouseStart.x < 0)) {
+					bAngle = self.angle - bAngle / 3 * 180;
+				}
+				// 下 / 右
+				if ((self.mouseCur.x == self.mouseStart.x && self.mouseCur.y - self.mouseStart.y > 0) || (self.mouseCur.y == self.mouseStart.y && self.mouseCur.x - self.mouseStart.x > 0)) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+				// 起始点
+				if (self.mouseCur.x == self.mouseStart.x && self.mouseCur.y == self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
 				}
 			}
+			/*起始点坐标(x>0,y<0)*/
+			if ((self.mouseStart.x > self.boxPosition.x && self.mouseStart.y > self.boxPosition.y)) {
+				// 右上
+				if (self.mouseCur.x > self.mouseStart.x && self.mouseCur.y < self.mouseStart.y) {
+					bAngle = self.angle - bAngle / 3 * 180;
+				}
+				// 右下
+				if (self.mouseCur.x > self.mouseStart.x && self.mouseCur.y > self.mouseStart.y) {
+					if (self.mouseCur.x - self.mouseStart.x > self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle - bAngle / 3 * 180;
+					} else if (self.mouseCur.x - self.mouseStart.x < self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					} else if (self.mouseCur.x - self.mouseStart.x == self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					}
+				}
+				// 左上
+				if (self.mouseCur.x < self.mouseStart.x && self.mouseCur.y < self.mouseStart.y) {
+					if (self.mouseStart.x - self.mouseCur.x < self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle - bAngle / 3 * 180;
+					} else if (self.mouseStart.x - self.mouseCur.x > self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					} else if (self.mouseStart.x - self.mouseCur.x == self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					}
+				}
+				// 左下
+				if (self.mouseCur.x < self.mouseStart.x && self.mouseCur.y > self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+				// 上 / 右
+				if ((self.mouseCur.x == self.mouseStart.x && self.mouseCur.y - self.mouseStart.y < 0) || (self.mouseCur.y == self.mouseStart.y && self.mouseCur.x - self.mouseStart.x > 0)) {
+					bAngle = self.angle - bAngle / 3 * 180;
+				}
+				// 下 / 左
+				if ((self.mouseCur.x == self.mouseStart.x && self.mouseCur.y - self.mouseStart.y > 0) || (self.mouseCur.y == self.mouseStart.y && self.mouseCur.x - self.mouseStart.x < 0)) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+				// 起始点
+				if (self.mouseCur.x == self.mouseStart.x && self.mouseCur.y == self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+			}
+			/*起始点坐标(x<0,y<0)*/
+			if ((self.mouseStart.x < self.boxPosition.x && self.mouseStart.y > self.boxPosition.y)) {
+				// 右上
+				if (self.mouseCur.x > self.mouseStart.x && self.mouseCur.y < self.mouseStart.y) {
+					if (self.mouseCur.x - self.mouseStart.x > self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle - bAngle / 3 * 180;
+					} else if (self.mouseCur.x - self.mouseStart.x < self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					} else if (self.mouseCur.x - self.mouseStart.x == self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					}
+				}
+				// 右下
+				if (self.mouseCur.x > self.mouseStart.x && self.mouseCur.y > self.mouseStart.y) {
+					bAngle = self.angle - bAngle / 3 * 180;
+				}
+				// 左上
+				if (self.mouseCur.x < self.mouseStart.x && self.mouseCur.y < self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+				// 左下
+				if (self.mouseCur.x < self.mouseStart.x && self.mouseCur.y > self.mouseStart.y) {
+					if (self.mouseStart.x - self.mouseCur.x > self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					} else if (self.mouseStart.x - self.mouseCur.x < self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle - bAngle / 3 * 180;
+					} else if (self.mouseStart.x - self.mouseCur.x == self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					}
+				}
+				// 下 / 右
+				if ((self.mouseCur.x == self.mouseStart.x && self.mouseCur.y - self.mouseStart.y > 0) || (self.mouseCur.y == self.mouseStart.y && self.mouseCur.x - self.mouseStart.x > 0)) {
+					bAngle = self.angle - bAngle / 3 * 180;
+				}
+				// 上 / 左
+				if ((self.mouseCur.x == self.mouseStart.x && self.mouseCur.y - self.mouseStart.y < 0) || (self.mouseCur.y == self.mouseStart.y && self.mouseCur.x - self.mouseStart.x < 0)) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+				// 起始点
+				if (self.mouseCur.x == self.mouseStart.x && self.mouseCur.y == self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+			}
+			/*起始点坐标(x<0,y>0)*/
+			if ((self.mouseStart.x < self.boxPosition.x && self.mouseStart.y < self.boxPosition.y)) {
+				// 右上
+				if (self.mouseCur.x > self.mouseStart.x && self.mouseCur.y < self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+				// 右下
+				if (self.mouseCur.x > self.mouseStart.x && self.mouseCur.y > self.mouseStart.y) {
+					if (self.mouseCur.x - self.mouseStart.x > self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					} else if (self.mouseCur.x - self.mouseStart.x < self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle - bAngle / 3 * 180;
+					} else if (self.mouseCur.x - self.mouseStart.x == self.mouseCur.y - self.mouseStart.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					}
+				}
+				// 左上
+				if (self.mouseCur.x < self.mouseStart.x && self.mouseCur.y < self.mouseStart.y) {
+					if (self.mouseStart.x - self.mouseCur.x > self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle - bAngle / 3 * 180;
+					} else if (self.mouseStart.x - self.mouseCur.x < self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					} else if (self.mouseStart.x - self.mouseCur.x == self.mouseStart.y - self.mouseCur.y) {
+						bAngle = self.angle + bAngle / 3 * 180;
+					}
+				}
+				// 左下
+				if (self.mouseCur.x < self.mouseStart.x && self.mouseCur.y > self.mouseStart.y) {
+					bAngle = self.angle - bAngle / 3 * 180;
+				}
+				// 下 / 左
+				if ((self.mouseCur.x == self.mouseStart.x && self.mouseCur.y - self.mouseStart.y > 0) || (self.mouseCur.y == self.mouseStart.y && self.mouseCur.x - self.mouseStart.x < 0)) {
+					bAngle = self.angle - bAngle / 3 * 180;
+				}
+				// 上 / 右
+				if ((self.mouseCur.x == self.mouseStart.x && self.mouseCur.y - self.mouseStart.y < 0) || (self.mouseCur.y == self.mouseStart.y && self.mouseCur.x - self.mouseStart.x > 0)) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+				// 起始点
+				if (self.mouseCur.x == self.mouseStart.x && self.mouseCur.y == self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+			}
+			/*起始点坐标(y>0,x=0)*/
+			if ((self.mouseStart.x == self.boxPosition.x && self.mouseStart.y < self.boxPosition.y)) {
+				if (self.mouseCur.x > self.mouseStart.x) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				} else if (self.mouseCur.x < self.mouseStart.x) {
+					bAngle = self.angle - bAngle / 3 * 180;
+				} else if (self.mouseCur.x == self.mouseStart.x) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+			}
+			/*起始点坐标(y=0,x>0)*/
+			if ((self.mouseStart.x > self.boxPosition.x && self.mouseStart.y == self.boxPosition.y)) {
+				if (self.mouseCur.y > self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				} else if (self.mouseCur.y < self.mouseStart.y) {
+					bAngle = self.angle - bAngle / 3 * 180;
+				} else if (self.mouseCur.y == self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+			}
+			/*起始点坐标(y<0,x=0)*/
+			if ((self.mouseStart.x == self.boxPosition.x && self.mouseStart.y > self.boxPosition.y)) {
+				if (self.mouseCur.x < self.mouseStart.x) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				} else if (self.mouseCur.x > self.mouseStart.x) {
+					bAngle = self.angle - bAngle / 3 * 180;
+				} else if (self.mouseCur.x == self.mouseStart.x) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+			}
+			/*起始点坐标(y=0,x<0)*/
+			if ((self.mouseStart.x < self.boxPosition.x && self.mouseStart.y == self.boxPosition.y)) {
+				if (self.mouseCur.y < self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				} else if (self.mouseCur.y > self.mouseStart.y) {
+					bAngle = self.angle - bAngle / 3 * 180;
+				} else if (self.mouseCur.y == self.mouseStart.y) {
+					bAngle = self.angle + bAngle / 3 * 180;
+				}
+			}
+
+
 			self.box[0].style.webkitTransform = 'rotate(' + bAngle + 'deg)';
 		};
 		self.stopDrag00 = function() {
