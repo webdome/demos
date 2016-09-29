@@ -1,0 +1,45 @@
+sublime text 3 在写 css 时自动提示类名的解决方案
+
+命令行输入
+Package Control: Add Repository
+进入后输入
+https://github.com/andruhon/SublimeAllAutocomplete
+然后在install package中输入
+All Autocomplete
+找到与上面地址对应的插件并安装。
+将这个插件的设置文件中的
+"apply_with_dash_hack_syntaxes"：["source.scss","source.sass","source.css"],
+复制到插件的user设置中，并改为
+"apply_with_dash_hack_syntaxes": ["source.scss","source.sass","source.css","text.html"],
+这一步是为了能在提示中搜索html文件里的类，记住html也需要同时打开。
+打开st3的设置文件，找到
+"word_separators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?",
+将代码复制到st3的user设置文件中，并删去其中的短横线“-”，修改后如下
+"word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?"
+别忘了在前面的设置代码最后加逗号。
+到此allcomplete插件的设置就完成了，接下来解决st3的css不出现自动提示框的问题
+用install package安装插件
+PackageResourceViewer
+命令行输入
+ PackageResourceViewer: Open Resource
+打开
+CSS/css_completions.py
+将文件最后部分的
+else:
+                    l.append((prop, prop))
+修改为
+elif view.match_selector(locations[0], "meta.property-list.css"):
+                    l.append((prop, prop))
+原地保存并同时保存到（以防万一）
+../package/user/
+文件夹下
+再次运行
+PackageResourceViewer: Open Resource
+打开
+CSS/Completion Rules.tmPreferences
+进行如下修改
+-            <string>.*</string>
++            <string></string>
+同样保存到
+../package/user/
+文件夹下即可
