@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>制作页面</title>
+        <link rel="stylesheet" href="style/style.css">
+        <link rel="stylesheet" href="style/jquery.Jcrop.css" type="text/css" />
+    </head>
+    <body>
+        <!-- 画布区 -->
+        <div id="drawArea">
+            <ul></ul>
+        </div>
+        <!-- 素材库 -->
+        <div id="material">
+            <div class="textures">
+            <img src="http://192.168.1.34:8080/picture/bbx.png"/>
+            </div>
+            <div class="textures">
+            <img src="http://192.168.1.34:8080/picture/htx.png"/>
+            </div>
+            <div class="textures">
+            <img src="http://192.168.1.34:8080/picture/wjx.png"/>
+            </div>
+            <div class="textures">
+            <img src="http://192.168.1.34:8080/picture/xhx.png"/>
+            </div>
+            <div class="ml_pic">
+            <img src="http://192.168.1.34:8080/picture/d76351a0-a925-4e93-a266-1d49c046bad3.png"/>
+            </div>
+            <div class="ml_pic">
+            <img src="http://192.168.1.34:8080/picture/yq0KZFXxC92ACnwgAAArvIvwkPI428.png"/>
+            </div>
+            <div class="ml_pic">
+            <img src="http://192.168.1.34:8080/picture/yq0KZVXxC8GAImVKAAAq-OkjCBQ838.png"/>
+            </div>
+            <div class="ml_pic">
+            <img src="http://192.168.1.34:8080/picture/yq0KZVXxC8GAPsyZAAEWODiFtLU757.png"/>
+            </div>
+            <div class="ml_txt">
+            双击输入文本
+            </div>
+        </div>
+        <!-- 功能区 -->
+        <div id="function">
+            <ul>
+                <li>上移一层</li>
+                <li>下移一层</li>
+                <li>移至最底层</li>
+                <li>移至最顶层</li>
+                <li>裁切</li>
+                <li>清除storage</li>
+                <li>保存</li>
+            </ul>
+        </div>
+        <!-- 字体样式 -->
+        <div id="txt_style">
+            <ul>
+                <li><!-- 0 -->
+                    字体
+                    <ul>
+                        <li>微软雅黑</li>
+                        <li>黑体</li>
+                    </ul>
+                </li> 
+                <li><!-- 1 -->
+                    字号
+                    <ul>
+                        <li>12px</li>
+                        <li>16px</li>
+                        <li>20px</li>
+                        <li>24px</li>
+                        <li>28px</li>
+                        <li>32px</li>
+                    </ul>
+                </li>
+                <li><!-- 2 -->
+                    颜色
+                    <ul>
+                        <li>black</li>
+                        <li>white</li>
+                        <li>red</li>
+                        <li>blue</li>
+                        <li>green</li>
+                        <li>pink</li>
+                    </ul>
+                </li>
+                <li><!-- 3 -->
+                    加粗
+                    <ul>
+                        <li>bold</li>
+                        <li>normal</li>
+                    </ul>
+                </li>
+                <li><!-- 4 -->
+                    倾斜
+                    <ul>
+                        <li>italic</li>
+                        <li>normal</li>
+                    </ul>
+                </li>
+                <li><!-- 5 -->
+                    下划线
+                    <ul>
+                        <li>underline</li>
+                        <li>none</li>
+                    </ul>
+                </li>
+                <li><!-- 6 -->
+                    删除线
+                    <ul>
+                        <li>line-through</li>
+                        <li>none</li>
+                    </ul>
+                </li>
+                <li><!-- 7 -->
+                    对齐方式
+                    <ul>
+                        <li>left</li>
+                        <li>center</li>
+                        <li>right</li>
+                    </ul>
+                </li>
+                <li><!-- 8 -->
+                    行高
+                    <ul>
+                        <li>0.5</li>
+                        <li>1</li>
+                        <li>1.5</li>
+                    </ul>
+                </li>
+                <li><!-- 9 -->
+                    字体间距
+                    <ul>
+                        <li>0rem</li>
+                        <li>0.5rem</li>
+                        <li>1rem</li>
+                    </ul>
+                </li>
+                <li><!-- 10 -->
+                    添加超链接
+                    <ul>
+                        <li>添加</li>
+                        <li>移除</li>
+                    </ul>
+                </li>
+                <li><!-- 11 -->
+                    清除样式
+                    <ul>
+                        <li>清除</li>
+                        <li>恢复</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <script src="script/jquery-3.1.0.min.js"></script>
+        <script src="script/jquery.Jcrop.min.js"></script>
+        <script src="script/aes.js"></script>
+        <script src="script/md5.js"></script>
+        <script src="script/mode-ecb.js"></script>
+        <script src="script/pad-pkcs7.js"></script>
+        <script src="script/newGraph.js"></script>
+        <script src="script/newPic.js"></script>
+        <script src="script/newTxt.js"></script>
+        <script src="script/getdata.js"></script>
+        <script src="script/event.js"></script>
+    </body>
+</html>
