@@ -95,7 +95,7 @@ document.oncontextmenu = function(e) {
 
 // 点击空白区域隐藏操作点
 $(document).on('mousedown', function(e) {
-	e.preventDefault();
+	// e.preventDefault();
 	e.stopPropagation();
 	$("#drawArea>ul>li").attr('data-cur', '0'); // 将当前激活项设置为空
 	$("#drawArea>ul>li>div").not('.graph,.pic,.txt').hide(); // 除了图片和文本以外的所有控制单元都隐藏
@@ -346,43 +346,43 @@ $("#txt_style>ul>li>ul>li").on('mousedown', function(e) {
 	if (i == 0) {
 		var fontFamily = $(this).text();
 		target.css("font-family", fontFamily);
-		UpdateTxtStorage("fontFamily", fontFamily);
+		updateTxtStorage("fontFamily", fontFamily);
 	} else if (i == 1) {
 		var fontSize = $(this).text();
 		target.css("font-size", fontSize);
-		UpdateTxtStorage("fontSize", fontSize);
+		updateTxtStorage("fontSize", fontSize);
 	} else if (i == 2) {
 		var color = $(this).text();
 		target.css("color", color);
-		UpdateTxtStorage("color", color);
+		updateTxtStorage("color", color);
 	} else if (i == 3) {
 		var fontWeight = $(this).text();
 		target.css("font-weight", fontWeight);
-		UpdateTxtStorage("fontWeight", fontWeight);
+		updateTxtStorage("fontWeight", fontWeight);
 	} else if (i == 4) {
 		var fontStyle = $(this).text();
 		target.css("font-style", fontStyle);
-		UpdateTxtStorage("fontStyle", fontStyle);
+		updateTxtStorage("fontStyle", fontStyle);
 	} else if (i == 5) {
 		var textDecoration = $(this).text();
 		target.css("text-decoration", textDecoration);
-		UpdateTxtStorage("textDecoration", textDecoration);
+		updateTxtStorage("textDecoration", textDecoration);
 	} else if (i == 6) {
 		var textDecoration = $(this).text();
 		target.css("text-decoration", textDecoration);
-		UpdateTxtStorage("textDecoration", textDecoration);
+		updateTxtStorage("textDecoration", textDecoration);
 	} else if (i == 7) {
 		var textAlign = $(this).text();
 		target.css("text-align", textAlign);
-		UpdateTxtStorage("textAlign", textAlign);
+		updateTxtStorage("textAlign", textAlign);
 	} else if (i == 8) {
 		var lineHeight = $(this).text();
 		target.css("line-height", lineHeight);
-		UpdateTxtStorage("lineHeight", lineHeight);
+		updateTxtStorage("lineHeight", lineHeight);
 	} else if (i == 9) {
 		var letterSpacing = $(this).text();
 		target.css("letter-spacing", letterSpacing);
-		UpdateTxtStorage("letterSpacing", letterSpacing);
+		updateTxtStorage("letterSpacing", letterSpacing);
 	} else if (i == 10) {
 
 	} else if (i == 11) {

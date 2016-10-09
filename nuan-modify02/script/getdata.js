@@ -1,17 +1,22 @@
 // 更新图片本地存储
-function UpdatePicStorage(key, value) {
+function updatePicStorage(key, value) {
 	var num = $('#drawArea>ul>li[data-cur="1"]').attr('id');
 	elemObj[num][key] = value;
 	elemObj[num].dataStorage();
 }
 // 更新文本本地存储
 // 每次修改样式属性都需要查找到对应的元素 对元素对应的对象进行修改 并更新本地存储
-function UpdateTxtStorage(key, value) {
+function updateTxtStorage(key, value) {
 	if ($('#drawArea>ul>li[data-cur="1"]>.txt>div').attr("contenteditable") == "true") {
 		var num = $('#drawArea>ul>li[data-cur="1"]').attr('id');
 		elemObj[num][key] = value;
 		elemObj[num].dataStorage();
 	}
+}
+// 更新动画本地存储
+function updataAniStorage() {
+	var num = $('#drawArea>ul>li[data-cur="1"]').attr('id');
+	elemObj[num].dataStorage();
 }
 // 图片裁切请求
 function dataDeal(returnMsg, category) {
@@ -26,10 +31,10 @@ function dataDeal(returnMsg, category) {
 				'width': calw,
 				'height': calh,
 			});
-			UpdatePicStorage("width", calw);
-			UpdatePicStorage("height", calh);
-			UpdatePicStorage("hwratio", calh / calw);
-			UpdatePicStorage("whratio", calw / calh);
+			updatePicStorage("width", calw);
+			updatePicStorage("height", calh);
+			updatePicStorage("hwratio", calh / calw);
+			updatePicStorage("whratio", calw / calh);
 			/*end*/
 			break;
 	}
@@ -46,7 +51,7 @@ function getData(packets, interName, methName, category) {
 	var sign = "[" + [packetsAES, token].sort().toString().replace(",", ", ") + "]";
 	var signMD5 = CryptoJS.MD5(sign).toString();
 	$.ajax({
-		url: 'http://192.168.1.34:8080/love/' + interName,
+		url: 'http://192.168.1.9:8080/love/' + interName,
 		type: 'get',
 		dataType: 'json',
 		data: {

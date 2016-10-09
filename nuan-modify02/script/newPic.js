@@ -28,11 +28,12 @@ function newPic(picElem) {
   this.positionLeft = 0;
   this.positionTop = 0;
   this.totalAngle = 0;
+  this.animate = {};
   var self = this;
   // 本地存储
   this.dataStorage = function() {
     self.box.attr('id', 'pic_' + self.num);
-    var storageStr = '{"gpeid":"' + 'pic_' + self.num + '","sysgpeid":"","gpid":"1","sysgpid":"","eleType":"62","left":"' + (self.positionLeft + self.width / 2) + '","top":"' + (self.positionTop + self.height / 2) + '","zIndex":"","width":"' + self.width + '","height":"' + self.height + '","rotaAngle":"' + self.totalAngle + '","fontSize":"","fontFamily":"","color":"","fontWeight":"","textShadow":"","fontDirection":"","textAlign":"","fontText":""}';
+    var storageStr = '{"gpeid":"' + 'pic_' + self.num + '","sysgpeid":"","gpid":"1","sysgpid":"","eleType":"62","left":"' + (self.positionLeft + self.width / 2) + '","top":"' + (self.positionTop + self.height / 2) + '","zIndex":"","width":"' + self.width + '","height":"' + self.height + '","rotaAngle":"' + self.totalAngle + '","fontSize":"","fontFamily":"","color":"","fontWeight":"","textShadow":"","fontDirection":"","textAlign":"","fontText":"","animate":'+JSON.stringify(self.animate)+'}';
     window.sessionStorage.setItem('pic_' + self.num, storageStr);
   };
   self.dataStorage();

@@ -69,7 +69,7 @@ h1 {
 .pic{
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 .pic>img{
     width: 100%;
@@ -78,7 +78,7 @@ h1 {
 .txt{
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 .txt>div{
     width: 100%;
@@ -340,35 +340,33 @@ img{
 /*动画设置*/
 #animate{
     float: right;
-    width: 200px;
     background-color: #eee;
+    width: 200px;
 }
-#animate>div:last-child{
-    width: 160px;
-    margin: 0 auto;
-}
-.animate_add{
-    font-size: 14px; 
-    padding: 10px 10px;
-    width: 100px;
-    height: 40px;
-    line-height: 40px;
-    box-sizing: border-box;
-    color: #fff;
+
+#ani_clear,#ani_pre,#ani_add{
+    background-color: #6FE29F;
     cursor: pointer;
-    background-color: #48d5b2;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 5px 0px;
 }
-.animate_preview{
-    font-size: 14px; 
-    padding: 10px 10px;
-    width: 100px;
-    height: 40px;
-    line-height: 40px;
-    box-sizing: border-box;
-    color: #fff;
-    cursor: pointer;
-    background-color: #59c7f9;
+#ani_clear:hover,#ani_pre:hover,#ani_add:hover{
+    background-color: #56C6FF;
 }
-.anim_panels{
-    
+input{
+    width: 80px;
+}
+#ani_all>div{
+    margin: 10px 0px;
+}
+#ani_all>div>ul>li{
+    margin-top: 5px;
+}
+
+/*动画同时执行*/
+#drawArea>ul>li img{
+    width: 100%;
+    height: 100%;
 }
