@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Range</title>
+	<style>
+		.textarea{width:60%; height:100px; padding:3px; font-size:1em;}
+	</style>
+</head>
+<body>
+	<textarea id="textarea" class="textarea"></textarea>
+	<p><button id="button">插入话题</button></p>
+	<script>
+		var oButton = document.getElementById("button"), oTextarea = document.getElementById("textarea");
+		var TOPIC = "插入话题";
+		var funGetSelected = function(element) {
+		    if (!window.getSelection) { 
+		        //IE浏览器
+		        return document.selection.createRange().text;
+		    } else {
+		        return element.value.substr(element.selectionStart, element.selectionEnd - element.selectionStart);
+		    }
+		}, funInsertTopic = function(textObj) {
+		    var topic = "#" + TOPIC + "#", value = textObj.value, index = value.indexOf(topic);
+		    if (index === -1) {
+		        //匹配
+		        funTextAsTopic(textObj, topic);
+		    } 
+		    value = textObj.value;
+		    index = value.indexOf(topic);
+		    if (textObj.createTextRange) {
+		        var range = textObj.createTextRange();
+		        range.moveEnd("character", -1 * value.length)           
+		        range.moveEnd("character", index + 5);
+		        range.moveStart("character", index + 1);
+		        range.select();    
+		    } else {
+		        textObj.setSelectionRange(index + 1, index + 5);
+		        textObj.focus();
+		    }
+		}, funTextAsTopic = function(textObj, textFeildValue) {
+		    textObj.focus();
+		    if (textObj.createTextRange) {
+		        var caretPos = document.selection.createRange().duplicate();
+		        document.selection.empty();
+		        caretPos.text = textFeildValue;
+		    } else if (textObj.setSelectionRange) {
+		        var rangeStart = textObj.selectionStart;
+		        var rangeEnd = textObj.selectionEnd;
+		        var tempStr1 = textObj.value.substring(0, rangeStart);
+		        var tempStr2 = textObj.value.substring(rangeEnd);
+		        textObj.value = tempStr1 + textFeildValue + tempStr2;
+		        textObj.blur();
+		    }
+		};
+		oButton.onclick = function() {
+		    var textSelection = funGetSelected(oTextarea);
+		    if (!textSelection || textSelection === TOPIC) {
+		        //没有文字选中，光标处插入
+		        funInsertTopic(oTextarea);    
+		    } else {
+		        funTextAsTopic(oTextarea, "#" + textSelection + "#");
+		    }
+		};
+	</script>
+</body>
+</html>

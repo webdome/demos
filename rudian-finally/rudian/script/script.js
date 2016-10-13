@@ -894,7 +894,7 @@ $(function() {
       function(e) {
         e.preventDefault();
         $("#case_show").css('transform', 'scale(1)');
-        $("#case_show>.cs_pic>img").css({})
+        $('body').css({'overflow':'scroll','overflow-y':'hidden'});
       });
     $(".cs_des>span").on('click',
       function(event) {
@@ -904,7 +904,8 @@ $(function() {
         $(".cs_des>ul>li:eq(0)>p").html();
         $(".cs_des>ul>li:eq(1)>p").html();
         $(".cs_des>ul>li:eq(2)>p").html();
-        $(".cs_txt").html()
+        $(".cs_txt").html();
+        $('body').css({'overflow':'scroll','overflow-y':'auto'});
       })
   };
   if (document.getElementById("caseshare")) {
@@ -949,7 +950,7 @@ $(function() {
             sP.R[sP.N] = o.r;
             sP.I[sP.N] = o.img.src;
             sP.L[sP.N] = o.title;
-            o.title = "";
+          //  o.title = "";
             sP.N++;
             o.r.onmouseover = function() {
               if (!this.m && this.img.complete) {
@@ -1096,14 +1097,11 @@ $(function() {
         },
         "projectsServices", "caseshare");
     }
-
-
-
   });
-  $(".cp_num>ul>li").click(function() {
+  /*$(".cp_num>ul>li").click(function() {
     $(".cp_num>ul>li").removeClass('cp_cur');
     $(this).addClass('cp_cur')
-  });
+  });*/
   window._bd_share_config = {
     "common": {
       "bdSnsKey": {},

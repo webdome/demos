@@ -972,10 +972,10 @@ s, i, em {
 .case>div {
   width: 100%;
   height: 100%;  /* transform: translateX(0px);
-                          transition: all 0.8s ease-in-out;
-                          -webkit-transition: all 0.8s ease-in-out;
-                          -moz-transition: all 0.8s ease-in-out;
-                          -o-transition: all 0.8s ease-in-out;*/
+                            transition: all 0.8s ease-in-out;
+                            -webkit-transition: all 0.8s ease-in-out;
+                            -moz-transition: all 0.8s ease-in-out;
+                            -o-transition: all 0.8s ease-in-out;*/
 }
 .case>div>div {
   position: absolute;
@@ -2055,43 +2055,6 @@ s, i, em {
 
 /*-----------首页结束-----------------*/
 
-/* --------------- 媒体查询 开始 ---------------*/
-
-/*
-@media screen and (max-width:1920px) {
-
-待定
-}
-@media screen and (max-width:1680px) {
-
-待定
-}
-@media screen and (max-width:1440px) {
-
-待定
-}
-@media screen and (max-width:1366px) {
-
-源代码在1366px下书写
-}
-@media screen and (max-width:1280px) {
-
-1024px可适配
-}
-*/
-@media screen and (max-width:1024px) {
-
-  /*导航*/
-  #nav>div, .page_nav>.page_nav_box {
-    width: 800px;
-  }
-  #nav>div>ul, .page_nav_box>ul {
-    margin-left: 80px;
-  }
-}
-
-/*end*/
-
 /*--------关于我们开始--------*/
 
 /*----导航栏开始----*/
@@ -2099,6 +2062,10 @@ s, i, em {
 .page_nav {
   width: 100%;
   background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 .page_nav_box {
   width: 1000px;
@@ -2236,7 +2203,9 @@ s, i, em {
 
 #about_banner {
   width: 100%;
-  position: relative;
+  position: fixed;
+  top: 100px;
+  left: 0;
 }
 #ab_pic>img {
   width: 100%;
@@ -2269,6 +2238,10 @@ s, i, em {
 
 #about_main {
   width: 100%;
+  z-index: 600;
+  position: relative;
+  background-color: #fff;
+  margin-top: 800px;
 }
 #about_main_top {
   width: 1000px;
@@ -2411,6 +2384,7 @@ s, i, em {
 
 #case_box {
   position: relative;
+  margin-top: 100px;
 }
 #screen {
   position: absolute;
@@ -2431,7 +2405,7 @@ s, i, em {
   position: relative;
   float: left;
   width: 28%;
-  height: 30%;
+  height: 35%;
   margin: 2%;
   background: #fff;
   overflow: hidden;
@@ -2511,6 +2485,7 @@ s, i, em {
   transform: scale(0);
   transition: all 0.4s ease-in-out;
   z-index: 1000;
+  overflow-y: hidden;
 }
 
 /*左右框的宽度 修改*/
@@ -2526,10 +2501,9 @@ s, i, em {
 }
 .cs_des {
   float: right;
-  width: 400px;
+  width: 30%;
   height: 100%;
   background-color: #fff;
-  margin-right: 10px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -2612,7 +2586,9 @@ s, i, em {
 
 #join_banner {
   width: 100%;
-  position: relative;
+  position: fixed;
+  top: 100px;
+  left: 0;
 }
 #join_banner>div>img {
   width: 100%;
@@ -2645,6 +2621,10 @@ s, i, em {
 
 #join_main {
   width: 100%;
+  z-index: 600;
+  position: relative;
+  background-color: #fff;
+  margin-top: 800px;
 }
 #join_main>div {
   width: 1000px;
@@ -2751,18 +2731,6 @@ s, i, em {
   margin-left: 4px;
   background-repeat: no-repeat;
   background-position: center;
-}
-.jmm_pic:nth-child(3)>div {
-
-  /*  background-image: url("../images/join02.jpg"); */
-}
-.jmm_pic:nth-child(5)>div {
-
-  /*  background-image: url("../images/join03.jpg"); */
-}
-.jmm_pic:nth-child(7)>div {
-
-  /* background-image: url("../images/join04.jpg"); */
 }
 .jmm_line {
   width: 1px;
@@ -2876,7 +2844,9 @@ s, i, em {
 }
 #news_banner {
   width: 100%;
-  position: relative;
+  position: fixed;
+  top: 100px;
+  left: 0;
 }
 #news_banner>div>img {
   width: 100%;
@@ -2931,6 +2901,10 @@ s, i, em {
 }
 #news_main {
   width: 100%;
+  position: relative;
+  z-index: 600;
+  background-color: #fff;
+  margin-top: 800px;
 }
 #news_main>div {
   width: 1000px;
@@ -3036,3 +3010,53 @@ s, i, em {
 }
 
 /*---------最新动态end--------*/
+
+/* --------------- 媒体查询 开始 ---------------*/
+/*滚动固定样式*/
+/* @media screen and (max-width:2100px) {
+  #about_main,#news_main,#join_main{
+    margin-top: 670px;
+  }
+}
+
+@media screen and (max-width:1920px) {
+  #about_main,#news_main,#join_main{
+    margin-top: 650px;
+  }
+}
+@media screen and (max-width:1680px) {
+  #about_main,#news_main,#join_main{
+    margin-top: 550px;
+  }
+
+}
+@media screen and (max-width:1440px) {
+  #about_main,#news_main,#join_main{
+    margin-top: 485px;
+  }
+
+}
+@media screen and (max-width:1366px) {
+  #about_main,#news_main,#join_main{
+    margin-top: 465px;
+  }
+}
+@media screen and (max-width:1280px) {
+   #about_main,#news_main,#join_main{
+    margin-top: 445px;
+  }
+} */
+@media screen and (max-width:1024px) {
+  /*导航*/
+  #nav>div, .page_nav>.page_nav_box {
+    width: 800px;
+  }
+  #nav>div>ul, .page_nav_box>ul {
+    margin-left: 80px;
+  }
+/*  #about_main,#news_main,#join_main{
+    margin-top: 410px;
+  }*/
+}
+
+/*end*/

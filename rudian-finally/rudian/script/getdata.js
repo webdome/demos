@@ -10,21 +10,21 @@
       for (var i = 0; i < returnMsg.length; i++) {
         if (i < 4) {
           $(".case_one>div:eq(" + i + ")>div").css({
-            "background-image": 'url("http://192.168.1.10:8080/picture/' + returnMsg[i].picture[0].picture + '")',
+            "background-image": 'url("http://106.3.37.173:81/home/' + returnMsg[i].picture[0].picture + '")',
             'background-repeat': 'no-repeat',
             "background-size": "cover"
           });
         }
         if (i >= 4 && i < 8) {
           $(".case_two>div:eq(" + (i % 4) + ")>div").css({
-            "background-image": 'url("http://192.168.1.10:8080/picture/' + returnMsg[i].picture[0].picture + '")',
+            "background-image": 'url("http://106.3.37.173:81/home/' + returnMsg[i].picture[0].picture + '")',
             'background-repeat': 'no-repeat',
             "background-size": "cover"
           });
         }
         if (i >= 8) {
           $(".case_three>div:eq(" + (i % 4) + ")>div").css({
-            "background-image": 'url("http://192.168.1.10:8080/picture/' + returnMsg[i].picture[0].picture + '")',
+            "background-image": 'url("http://106.3.37.173:81/home/' + returnMsg[i].picture[0].picture + '")',
             'background-repeat': 'no-repeat',
             "background-size": "cover"
           });
@@ -43,7 +43,7 @@
       }
       if (returnMsg[0].picture.length != 0) {
         $(".sec4_middle>div>div:eq(0)").css({
-          "background-image": 'url("http://192.168.1.10:8080/picture/' + returnMsg[0].picture[0].picture + '")',
+          "background-image": 'url("http://106.3.37.173:81/home/' + returnMsg[0].picture[0].picture + '")',
           'background-repeat': 'no-repeat',
           "background-size": "cover"
         });
@@ -57,7 +57,7 @@
     case "homeonenews":
       if (returnMsg.picture.length != 0) {
         $(".sec4_middle>div>div:eq(0)").css({
-          "background-image": 'url("http://192.168.1.10:8080/picture/' + returnMsg.picture[0].picture + '")',
+          "background-image": 'url("http://106.3.37.173:81/home/' + returnMsg.picture[0].picture + '")',
           'background-repeat': 'no-repeat',
           "background-size": "cover"
         });
@@ -86,7 +86,10 @@
       /* end */
       break;
     case "companybanner":
-      $("#ab_pic>img").attr("src", "http://192.168.1.10:8080/picture/" + returnMsg[0].picture);
+      $("#ab_pic>img").attr("src", "http://106.3.37.173:81/home/" + returnMsg[0].picture);
+      // 滚动固定 主体内容位置
+      var top = parseFloat(getComputedStyle($('#ab_pic>img')[0]).width)*520/1920+100;
+      $('#about_main').css('margin-top',top);
       // 开始向下滚动
       $(".ab_txt01,.ab_txt02").css({
         "opacity": "1",
@@ -95,7 +98,6 @@
       break;
     case "news":
       /* begin */
-      console.log(returnMsg);
       $(".nm_list>div").remove();
       for (var i = 0; i < returnMsg.length; i++) {
         var month = returnMsg[i].pubtime.substring(returnMsg[i].pubtime.length - 5, returnMsg[i].pubtime.length - 3);
@@ -110,7 +112,7 @@
           $(".nm_des_txt>p").html(newscontent);
           if (returnMsg[i].picture.length != 0) {
             $(".nm_des_pic>div").css({
-              "background-image": 'url("http://192.168.1.10:8080/picture/' + returnMsg[i].picture[0].picture + '")',
+              "background-image": 'url("http://106.3.37.173:81/home/' + returnMsg[i].picture[0].picture + '")',
               'background-repeat': 'no-repeat',
               "background-size": "cover",
               "background-postion": "center",
@@ -130,11 +132,15 @@
       /* end */
       break;
     case "newsbanner":
-      $("#news_banner>div>img").attr("src", "http://192.168.1.10:8080/picture/" + returnMsg[0].picture);
+      $("#news_banner>div>img").attr("src", "http://106.3.37.173:81/home/" + returnMsg[0].picture);
+      // 滚动固定 主体内容位置
+      var top = parseFloat(getComputedStyle($('#news_banner>div>img')[0]).width)*520/1920+100;
+      $('#news_main').css('margin-top',top);
       $("#news_banner>div:last-child>div").css({
         "opacity": "1",
         "transform": "translateY(0px)"
       });
+
       break;
     case "onenews":
       $(".nm_des_pic>img").attr("src", "");
@@ -145,7 +151,7 @@
       $(".nm_des_txt>p").html(newscontent);
       if (returnMsg.picture.length != 0) {
         $(".nm_des_pic>div").css({
-          "background-image": 'url("http://192.168.1.10:8080/picture/' + returnMsg.picture[0].picture + '")',
+          "background-image": 'url("http://106.3.37.173:81/home/' + returnMsg.picture[0].picture + '")',
           'background-repeat': 'no-repeat',
           "background-size": "cover"
         });
@@ -171,32 +177,42 @@
         if (key % 2 == 0) {
           $('.jmm_left')[0].style = 'height:100%;';
           $('<div class="jmm_l"><h3>' + returnMsg[key].name + '</h3><span>岗位要求</span><p>' + returnMsg[key].require + '</p></div>').appendTo($('.jmm_left'));
-          $('<div class="jmm_pic"><div style="background-image:url(http://192.168.1.10:8080/picture/' + returnMsg[key].picture[0].picture + ');"></div></div><div class="jmm_line"></div>').prependTo($('.jmm_cu'));
+          $('<div class="jmm_pic"><div style="background-image:url(http://106.3.37.173:81/home/' + returnMsg[key].picture[0].picture + ');"></div></div><div class="jmm_line"></div>').prependTo($('.jmm_cu'));
         } else {
           $('.jmm_right')[0].style = 'height:100%;';
           $('<div class="jmm_r"><h3>' + returnMsg[key].name + '</h3><span>岗位要求</span><p>' + returnMsg[key].require + '</p></div>').appendTo($('.jmm_right'));
-          $('<div class="jmm_pic"><div style="background-image:url(http://192.168.1.10:8080/picture/' + returnMsg[key].picture[0].picture + ');"></div></div><div class="jmm_line"></div>').prependTo($('.jmm_cu'));
+          $('<div class="jmm_pic"><div style="background-image:url(http://106.3.37.173:81/home/' + returnMsg[key].picture[0].picture + ');"></div></div><div class="jmm_line"></div>').prependTo($('.jmm_cu'));
         }
       });
       break;
     case "jobbanner":
-      $("#join_banner>div>img").attr("src", "http://192.168.1.10:8080/picture/" + returnMsg[0].picture);
+      $("#join_banner>div>img").attr("src", "http://106.3.37.173:81/home/" + returnMsg[0].picture);
+      // 滚动固定 主体内容位置
+      var top = parseFloat(getComputedStyle($('#join_banner>div>img')[0]).width)*520/1920+100;
+      $('#join_main').css('margin-top',top);
       $("#join_banner>div:last-child>div").css({
         "opacity": "1",
         "transform": "translateY(0px)"
       });
       break;
     case "caseshare":
+    	console.log(returnMsg);
       $("#case_box>div>div>div").remove();
       for (var i = 0; i < returnMsg.length; i++) {
-        $("#case_box>div>div").append('<div class="frame" title="' + returnMsg[i].name + '" data-id="' + returnMsg[i].id + '"><img src="http://192.168.1.10:8080/picture/' + returnMsg[i].picture[0].picture + '"/></div>');
+        
+    	  $("#case_box>div>div").append('<div class="frame" title="' + returnMsg[i].name + '" data-id="' + returnMsg[i].id + '"><img src="http://106.3.37.173:81/home/' + returnMsg[i].picture[0].picture + '"/></div>');
+    	  
       }
       sP.init();
       onresize = sP.resize;
+      for(var i = 0; i < returnMsg.length; i++){
+    	  $(".slider:eq("+i+")").append($("<h4>"+returnMsg[i].name+"</h4>"));
+      }
+      
       $("#pan")[0].style = "";
       break;
     case "oneproject":
-      $(".cs_pic").css('background-image', 'url(http://192.168.1.10:8080/picture/' + returnMsg.picture[0].picture + ')');
+      $(".cs_pic").css('background-image', 'url(http://106.3.37.173:81/home/' + returnMsg.picture[0].picture + ')');
       $(".cs_des>ul>li:eq(0)>p").html(returnMsg.rudianCustomer.companyname);
       $(".cs_des>ul>li:eq(1)>p").html(returnMsg.rudianCustomer.industries);
       $(".cs_des>ul>li:eq(2)>p").html(returnMsg.rudianCustomer.servicestype);
@@ -284,7 +300,7 @@ function getData(packets, interName, category) {
   var sign = "[" + [packetsAES, token].sort().toString().replace(",", ", ") + "]";
   var signMD5 = CryptoJS.MD5(sign).toString();
   $.ajax({
-    url: 'http://192.168.1.10:8080/rudian/' + interName,
+    url: 'http://www.easyinto.com/rudian/' + interName,
     type: 'get',
     dataType: 'json',
     data: {

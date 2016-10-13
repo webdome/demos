@@ -18,8 +18,6 @@ $(function() {
 
 	if (document.getElementById("joinus")) {
 		getData({
-			pageNo: "1",
-			pageSize: "7"
 		}, "jobsServices", "jobs");
 		getData({
 			type: "4"
