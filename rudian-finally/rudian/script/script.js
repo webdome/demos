@@ -1,4 +1,25 @@
 $(function() {
+  if (document.getElementById('aboutus') || document.getElementById('caseshare') || document.getElementById('news') || document.getElementById('joinus')) {
+    var aboutus_nav_class = "";
+    var caseshare_nav_class = "";
+    var news_nav_class = "";
+    var joinus_nav_class = "";
+    if (document.getElementById('aboutus')) {
+      aboutus_nav_class = 'page_nav_hover';
+    }
+    if (document.getElementById('caseshare')) {
+      caseshare_nav_class = 'page_nav_hover';
+    }
+    if (document.getElementById('news')) {
+      news_nav_class = 'page_nav_hover';
+    }
+    if (document.getElementById('joinus')) {
+      joinus_nav_class = 'page_nav_hover';
+    }
+    $('<nav class="page_nav"><div class="page_nav_box" class="clearfix"><a href="#"><img src="/rud/images/logo.png" /></a><ul class="clearfix"><li><a href="http://www.easyinto.net">首页</a><span></span></li><li>/</li><li><a href="http://about.easyinto.net" class="' + aboutus_nav_class + '">关于我们</a><span></span></li><li>/</li><li><a href="http://case.easyinto.net" class="' + caseshare_nav_class + '">案例分享</a><span></span></li><li>/</li><li><a href="http://news.easyinto.net" class="' + news_nav_class + '">最新动态</a><span></span></li><li>/</li><li><a href="http://join.easyinto.net" class="' + joinus_nav_class + '">加入我们</a><span></span></li></ul><div><div class="page_box" data-s="0"><div class="page_one"></div><div class="page_two"></div><div class="page_three"></div><div class="page_share"><div class="bdsharebuttonbox"><ul><li><a href="#" class="bds_qzone" data-cmd="qzone">分享到QQ空间</a></li><li><a href="#" class="bds_weixin" data-cmd="weixin">分享到朋友圈</a></li><li><a href="#" class="bds_tsina" data-cmd="tsina">分享到新浪微博</a></li></ul></div></div></div></div></div></nav>').prependTo($('body'));
+    $('<footer class="page_footer clearfix"><div><p>联系电话：0551-67888117</p><p>邮箱：rudian@easyinto.com</p><p>网址：www.easyinto.com</p><p>地址：安徽省合肥市蜀山区新华国际广场B座</p><p>乘车路线：公交158到潜山路新华国际广场步行20m</p></div><div id="map"></div></footer><div class="copyright">版权所有：入点科技</div>').appendTo($('body'));
+  }
+
   if (document.getElementById("index")) {
     function sizeInit() {
       var h = window.innerHeight;
@@ -69,7 +90,8 @@ $(function() {
         $(".page_share").slideUp(300)
       }
     });
-  $(".page_share>ul>li>a").hover(function() {
+  // 分享按钮hover效果
+  $(".page_share>div>ul>li>a").hover(function() {
       $(this).css('color', '#2eb3e8')
     },
     function() {
@@ -158,8 +180,10 @@ $(function() {
         'opacity': 0,
         'transform': 'scale(0)'
       }).removeClass('sec5_txt_cur')
-    })
+    });
+
   };
+
   if (document.getElementById("index")) {
     var canvas = document.getElementById('sec1_bg'),
       ctx = canvas.getContext('2d'),
@@ -894,7 +918,10 @@ $(function() {
       function(e) {
         e.preventDefault();
         $("#case_show").css('transform', 'scale(1)');
-        $('body').css({'overflow':'scroll','overflow-y':'hidden'});
+        $('body').css({
+          'overflow': 'scroll',
+          'overflow-y': 'hidden'
+        });
       });
     $(".cs_des>span").on('click',
       function(event) {
@@ -905,7 +932,10 @@ $(function() {
         $(".cs_des>ul>li:eq(1)>p").html();
         $(".cs_des>ul>li:eq(2)>p").html();
         $(".cs_txt").html();
-        $('body').css({'overflow':'scroll','overflow-y':'auto'});
+        $('body').css({
+          'overflow': 'scroll',
+          'overflow-y': 'auto'
+        });
       })
   };
   if (document.getElementById("caseshare")) {
@@ -950,7 +980,7 @@ $(function() {
             sP.R[sP.N] = o.r;
             sP.I[sP.N] = o.img.src;
             sP.L[sP.N] = o.title;
-          //  o.title = "";
+            //  o.title = "";
             sP.N++;
             o.r.onmouseover = function() {
               if (!this.m && this.img.complete) {
@@ -1068,7 +1098,7 @@ $(function() {
           pageSize: "12"
         },
         "newsService", "news");
-    }else if (document.getElementById('caseshare')) {
+    } else if (document.getElementById('caseshare')) {
       getData({
           pageNo: a,
           pageSize: "6"
@@ -1090,7 +1120,7 @@ $(function() {
           pageSize: "12"
         },
         "newsService", "news");
-    }else if (document.getElementById('caseshare')) {
+    } else if (document.getElementById('caseshare')) {
       getData({
           pageNo: a,
           pageSize: "6"
@@ -1117,4 +1147,27 @@ $(function() {
     }
   };
   with(document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)]
+
 });
+
+
+window.onload = function() {
+  // 职位点击更多 跳转页面后滚动到对应位置
+  if (document.getElementById("index")) {
+    $("#sec5_middle>div>div>a").click(function() {
+      var num = $(this).attr('data-id');
+      window.localStorage.setItem("joinus_id", num);
+      console.log(num);
+    });
+  }
+  // 首页案例 点击单个跳转页面并且打开指定案例
+  if (document.getElementById("index")) {
+    $(".case>div>div>div").click(function() {
+      var num = $(this).attr('data-id');
+      window.localStorage.setItem("case_id", num);
+      window.location.href = "http://case.easyinto.net";
+      // window.location.href = "case.html";
+      console.log(num);
+    });
+  }
+}

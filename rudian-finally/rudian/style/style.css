@@ -345,8 +345,8 @@ s, i, em {
 /*分享弹出框 默认隐藏---*/
 .page_share {
   padding: 10px;
-  width: 120px;
-  height: 85px;
+  width: 140px;
+  height: 100px;
   position: absolute;
   top: 40px;
   right: 0px;
@@ -359,14 +359,16 @@ s, i, em {
   -ms-user-select: none;
   user-select: none;
 }
-.page_share>ul {
-  margin-top: 16px;
+.page_share>div{
+    padding-left:10px;
 }
-.page_share>ul>li>a {
+.page_share>div>ul>li>a {
   display: block;
-  line-height: 40px;
   font-size: 1.4rem;
   text-align: center;
+  margin-top: 10px;
+  margin-left: 5px;
+  padding-left: 20px;
 }
 #joinus .page_share, #caseshare .page_share, #aboutus .page_share, #news .page_share {
   background-color: #fff;
@@ -1153,7 +1155,9 @@ s, i, em {
   animation-fill-mode: forwards;
   opacity: 1;
 }
-
+.case>div>div>div{
+  cursor: pointer;
+}
 /*第一屏案例*/
 .case_one .case_01 {
   width: 23%;
@@ -2322,8 +2326,10 @@ s, i, em {
 
 /* 页脚开始 */
 
-.page_footer {
+/* .page_footer {
   width: 100%;
+  position: relative;
+  z-index: 600;
 }
 .page_footer>div {
   float: left;
@@ -2332,6 +2338,8 @@ s, i, em {
   width: 40%;
   background-color: #343232;
   padding: 80px 0px;
+  box-sizing: border-box;
+  height: 400px;
 }
 .page_footer>div:first-child>p {
   margin-left: 180px;
@@ -2341,8 +2349,8 @@ s, i, em {
 }
 .page_footer>div:last-child {
   width: 60%;
-  height: 360px;
-}
+  height: 400px;
+} */
 
 /* 页脚结束 */
 
@@ -2791,6 +2799,8 @@ s, i, em {
 
 .page_footer {
   width: 100%;
+  position: relative;
+  z-index: 600;
 }
 .page_footer>div {
   float: left;
@@ -2799,16 +2809,18 @@ s, i, em {
   width: 40%;
   background-color: #343232;
   padding: 80px 0px;
+  box-sizing: border-box;
+  height: 400px;
 }
 .page_footer>div:first-child>p {
-  margin-left: 180px;
+  margin-left: 15%;
   font-size: 1.4rem;
   color: #fff;
   line-height: 40px;
 }
 .page_footer>div:last-child {
   width: 60%;
-  height: 360px;
+  height: 400px;
 }
 .copyright {
   text-align: center;
