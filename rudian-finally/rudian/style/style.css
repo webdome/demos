@@ -52,10 +52,10 @@ s, i, em {
 }
 
 /*其它页面主要颜色*/
-#aboutus, #joinus, #caseshare, #news {
+#aboutus, #joinus, #caseshare, #news, #newsdetail {
   color: #000;
 }
-#aboutus a, #joinus a, #caseshare a, #news a {
+#aboutus a, #joinus a, #caseshare a, #news a, #newsdetail a {
   color: #000;
 }
 
@@ -359,8 +359,8 @@ s, i, em {
   -ms-user-select: none;
   user-select: none;
 }
-.page_share>div{
-    padding-left:10px;
+.page_share>div {
+  padding-left: 10px;
 }
 .page_share>div>ul>li>a {
   display: block;
@@ -370,7 +370,7 @@ s, i, em {
   margin-left: 5px;
   padding-left: 20px;
 }
-#joinus .page_share, #caseshare .page_share, #aboutus .page_share, #news .page_share {
+#joinus .page_share, #caseshare .page_share, #aboutus .page_share, #news .page_share, #newsdetail .page_share {
   background-color: #fff;
 }
 
@@ -974,10 +974,10 @@ s, i, em {
 .case>div {
   width: 100%;
   height: 100%;  /* transform: translateX(0px);
-                            transition: all 0.8s ease-in-out;
-                            -webkit-transition: all 0.8s ease-in-out;
-                            -moz-transition: all 0.8s ease-in-out;
-                            -o-transition: all 0.8s ease-in-out;*/
+                                transition: all 0.8s ease-in-out;
+                                -webkit-transition: all 0.8s ease-in-out;
+                                -moz-transition: all 0.8s ease-in-out;
+                                -o-transition: all 0.8s ease-in-out;*/
 }
 .case>div>div {
   position: absolute;
@@ -1155,9 +1155,10 @@ s, i, em {
   animation-fill-mode: forwards;
   opacity: 1;
 }
-.case>div>div>div{
+.case>div>div>div {
   cursor: pointer;
 }
+
 /*第一屏案例*/
 .case_one .case_01 {
   width: 23%;
@@ -2327,29 +2328,29 @@ s, i, em {
 /* 页脚开始 */
 
 /* .page_footer {
-  width: 100%;
-  position: relative;
-  z-index: 600;
+width: 100%;
+position: relative;
+z-index: 600;
 }
 .page_footer>div {
-  float: left;
+float: left;
 }
 .page_footer>div:first-child {
-  width: 40%;
-  background-color: #343232;
-  padding: 80px 0px;
-  box-sizing: border-box;
-  height: 400px;
+width: 40%;
+background-color: #343232;
+padding: 80px 0px;
+box-sizing: border-box;
+height: 400px;
 }
 .page_footer>div:first-child>p {
-  margin-left: 180px;
-  font-size: 1.4rem;
-  color: #fff;
-  line-height: 40px;
+margin-left: 180px;
+font-size: 1.4rem;
+color: #fff;
+line-height: 40px;
 }
 .page_footer>div:last-child {
-  width: 60%;
-  height: 400px;
+width: 60%;
+height: 400px;
 } */
 
 /* 页脚结束 */
@@ -2851,7 +2852,7 @@ s, i, em {
 /*--------加入我们结束--------*/
 
 /*--------最新动态begin--------*/
-#news .page_nav_hover {
+#news .page_nav_hover, #newsdetail .page_nav_hover {
   color: #2eb3e8;
 }
 #news_banner {
@@ -2908,7 +2909,7 @@ s, i, em {
   font-size: 1.4rem;
   text-align: center;
   font-weight: bold;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
   color: #333;
 }
 #news_main {
@@ -2921,41 +2922,6 @@ s, i, em {
 #news_main>div {
   width: 1000px;
   margin: 0 auto;
-}
-.nm_des_pic {
-  float: left;
-  border: 1px solid #ccc;
-}
-.nm_des_pic>div {
-  width: 208px;
-  height: 318px;
-  vertical-align: middle;
-}
-.nm_des_txt {
-  float: right;
-  width: 760px;
-}
-.nm_des_txt>h2 {
-  font-size: 1.8rem;
-  color: #000;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-.nm_des_txt>p {
-  font-size: 1.2rem;
-  color: #333;
-  margin-bottom: 20px;
-  line-height: 20px;
-}
-.nm_des_txt>i {
-  display: block;
-  width: 20px;
-  height: 20px;
-  background: url("../images/details2.png") no-repeat;
-  cursor: pointer;
-}
-.nm_des {
-  margin-bottom: 80px;
 }
 
 /*单个动态*/
@@ -3021,44 +2987,104 @@ s, i, em {
   color: #000;
 }
 
+/*新闻内页*/
+#nd_main {
+  margin-top: 100px;
+  width: 100%;
+  border-top: 1px solid transparent;
+}
+.ndm_title, .ndm_content {
+  width: 1000px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+#nd_main>.ndm_title>a {
+  font-size: 14px;
+  color: #2eb3e8;
+}
+#nd_main>.ndm_title>span {
+  font-size: 14px;
+}
+.ndm_content>h1 {
+  font-size: 24px;
+  text-align: center;
+}
+.ndm_content>p {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.ndm_content>p>i {
+  margin-right: 30px;
+}
+#nd_main>.ndm_content>p>a {
+  margin-left: 10px;
+  color: #4da2d2;
+}
+.ndmc_txt {
+  width: 100%;
+  font-size: 12px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.ndmc_pic {
+  width: 100%;
+  margin-bottom: 35px;
+}
+.ndmc_pic>img {
+  width: 100%;
+}
+#news_notes {
+  width: 1000px;
+  margin: 0 auto;
+  height: 80px;
+  line-height: 80px;
+  font-size: 14px;
+  color: #4da2d2;
+}
+
 /*---------最新动态end--------*/
 
 /* --------------- 媒体查询 开始 ---------------*/
+
 /*滚动固定样式*/
+
 /* @media screen and (max-width:2100px) {
-  #about_main,#news_main,#join_main{
-    margin-top: 670px;
-  }
+#about_main,#news_main,#join_main{
+margin-top: 670px;
+}
 }
 
 @media screen and (max-width:1920px) {
-  #about_main,#news_main,#join_main{
-    margin-top: 650px;
-  }
+#about_main,#news_main,#join_main{
+margin-top: 650px;
+}
 }
 @media screen and (max-width:1680px) {
-  #about_main,#news_main,#join_main{
-    margin-top: 550px;
-  }
+#about_main,#news_main,#join_main{
+margin-top: 550px;
+}
 
 }
 @media screen and (max-width:1440px) {
-  #about_main,#news_main,#join_main{
-    margin-top: 485px;
-  }
+#about_main,#news_main,#join_main{
+margin-top: 485px;
+}
 
 }
 @media screen and (max-width:1366px) {
-  #about_main,#news_main,#join_main{
-    margin-top: 465px;
-  }
+#about_main,#news_main,#join_main{
+margin-top: 465px;
+}
 }
 @media screen and (max-width:1280px) {
-   #about_main,#news_main,#join_main{
-    margin-top: 445px;
-  }
+ #about_main,#news_main,#join_main{
+margin-top: 445px;
+}
 } */
 @media screen and (max-width:1024px) {
+
   /*导航*/
   #nav>div, .page_nav>.page_nav_box {
     width: 800px;
@@ -3066,7 +3092,8 @@ s, i, em {
   #nav>div>ul, .page_nav_box>ul {
     margin-left: 80px;
   }
-/*  #about_main,#news_main,#join_main{
+
+  /*  #about_main,#news_main,#join_main{
     margin-top: 410px;
   }*/
 }

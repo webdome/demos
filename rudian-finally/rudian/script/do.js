@@ -71,7 +71,7 @@ $(function() {
         break;
         // 关于我们
       case "company":
-        $("#abmt_txt").html(returnMsg.jianjie.information);
+        $("#abmt_txt").html(returnMsg.jianjie.information.replace(/style=".+"/g, ''));
         for (var i = 0; i < returnMsg.youshi.length; i++) {
           $("#abmb_txt>div:eq(" + i + ")>h3").html("NO" + (i + 1) + "." + returnMsg.youshi[i].point);
           $("#abmb_txt>div:eq(" + i + ")>p").html(returnMsg.youshi[i].introduce);
@@ -91,33 +91,12 @@ $(function() {
         break;
         // 最新动态
       case "news":
+        $(".nm_list").html("");
         for (var i = 0; i < returnMsg.length; i++) {
           var month = returnMsg[i].pubtime.substring(returnMsg[i].pubtime.length - 5, returnMsg[i].pubtime.length - 3);
           var day = returnMsg[i].pubtime.substring(returnMsg[i].pubtime.length - 2);
-          if (i == 0) {
-            var one = $('<div class="nm_list_one nm_list_cur" data-id="' + returnMsg[i].id + '"><div class="nm_list_one_data"><h3>' + day + '</h3><p>/' + month + '</p></div><div class="nm_list_one_line"></div><div class="nm_list_one_txt"><p>' + returnMsg[i].title + '</p></div></div>');
-            $(".nm_list").append(one);
-            $(".nm_des_txt>h2").html(returnMsg[i].title);
-            // 去除样式
-            var newscontent = returnMsg[i].content;
-            newscontent = newscontent.replace(/ style=".+"/g, '');
-            $(".nm_des_txt>p").html(newscontent);
-            if (returnMsg[i].picture.length != 0) {
-              $(".nm_des_pic>div").css({
-                "background-image": 'url("http://106.3.37.173:81/home/' + returnMsg[i].picture[0].picture + '")',
-                'background-repeat': 'no-repeat',
-                "background-size": "cover",
-                "background-postion": "50%",
-              });
-            } else {
-              $(".nm_des_pic>div").css({
-                "background-image": 'url("")'
-              });
-            }
-          } else {
-            var one = $('<div class="nm_list_one" data-id="' + returnMsg[i].id + '"><div class="nm_list_one_data"><h3>' + day + '</h3><p>/' + month + '</p></div><div class="nm_list_one_line"></div><div class="nm_list_one_txt"><p>' + returnMsg[i].title + '</p></div></div>');
-            $(".nm_list").append(one);
-          }
+          var one = $('<div class="nm_list_one" data-id="' + returnMsg[i].id + '"><div class="nm_list_one_data"><h3>' + day + '</h3><p>/' + month + '</p></div><div class="nm_list_one_line"></div><div class="nm_list_one_txt"><p>' + returnMsg[i].title + '</p></div></div>');
+          $(".nm_list").append(one);
         }
         $(".nm_list_one:even").css('margin-right', '60px');
         /* end */
@@ -135,21 +114,12 @@ $(function() {
         break;
         // 最新动态 单个新闻
       case "onenews":
-        $(".nm_des_pic>img").attr("src", "");
-        $(".nm_des_txt>h2").html(returnMsg.title);
-        // 去除样式
-        var newscontent = returnMsg.content;
-        newscontent = newscontent.replace(/ style=".+"/g, '');
-        $(".nm_des_txt>p").html(newscontent);
-        if (returnMsg.picture.length != 0) {
-          $(".nm_des_pic>div").css({
-            "background-image": 'url("http://106.3.37.173:81/home/' + returnMsg.picture[0].picture + '")',
-          });
-        } else {
-          $(".nm_des_pic>div").css({
-            "background-image": 'url("")'
-          });
-        }
+        $('.ndm_title>span').text('> '+returnMsg.title);
+        $('.ndm_content>h1').text(returnMsg.title);
+        $('.ndm_content>p>i').text(returnMsg.pubtime);
+        $('.ndmc_txt:eq(0)').text(returnMsg.summary);
+        $('.ndmc_txt:eq(1)').html(returnMsg.content.replace(/style=".+"/g, ''));
+        $('.ndmc_pic>img').attr('src','http://106.3.37.173:81/home/' + returnMsg.picture[0].picture);
         break;
         // 最新动态页码
       case "pagecount":
@@ -176,14 +146,13 @@ $(function() {
         });
         $('<div class="jmm_cu"><div><p>联系我们</p><span>contact us</span><i></i></div></div>').appendTo($('.jmm_middle'));
         // 点击单个职位跳转指定位置
-        var num = window.localStorage.getItem("joinus_id");
-        console.log(num);
+        var num = document.cookie.match(/joinus_id=(\d+)/g).join('').split('=')[1];
         if (num) {
           $("html,body").animate({
-            scrollTop: $('#jm_middle>div>div[data-id="' + num + '"]')[0].offsetTop + 100
+            scrollTop: $('#jm_middle>div>div[data-id="' + num + '"]')[0].offsetTop + $("#join_banner").height() - 100
           }, 500);
         }
-        window.localStorage.setItem("joinus_id", "");
+        document.cookie = "joinus_id=" + " " + ";expires=-1;path=/;domain=easyinto.net";
         break;
         // 加入我们banner
       case "jobbanner":
@@ -198,6 +167,7 @@ $(function() {
         break;
         // 案例分享
       case "caseshare":
+        $("#case_box>div>div").html("");
         for (var i = 0; i < returnMsg.length; i++) {
           $("#case_box>div>div").append('<div class="frame" title="' + returnMsg[i].name + '" data-id="' + returnMsg[i].id + '"><img src="http://106.3.37.173:81/home/' + returnMsg[i].picture[0].picture + '"/></div>');
         }
@@ -208,12 +178,11 @@ $(function() {
         }
         $("#pan")[0].style = "";
         // 从首页点击进入 指定案例
-        var num = window.localStorage.getItem("case_id");
-        console.log(num);
+        var num = document.cookie.match(/case_id=(\d+)/g).join('').split('=')[1];
         if (num) {
           $('.frame[data-id="' + num + '"]').trigger("click");
         }
-        window.localStorage.setItem("case_id", "");
+        document.cookie = "case_id=" + " " + ";expires=-1;path=/;domain=easyinto.net";
         break;
         // 案例分享 单个案例
       case "oneproject":
@@ -221,7 +190,7 @@ $(function() {
         $(".cs_des>ul>li:eq(0)>p").html(returnMsg.rudianCustomer.companyname);
         $(".cs_des>ul>li:eq(1)>p").html(returnMsg.rudianCustomer.industries);
         $(".cs_des>ul>li:eq(2)>p").html(returnMsg.rudianCustomer.servicestype);
-        $(".cs_txt").html(returnMsg.rudianCustomer.information);
+        $(".cs_txt").html(returnMsg.rudianCustomer.information.replace(/style=".+"/g, ''));
         break;
         // 案例分享页码
       case "projectpagecount":
@@ -305,13 +274,20 @@ $(function() {
     // 最新动态 点击单个请求
     $(document).delegate(".nm_list_one", "click",
       function() {
-        var a = $(this).data('id');
-        getData({
-            newId: a
-          },
-          "oneNewService", "onenews");
+        window.location.href = "http://newsdetail.easyinto.net";
+        var news_id = $(this).attr('data-id');
+        document.cookie = "news_id=" + news_id + ";expires=-1;path=/;domain=easyinto.net";
       });
   }
+  // 新闻单页请求
+  if (document.getElementById('newsdetail')) {
+    var news_id = document.cookie.match(/news_id=(\d+)/g).join('').split('=')[1];
+    getData({
+        newId: news_id
+      },
+      "oneNewService", "onenews");
+  }
+  
   if (document.getElementById("joinus")) {
     getData({}, "jobsServices", "jobs");
     getData({
@@ -345,7 +321,7 @@ $(function() {
         $(".cp_num>ul>li").removeClass('cp_cur');
         $(this).addClass('cp_cur');
       });
-    
+
   }
   //首页请求
   if (document.getElementById("index")) {
@@ -371,4 +347,47 @@ $(function() {
         "oneNewService", "homeonenews");
     });
   }
+  $(".cp_right").click(function() {
+    var i = $(".cp_num>ul>li.cp_cur").index();
+    var j = $(".cp_num>ul>li:last").index();
+    if (i == j) {
+      return;
+    }
+    $(".cp_num>ul>li:eq(" + i + ")").removeClass('cp_cur').next().addClass('cp_cur');
+    var a = $('.cp_cur').data('id');
+    if (document.getElementById('news')) {
+      getData({
+          pageNo: a,
+          pageSize: "12"
+        },
+        "newsService", "news");
+    } else if (document.getElementById('caseshare')) {
+      getData({
+          pageNo: a,
+          pageSize: "6"
+        },
+        "projectsServices", "caseshare");
+    }
+  });
+  $(".cp_left").click(function() {
+    var i = $(".cp_num>ul>li.cp_cur").index();
+    if (i == 0) {
+      return
+    };
+    $(".cp_num>ul>li:eq(" + i + ")").removeClass('cp_cur').prev().addClass('cp_cur');
+    var a = $('.cp_cur').data('id');
+    if (document.getElementById('news')) {
+      getData({
+          pageNo: a,
+          pageSize: "12"
+        },
+        "newsService", "news");
+    } else if (document.getElementById('caseshare')) {
+      getData({
+          pageNo: a,
+          pageSize: "6"
+        },
+        "projectsServices", "caseshare");
+    }
+  });
 });

@@ -16,7 +16,7 @@ $(function() {
     if (document.getElementById('joinus')) {
       joinus_nav_class = 'page_nav_hover';
     }
-    $('<nav class="page_nav"><div class="page_nav_box" class="clearfix"><a href="#"><img src="/rud/images/logo.png" /></a><ul class="clearfix"><li><a href="http://www.easyinto.net">首页</a><span></span></li><li>/</li><li><a href="http://about.easyinto.net" class="' + aboutus_nav_class + '">关于我们</a><span></span></li><li>/</li><li><a href="http://case.easyinto.net" class="' + caseshare_nav_class + '">案例分享</a><span></span></li><li>/</li><li><a href="http://news.easyinto.net" class="' + news_nav_class + '">最新动态</a><span></span></li><li>/</li><li><a href="http://join.easyinto.net" class="' + joinus_nav_class + '">加入我们</a><span></span></li></ul><div><div class="page_box" data-s="0"><div class="page_one"></div><div class="page_two"></div><div class="page_three"></div><div class="page_share"><div class="bdsharebuttonbox"><ul><li><a href="#" class="bds_qzone" data-cmd="qzone">分享到QQ空间</a></li><li><a href="#" class="bds_weixin" data-cmd="weixin">分享到朋友圈</a></li><li><a href="#" class="bds_tsina" data-cmd="tsina">分享到新浪微博</a></li></ul></div></div></div></div></div></nav>').prependTo($('body'));
+    $('<nav class="page_nav"><div class="page_nav_box" class="clearfix"><a href="http://www.easyinto.net"><img src="/rud/images/logo.png" /></a><ul class="clearfix"><li><a href="http://www.easyinto.net">首页</a><span></span></li><li>/</li><li><a href="http://about.easyinto.net" class="' + aboutus_nav_class + '">关于我们</a><span></span></li><li>/</li><li><a href="http://case.easyinto.net" class="' + caseshare_nav_class + '">案例分享</a><span></span></li><li>/</li><li><a href="http://news.easyinto.net" class="' + news_nav_class + '">最新动态</a><span></span></li><li>/</li><li><a href="http://join.easyinto.net" class="' + joinus_nav_class + '">加入我们</a><span></span></li></ul><div><div class="page_box" data-s="0"><div class="page_one"></div><div class="page_two"></div><div class="page_three"></div><div class="page_share"><div class="bdsharebuttonbox"><ul><li><a href="#" class="bds_qzone" data-cmd="qzone">分享到QQ空间</a></li><li><a href="#" class="bds_weixin" data-cmd="weixin">分享到朋友圈</a></li><li><a href="#" class="bds_tsina" data-cmd="tsina">分享到新浪微博</a></li></ul></div></div></div></div></div></nav>').prependTo($('body'));
     $('<footer class="page_footer clearfix"><div><p>联系电话：0551-67888117</p><p>邮箱：rudian@easyinto.com</p><p>网址：www.easyinto.com</p><p>地址：安徽省合肥市蜀山区新华国际广场B座</p><p>乘车路线：公交158到潜山路新华国际广场步行20m</p></div><div id="map"></div></footer><div class="copyright">版权所有：入点科技</div>').appendTo($('body'));
   }
 
@@ -1084,50 +1084,7 @@ $(function() {
       $(".nm_list_one").removeClass('nm_list_cur');
       $(this).addClass('nm_list_cur')
     });
-  $(".cp_right").click(function() {
-    var i = $(".cp_num>ul>li.cp_cur").index();
-    var j = $(".cp_num>ul>li:last").index();
-    if (i == j) {
-      return;
-    }
-    $(".cp_num>ul>li:eq(" + i + ")").removeClass('cp_cur').next().addClass('cp_cur');
-    var a = $('.cp_cur').data('id');
-    if (document.getElementById('news')) {
-      getData({
-          pageNo: a,
-          pageSize: "12"
-        },
-        "newsService", "news");
-    } else if (document.getElementById('caseshare')) {
-      getData({
-          pageNo: a,
-          pageSize: "6"
-        },
-        "projectsServices", "caseshare");
-    }
-
-  });
-  $(".cp_left").click(function() {
-    var i = $(".cp_num>ul>li.cp_cur").index();
-    if (i == 0) {
-      return
-    };
-    $(".cp_num>ul>li:eq(" + i + ")").removeClass('cp_cur').prev().addClass('cp_cur');
-    var a = $('.cp_cur').data('id');
-    if (document.getElementById('news')) {
-      getData({
-          pageNo: a,
-          pageSize: "12"
-        },
-        "newsService", "news");
-    } else if (document.getElementById('caseshare')) {
-      getData({
-          pageNo: a,
-          pageSize: "6"
-        },
-        "projectsServices", "caseshare");
-    }
-  });
+  
   /*$(".cp_num>ul>li").click(function() {
     $(".cp_num>ul>li").removeClass('cp_cur');
     $(this).addClass('cp_cur')
@@ -1156,18 +1113,15 @@ window.onload = function() {
   if (document.getElementById("index")) {
     $("#sec5_middle>div>div>a").click(function() {
       var num = $(this).attr('data-id');
-      window.localStorage.setItem("joinus_id", num);
-      console.log(num);
+      document.cookie = "joinus_id=" + num + ";expires=-1;path=/;domain=easyinto.net";
     });
   }
   // 首页案例 点击单个跳转页面并且打开指定案例
   if (document.getElementById("index")) {
     $(".case>div>div>div").click(function() {
       var num = $(this).attr('data-id');
-      window.localStorage.setItem("case_id", num);
+      document.cookie = "case_id=" + num + ";expires=-1;path=/;domain=easyinto.net";
       window.location.href = "http://case.easyinto.net";
-      // window.location.href = "case.html";
-      console.log(num);
     });
   }
 }
