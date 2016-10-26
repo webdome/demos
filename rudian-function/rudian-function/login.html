@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>会员登录—入点科技</title>
+<script language="javascript" src="js/jquery.min.js"></script>
+<style type="text/css">
+ul,li{
+	list-style: none;
+}
+.water{
+	position:absolute;
+	top:0;
+	left:0;
+	width:429px;
+	height:429px;
+	background:url(./images/water.png) 0 0 no-repeat;
+	z-index:1;
+}
+.mainbg{
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	background:url(./images/logo.png) 50% 50% no-repeat;
+	background-size:cover;
+}
+.xy{
+	position:absolute;
+	width:0;
+	height:0;
+	top:50%;
+	left:50%;
+	z-index:2;
+}
+
+.loginBoxOP{
+	width:798px;
+	height:400px;
+	border-radius:5px;
+	margin-top:-200px;
+	margin-left:-399px;
+	position:relative;
+	overflow:hidden;
+}
+.left{
+	float:left;
+	width:399px;
+	height:400px;
+	background:#FFF url(./images/logo_bg.png) 50% 50% no-repeat;
+}
+.right{
+	float:right;
+	width:399px;
+	height:400px;
+	background-color:#FFF;	
+	opacity:0.2;
+}
+.loginBox{
+	position:absolute;
+	top:0;
+	right:49px;
+	width:300px;
+	height:400px;
+}
+.loginBox div{
+	overflow:hidden;
+}
+.txt{
+	width:278px;
+	height:42px;
+	border:1px solid #edc34d;
+	border-radius:5px;
+	padding:0px 10px;
+}
+.tit{
+	line-height:22px;
+	font-size:16px;
+	color:#fff;
+	padding-bottom:12px;
+}
+.un{
+	margin-bottom:30px;
+}
+.login_msg{
+	width: 100%;
+	height: 48px;
+	text-align: center;
+	line-height: 48px;
+	color: red;
+}
+.btn{
+	color:#333;
+	background-color:#edc34d;
+	width:300px;
+	height:40px;
+	border:0;
+	border-radius:5px;
+}
+.saveUser{
+    float:right;
+    padding-left:32px;
+    background:url(./images/chk.png) 0 0 no-repeat;
+    color:#edc34d;
+}
+.saveUser_cur{
+    background:url(./images/chk_on.png) 0 0 no-repeat;
+}
+.chk{
+    display:none;
+}
+.unpwd{
+	color:#edc34d;
+	float:right;
+}
+.unpwd:hover{
+	text-decoration:underline;	
+}
+.copyRightOP{
+	position:absolute;
+	bottom:0;
+	left:0;
+	right:0;
+	height:40px;
+	z-index:1;
+	background-color:#000;	
+	opacity:0.2;
+}
+.copyRight{
+	position:absolute;
+	bottom:0;
+	left:0;
+	right:0;
+	height:40px;
+	z-index:2;
+	text-align:center;
+	line-height:40px;
+	color:#fff;
+}
+.tomxc{
+	position: absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height: 100%;
+}
+.tomxc li:nth-child(1){
+	width:50px;
+	height: 50px;
+	position: absolute;
+	left:20%;
+	bottom: 400px;
+	background-color: #fff;
+	opacity: 0.1;
+	animation: zhuan 30s ease both infinite, shent 30s ease both infinite
+}
+.tomxc li:nth-child(2){
+	width:100px;
+	height: 100px;
+	position: absolute;
+	left:10%;
+	bottom: 300px;
+	background-color: pink;
+	opacity: 0.1;
+	animation: zhuan 40s ease both infinite, shen 40s ease both infinite
+}
+.tomxc li:nth-child(3){
+	width:20px;
+	height: 20px;
+	position: absolute;
+	left:400px;
+	bottom: -150px;
+	background-color: pink;
+	opacity: 0.1;
+	animation: zhuan 50s ease both infinite, shen 50s ease both infinite
+}
+.tomxc li:nth-child(4){
+	width:60px;
+	height: 60px;
+	position: absolute;
+	left:80%;
+	bottom: 100px;
+	background-color: #fff;
+	opacity: 0.1;
+	animation: zhuan 30s ease both infinite, shent 30s ease both infinite
+}
+.tomxc li:nth-child(5){
+	width:80px;
+	height: 90px;
+	position: absolute;
+	left:50%;
+	bottom: 100px;
+	background-color: pink;
+	opacity: 0.2;
+	animation: zhuan 50s ease both infinite, shen 50s ease both infinite
+}
+.tomxc li:nth-child(6){
+	width:120px;
+	height:120px;
+	position: absolute;
+	left:65%;
+	bottom: -150px;
+	background-color: #fff;
+	opacity: 0.1;
+	animation: zhuan 25s ease both infinite, shen 25s ease both infinite
+}
+@keyframes zhuan{
+	0%{-webkit-transform:rotate(0deg)}
+	100%{-webkit-transform:rotate(360deg)}
+}
+@keyframes shen{
+	0%{bottom:-100px}
+	100%{bottom:800px;}
+}
+@keyframes shent{
+	0%{bottom:-200px}
+	100%{bottom:700px;}
+}
+</style>
+<script language="javascript">
+function _chageCHK(obj){
+	if($(obj).prop("checked")){
+		$("#lblSaveUser").addClass("saveUser_cur");
+	}else{
+		$("#lblSaveUser").removeClass("saveUser_cur");
+	}
+}
+</script>
+</head>
+
+<body>
+<div class="mainbg">
+    <ul class="tomxc">
+    	<li></li>
+    	<li></li>
+    	<li></li>
+    	<li></li>
+    	<li></li>
+    	<li></li>
+    </ul>
+	<div class="xy">
+        <div class="loginBoxOP">
+            <div class="left"></div>
+            <div class="right"></div>
+            <div class="loginBox">
+            <form method="post">
+            	<div class="tit" style="margin-top:65px;">账号
+                	<label id="lblSaveUser" class="saveUser">
+                        <input class="chk" type="checkbox" id="saveUser" name="saveUser" value="1" onChange="_chageCHK(this)" autocomplete="off" />
+                        <label for="saveUser">记住密码</label>
+                    </label>
+                </div>
+            	<div class="un"><input type="text" class="txt" autocomplete="off" /></div>
+                <div class="tit">密码<a href="#" class="unpwd">忘记密码？</a></div>
+                <div class="pwd"><input type="password" class="txt" autocomplete="off" /></div>
+                <div class="login_msg" style=""></div>
+                <div><input type="button" class="btn" value="登录" /></div>
+            </form>
+            </div>
+        </div>
+	</div>
+</div>
+<div class="copyRightOP"></div>
+<div class="copyRight">合肥入点文化科技有限公司&emsp;版权所有</div>
+<script src="js/aes.js"></script>
+<script src="js/md5.js"></script>
+<script src="js/mode-ecb.js"></script>
+<script src="js/pad-pkcs7.js"></script>
+<script src="js/do.js"></script>
+<script>
+	document.cookie = "user_msg=" + "";
+	$('.btn').on('click',function(e){
+		e.stopPropagation();
+		var userName = $('.un>.txt').val();
+		var password = $('.pwd>.txt').val();
+		password = CryptoJS.MD5(password).toString();
+		getData({
+			'userName':userName,
+			'passWord':password,
+		},'userService.do','login','login');
+	});
+</script>
+</body>
+</html>

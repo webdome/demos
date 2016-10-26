@@ -1,0 +1,24 @@
+/* CSS Document */
+body,ul,li,input,textarea{
+margin:0;
+padding:0;
+}
+ul{
+list-style:none;
+}
+i{
+font-style:normal;
+}
+a{
+text-decoration:none;
+}
+body{
+	margin:0;
+	padding:0;
+	color:#515151;
+	font-family:Microsoft YaHei,\\u5fae\\u8f6f\\u96c5\\u9ed1;
+	font-size:14px;
+}
+body *{
+	font-family:Microsoft YaHei,\\u5fae\\u8f6f\\u96c5\\u9ed1;
+}

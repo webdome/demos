@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>H5场景—入点科技制作页</title>
+<link rel="stylesheet" href="css/index.css">
+<link rel="stylesheet" href="css/animate.min.css">
+<link rel="stylesheet" href="css/jquery.minicolors.css">
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="stylesheet" href="css/jquery.Jcrop.css">
+</head>
+<body>
+<div class="g-box">
+<!-- 遮罩1 -->
+ <div class="zhe-z1">
+ 	 <div class="shan-c">
+ 		<div class="tip-z">删除后，内容将不能恢复</div>
+ 		<div class="tip-n">
+ 			<button class="tip-qd">确定</button>
+ 			<button class="tip-qx">取消</button>
+ 		</div>
+ 	 </div>
+ </div>
+<!-- 遮罩2 -->
+ <div class="zhe-z2">
+ 	 <div class="xian-z">
+ 		<div class="xian-z1">
+ 			<span class="gth"></span>
+ 		</div>
+ 		<div class="xian-z2">您上传的照片已经超出限制，请重新上传</div>
+ 		<div class="xian-z3">仅支持大小于1M的jpg/gif/png的格式图片，最多上传20张图片，<br/>支持批量上传</div>
+ 		<div class="xian-z4">
+ 			<button class="tip-qd2">确定</button>
+ 			<button class="tip-qx2">取消</button>
+ 		</div>
+ 	 </div>
+ </div>
+<!-- 遮罩3 -->
+ <div class="zhe-z3">
+ 	 <div class="xian-z">
+ 		<div class="xian-z1">
+ 			<span class="gth"></span>
+ 		</div>
+ 		<div class="xian-z2">您上传的音乐超出限制，请重新上传</div>
+ 		<div class="xian-z3">仅支持大小小于4M的Mp3格式，最多上传5首音乐，支持批量上传</div>
+ 		<div class="xian-y4">
+ 			<button class="tip-qd3">确定</button>
+ 			<button class="tip-qx3">取消</button>
+ 		</div>
+ 	 </div>
+ </div>
+<!-- 遮罩4 -->
+ <div class="zhe-z4">
+ 	 <div class="shan-c">
+ 		<div class="tip-z">是否恢复默认设置</div>
+ 		<div class="tip-n">
+ 			<button class="tip-qd4">确定</button>
+ 			<button class="tip-qx4">取消</button>
+ 		</div>
+ 	 </div>
+ </div>
+<!-- 遮罩5 -->
+ <div class="zhe-z5">
+ 	 <div class="ysz-b">
+ 		<div class="ysz-b1">
+ 			<div class="ysz_z"><span class="ghfm">更换封面</span></div>
+ 			<div class="ysz_y">
+ 				<div class="ys_yt">
+ 					<div>标题</div>
+ 					<input type="text" name="" maxlength="20" class="biao-ti" placeholder="添加标题">
+ 					<div class="xt-s1">0/20</div>
+ 				</div>
+ 				<div class="ys_ym">
+ 					<div>描述</div>
+ 					<textarea  name="" class="miao-su" placeholder="添加对作品的描述"></textarea>
+ 					<div class="xt-s2">0/40</div>
+ 				</div>
+ 			</div>
+ 		</div>
+ 		<div class="ysz-b2">
+ 			<div class="myt-j">
+ 				<div>场景类型</div>
+ 				<div class="zfm-b">
+ 					<span>节日祝福</span>
+ 					<span class="hx hx-j"></span>
+ 				</div>
+ 			</div>
+ 			<div class="myt-j">
+ 				<div>场景访问状态</div>
+ 				<div class="zfm-b">
+ 					<span>允许访问</span>
+ 					<span class="hx hx-j"></span>
+ 				</div>
+ 			</div>
+ 			<div class="myt-j">
+ 				<div>暖连连分享</div>
+ 				<div class="zfm-b">
+ 					<span>申请为模板</span>
+ 					<span class="hx hx-j"></span>
+ 				</div>
+ 			</div>
+ 			<div class="f-any">
+ 				<span class="fzzt">翻页</span>
+ 				<span class="t-aru">
+ 					<span>弹入</span>
+ 					<span class="hx hx-j"></span>
+ 					<ul class="t-xiao">
+ 						<li>无</li>
+ 						<li>翻动</li>
+                        <li>滑入</li>
+                        <li>淡出</li>
+                        <li>旋入</li>
+                        <li>缩放</li>
+ 					</ul>
+ 				</span>
+ 				<span class="d-hua">
+ 				    <span class="ffff"></span>
+ 					<span class="hx hx-j"></span>
+ 					<ul class="zy-kg">
+ 						<li><span class="sx-an"></span></li>
+ 						<li><span class="zy-ou"></span></li>
+ 					</ul>
+ 				</span> 
+ 			</div>
+ 		</div>
+ 		<div class="qq-an">
+ 			<button class="que1">确定</button>
+ 			<button class="qu1">取消</button>
+ 		</div>
+ 	 </div>
+ 	 <div class="hkd-t">
+ 		<div class="sj-zsy">
+ 			<div class="lmn-r"></div>
+ 		</div>
+ 		<div class="xb-ai">
+ 			<span class="anz-j"></span>
+ 			<span class="any-j"></span>
+ 		</div>
+ 	 </div>
+</div>
+ <header class="header">
+     <div class="cent">
+	   <div class="nll"></div>
+	   <div class="ybsf">
+		 <div class="k-j k-j1">
+			<span class="y-l"></span>
+			<span class="y-lz">预览</span>
+		 </div>
+		 <div class="k-j k-j2">
+			<span class="b-c"></span>
+			<span class="b-cz">保存</span>
+		 </div>
+		 <div class="k-j k-j3">
+			<span class="s-z"></span>
+			<span class="s-zz">设置</span>
+		 </div>
+		 <div class="k-j k-j4">
+			<span class="f-b"></span>
+			<span class="f-bz">发布</span>
+		 </div>
+	   </div>
+
+	   <div class="mus_k">
+	   	 <div class="mus_f">
+	   	 	<span class="muy mumr_f"></span>
+	   	 </div>
+	   	 <div class="mus_m">
+	   	    <span id="yybbz">背景音乐</span>
+	   	 </div>
+	   </div>
+
+	 <div class="tui" onclick="bczy()"><span>退出</span></div>
+     </div>
+ </header>
+ <div class="content">
+    <div class="zjzzp">
+    	<div class="xtie-t">
+    		<div class="xtie-ts">
+    			<!-- <div class="ti-z"></div> -->
+    			<div class="ti-y">
+    				<div class="dj-ja"><span></span></div>
+    				<div class="dj-je"><span></span></div>
+    				<div class="dj-jc"><span></span></div>
+    				<div class="dj-jd"><span></span></div>
+    			</div>
+    		</div>
+    		<div class="xtie-tx">
+    			<div class="zy zbjs">自由</div>
+    			<div class="yby">1:1</div>
+    			<div class="ebs">2:3</div>
+    			<div class="sbs">4:3</div>
+    			<div class="lbj">16:9</div>
+    			<div class="biaozh">标准</div>
+    			<div class="egyp">1/2屏</div>
+    			<div class="sgyp">1/3屏</div>
+    		</div>
+    	</div>
+    </div>
+	<div class="cont-z">
+		<div class="y-t">
+			<div>页面</div>
+			<div class="btc">图层</div>
+		</div>
+		<div class="y-tx3">
+		    <!-- 图层 -->
+			<div class="tu-cen">
+			  <div class="btcd">
+			  </div>	      
+		      <div class="t-j"><span class="jh"></span></div>
+		    </div>
+		    <!-- 样式 -->
+		    <div class="ya-shi">
+		      <div class="wenzi">
+		    	<div class="sr-w">
+				    <span class="ar-j ar-r"></span>
+				    <span class="z-t"></span>
+				    <span class="z-z">请输入文字</span>
+			    </div>
+			    <ul class="sr-xl wzy">
+			    </ul>
+		      </div>
+		      <div class="tupian">
+		    	<div class="sr-m">
+				    <span class="ar-j ar-r"></span>
+				    <span class="z-i"></span>
+				     <span class="z-z">image</span>
+			    </div>
+			    <ul class="sr-xl tpy">
+			    </ul>
+		      </div>			
+		  </div>
+		</div>		
+	</div>
+	<div class="cont-c">
+		<div class="cont-zc">
+	    <!-- <ul class="eles" id="view">
+	    </ul> -->
+		<div class="you-f">
+			<div>
+			  <span class="you-f1"></span>
+			  <div class="yu-y">
+				  <span class="yulan">刷新</span>
+                  <span class="arrow-y"></span>
+			  </div>
+			</div>
+			<div>
+			  <span class="you-f2"></span>
+			  <div class="yu-y">
+				  <span class="yulan">网格</span>
+                  <span class="arrow-y"></span>
+			  </div>
+			</div>
+			<div>
+			  <span class="you-f3"></span>
+			  <div class="yu-y">
+				  <span class="yulan">撤销</span>
+                  <span class="arrow-y"></span>
+			  </div>
+			</div>
+			<div>
+			  <span class="you-f4"></span>
+			  <div class="yu-y">
+				  <span class="yulan">恢复</span>
+                  <span class="arrow-y"></span>
+			  </div>
+			</div>
+		</div>
+		<div class="yxj-yc">
+			<div class="yxj-ys">
+              <span class="ysxc-1"></span>
+			  <span class="y-y-y"></span>
+			</div>
+			<div class="yxj-yx">
+              <span class="ysxc-1"></span>
+			  <span class="c-y-c"></span>
+			</div>
+		</div>
+		<div class="gx hdxx">
+		    <div class="int-d">
+		        <input type="radio" name="" value="" class="djxq">
+		        <span class="xuanx-j">选项一</span>
+		        <div class="xhd zwx-d1"></div>
+		        <div class="xhd zwx-d2"></div>
+		        <div class="xhd zwx-d3"></div>
+		        <div class="xhd zwx-d4"></div>
+		        <div class="xhd zwx-d5"></div>
+		        <div class="xhd zwx-d6"></div>
+		        <div class="xhd zwx-d7"></div>
+		        <div class="xhd zwx-d8"></div>
+		        <div class="syt-t">
+		  	      <div class="syt-ts"></div>
+		  	      <div class="syt-tx"></div>
+		        </div>
+		    </div>
+		    <div class="int-d1">
+		        <input type="radio" name="" value="" class="djxq">
+		        <span class="xuanx-j">选项二</span>
+		    </div>
+		    <div class="int-d1">
+		        <input type="radio" name="" value="" class="djxq">
+		        <span class="xuanx-j">选项三</span>
+		    </div>
+		</div>
+		<div class="gx dan-k">
+			<div class="int-d">
+		        <input type="checkbox" name="" value="" class="djxq">
+		        <span class="xuanx-j">选项一</span>
+		        <div class="xhd zwx-d1"></div>
+		        <div class="xhd zwx-d2"></div>
+		        <div class="xhd zwx-d3"></div>
+		        <div class="xhd zwx-d4"></div>
+		        <div class="xhd zwx-d5"></div>
+		        <div class="xhd zwx-d6"></div>
+		        <div class="xhd zwx-d7"></div>
+		        <div class="xhd zwx-d8"></div>
+		        <div class="syt-t">
+		  	      <div class="syt-ts"></div>
+		  	      <div class="syt-tx"></div>
+		        </div>
+		    </div>
+		    <div class="int-d1">
+		        <input type="checkbox" name="" value="" class="djxq">
+		        <span class="xuanx-j">选项二</span>
+		    </div>
+		    <div class="int-d1">
+		        <input type="checkbox" name="" value="" class="djxq">
+		        <span class="xuanx-j">选项三</span>
+		    </div>
+		</div>
+	</div>
+	</div>
+	
+	<div class="cont-y">
+		<!-- 文本 -->
+		<div class="zx sx-dh">
+			<div class="sx-dht">
+				<div>属性</div>
+				<div class="btc">动画</div>	
+			</div>
+			<div class="sx-dhc">
+				<div class="sx-dhc1">
+					<span class="dxa">
+						<span class="dxaz"></span>
+						<span class="yscc" style="position: absolute;top:0;left:0;width: 100%;height: 100%;z-index:7">
+						<input type="text" class="wbys" value="#666666"/ style="opacity: 0">
+						</span>						
+					</span>
+					<select class="wryh">
+					  	<option class="shu-y">微软雅黑</option>
+					  	<option class="shu-k">楷体</option>
+					  	<option class="shu-h">黑体</option>
+					  	<option class="shu-f">仿宋</option>
+					</select>
+					<select class="ess">					  
+					  	<option>12px</option>
+					  	<option>14px</option>
+					  	<option>18px</option>
+					  	<option>20px</option>
+					  	<option>22px</option>
+					  	<option selected = "selected">24px</option>
+					  	<option>26px</option>
+					  	<option>28px</option>
+					  	<option>30px</option>
+					  	<option>36px</option>
+					  	<option>40px</option>
+					  	<option>48px</option>
+					  	<option>60px</option>
+					  	<option>72px</option>
+					</select>
+				</div>
+				<div class="sx-dhc2">
+					<span class="bt-b"></span>
+					<span class="bt-i"></span>
+					<span class="bt-u"></span>
+					<span class="bt-s"></span>
+					<span class="bt-z"></span>
+					<span class="bt-c"></span>
+					<span class="bt-y"></span>
+				</div>
+				<div class="sx-dhc3">
+					<span class="ysl-t">透明</span>
+					<span class="ysl-z hk1" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g ">100%</span>
+				</div>
+				<div class="sx-dhc3">
+					<span class="ysl-t">旋转</span>
+					<span class="ysl-z hk3" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g txtr">0°</span>
+				</div>
+				<div class="sx-dhc3">
+					<span class="ysl-t">行高</span>
+					<span class="ysl-z hk4" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g pxl">28px</span>
+				</div>
+				<div class="zhong-x"></div>
+
+				<div class="sx-dhc7">
+					<span class="yin-y">阴影</span>
+					<span class="huii">
+						<span class="kgq-2"></span>
+					</span>
+					<span class="yan-s" style="display: none">颜色</span>
+					<span class="ysl-g yyys" style="display: none;">
+						<input type="text" class="wzyys" value="#bbbbbb" style="width:28px;height:28px;opacity: 0;"/>
+		            </span>
+				</div>
+
+				<div class="kzy-y" >
+				  <div class="sx-dhc3">
+					<span class="ysl-t">模糊</span>
+					<span class="ysl-z wk5" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g wsz-z">8px</span>
+				  </div>
+				  <div class="sx-dhc3">
+					<span class="ysl-t">&nbsp;X轴</span>
+					<span class="ysl-z wk6" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g wxz-z">0px</span>
+				  </div>
+	              <div class="sx-dhc3">
+					<span class="ysl-t">&nbsp;Y轴</span>
+					<span class="ysl-z wk7" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g wyz-z">4px</span>
+				  </div>
+				</div>
+				<div class="zhong-x"></div>
+				<div class="wei-z">
+					<span class="ysl-t">位置</span>
+					<span class="x-wz ysl-t">X</span>
+					<span class="hzb ysl-g">0px</span>
+					<span class="y-wz ysl-t">Y</span>
+					<span class="zzb ysl-g">0px</span>
+				</div>
+				<div class="zhong-x"></div>
+				<div class="wz-tb">
+					<span class="wz-t1"></span>
+					<span class="wz-t2"></span>
+					<span class="wz-t3"></span>
+					<span class="wz-t4"></span>
+					<span class="wz-t5"></span>
+					<span class="wz-t6"></span>
+				</div>
+				<div class="zhong-x"></div>
+			</div>
+			<div class="sx-sxc">
+				<div class="tj-yl">
+					<button class="tj-dh">
+					    <span class="dian-j"></span>
+					    <span class="dian-z">添加动画</span>
+					</button>
+					<button class="yl-dh">
+					    <span class="dian-y"></span>
+					    <span class="dian-z">预览动画</span>
+					</button>
+				</div>			
+			</div>
+		</div>
+	    <!-- 图片 -->
+	    <div class="zx sc-tp">
+	    	<div class="xc-tou">
+	    		<div class="xc-tou1">
+	    			<div class="wdtk">我的图库<span class="xt-s"></span></div>
+	    			<div class="dzxc">电子相册<span class="xt-s"></span></div>
+	    			<div class="xhzf">新婚祝福<span class="xt-s"></span></div>
+	    		</div>
+	    		<div class="xc-tou2">
+	    			<div class="lykl">六一快乐<span class="xt-s"></span></div>
+	    			<div class="fen-z">分组</div>
+	    			<div class="jia-hk"><span class="jia-ha"></div>
+	    		</div>
+	    	</div>
+	    	<div class="tp-sj">
+	    		<div class="tu-ce">
+	    			<div>
+	    				<div class="jia-t">
+                        	<span class="jia-hx"></span>
+                        	<span>上传图片</span>
+	    				</div>
+	    				
+	    			</div>
+	    		</div>
+	    		<div class="tu-shi">
+	    			<div class="zuo_x"></div>
+	    			2016年6月6日
+	    			<div class="you_x"></div>
+	    		</div>
+	    	</div>
+	    	<!-- <div class="tp-sj">
+	    		<div class="tu-ce">	    			
+	    			<div><span class="xt-s"></span></div>
+	    			<div><span class="xt-s"></span></div>
+	    			<div><span class="xt-s"></span></div>
+	    			<div><span class="xt-s"></span></div>
+	    			<div><span class="xt-s"></span></div>
+	    			<div><span class="xt-s"></span></div>
+	    			<div><span class="xt-s"></span></div>
+	    			<div><span class="xt-s"></span></div>
+	    		</div>
+	    		<div class="tu-shi">
+	    			<div class="zuo_x"></div>
+	    			2016年6月6日
+	    			<div class="you_x"></div>
+	    		</div>
+	    	</div> -->
+	    </div>
+	    <!-- 图片属性与动画区 -->
+	    <div class="zx pic-sd">
+	    	<div class="sx-dht">
+				<div>属性</div>
+				<div class="btc">动画</div>	
+			</div>
+			<div class="sx-dhc">
+				<div class="tj-yl">
+					<button class="ggt-p">更改图片</button>
+					<button class="cai-j">裁剪</button>
+				</div>
+			<div class="sx-dhc3">
+				<span class="ysl-t">透明</span>
+				<span class="ysl-z hk1" style="width:152px;height: 5px;background-color:#fff;border:none">
+				</span>
+				<span class="ysl-g ">100%</span>
+			</div>
+			<div class="sx-dhc3">
+				<span class="ysl-t">圆角</span>
+				<span class="ysl-z hk2" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+				<span class="ysl-g">0°</span>
+			</div>
+			<div class="sx-dhc3">
+				<span class="ysl-t">旋转</span>
+				<span class="ysl-z hk3" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+				<span class="ysl-g picr">0°</span>
+			</div>
+			<div class="zhong-x"></div>
+			<div class="sx-dhc7">
+					<span class="yin-y">阴影</span>
+					<span class="huii">
+						<span class="kgq-2"></span>
+					</span>
+					<span class="yan-s" style="display: none">颜色</span>
+
+					<span class="ysl-g yyys" style="display: none">
+						<input type="text" class="tzyys" value="#bbbbbb" style="width:28px;height:28px;opacity: 1;"/>
+		            </span>
+				</div>
+			<div class="kzy-y" >	
+			  <div class="sx-dhc3">
+					<span class="ysl-t">模糊</span>
+					<span class="ysl-z hk5" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g ssz-z">8px</span>
+			  </div>
+			  <div class="sx-dhc3">
+					<span class="ysl-t">&nbsp;X轴</span>
+					<span class="ysl-z hk6" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g sxz-z">0px</span>
+		      </div>
+	          <div class="sx-dhc3">
+					<span class="ysl-t">&nbsp;Y轴</span>
+					<span class="ysl-z hk7" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g syz-z">4px</span>
+		      </div>
+			</div>
+			<div class="zhong-x"></div>
+			<div class="wei-z">
+				<span class="ysl-t">位置</span>
+				<span class="x-wz ysl-t">&nbsp;X</span>
+				<span class="hzb ysl-g">0px</span>
+				<span class="y-wz ysl-t">&nbsp;Y</span>
+				<span class="zzb ysl-g">0px</span>
+			</div>
+			<div class="wei-z">
+				<span class="ysl-t">大小</span>
+				<span class="x-wz ysl-t">高</span>
+				<span class="thzb ysl-g" style="margin-left: 4px">0px</span>
+				<span class="y-wz ysl-t" style="margin-left: 12px">宽</span>
+				<span class="tzzb ysl-g" style="margin-left: 4px">0px</span>
+			</div>
+			<div class="zhong-x"></div>
+			<div class="wz-tb">
+				<span class="wz-t1"></span>
+				<span class="wz-t2"></span>
+				<span class="wz-t3"></span>
+				<span class="wz-t4"></span>
+				<span class="wz-t5"></span>
+				<span class="wz-t6"></span>
+			</div>
+			</div>
+
+			<!-- 图片动画 -->
+			<div class="sx-sxc">
+				<div class="tj-yl">
+					<button class="tj-dh">
+					    <span class="dian-j"></span>
+					    <span class="dian-z">添加动画</span>
+					</button>
+					<button class="yl-dh">
+					    <span class="dian-y"></span>
+					    <span class="dian-z">预览动画</span>
+					</button>
+				</div>			
+			</div>
+	    </div>
+	    <!-- 贴图 -->
+	    <div class="zx txtx">
+	    	<div class="sx-dht">
+				<div>贴纸</div>
+				<div class="btc" id="shape">形状</div>	
+			</div>
+			<div class="tie-z">
+				<!-- 1024 -->
+				<div class="sc-yys">
+	    	    </div>
+	    	    <div class="tu-ce">
+	    	    	<div></div>
+	    	    </div>
+			</div>
+			<div class="xing-z" style="display:none">
+				<div class="sc-yys">
+	    		  <!-- <div class="c_y">常用</div>
+	    		  <div>边框</div>
+	    		  <div>数字</div>
+	    		  <div>字母</div>
+	    		  <div>符号</div>
+	    		  <div>标签</div>
+	    		  <div>数字</div> -->
+	    	    </div>
+	    	    <div class="tu-ce">
+	    	    	<div></div>
+	    	    </div>
+			</div>           	    	
+	    </div>
+	    <!-- 音乐 -->
+	    <div class="zx sc-yy">
+	    	<div class="sc-yys">
+	    		<!-- <div class="c_y stl fg">常用</div>
+	    		<div class="stl fg">安静</div>
+	    		<div class="stl fg">欢快</div>
+	    		<div class="stl fg">浪漫</div>
+	    		<div class="stl fg">伤感</div>
+	    		<div class="stl fg">复古</div>
+	    		<div class="da-q stl fg">大气</div> -->
+	    	</div>
+	    	<div class="sc-yyx">
+	    	    <button class="tj-yy">
+	    	    	<span class="jia-hx"></span>
+	    	    	<span class="yy-z">上传音乐</span>
+	    	    	<input type="file" name="music" id="upload">
+	    	    </button>
+	    	    <button class="zt-yy">
+	    	    	<span class="zan-t"></span>
+	    	    	<span class="yy-z">关闭音乐</span>
+	    	    </button>
+	    	</div>
+            <audio src="" loop="loop"></audio>
+            <div class="yyhz">
+	    	 <ul class="yy-lb">	
+	    	 </ul>
+	    	</div>
+	    </div>
+	    <!-- 特效 -->
+	    <div class="zx cy-y">
+			<div class="sx-dht">
+				<div>擦一擦</div>
+				<div class="btc">摇一摇</div>	
+			</div>
+			<div class="ge-q">
+	    	    <div class="gh-cj">
+	    	    	<button class="ghtp">更换图片</button>
+	    	    	<button class="cjtp">裁剪</button>
+	    	    </div>	    	
+	    		<div class="tu-ce">
+	    			<div></div>	    		
+	    		</div>
+	    	    <div class="sx-dhc3">
+					<span class="ysl-t">透明</span>
+					<span class="ysl-z txc" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g">0%</span>
+				</div>
+				<div class="sx-dhc3">
+					<span class="ysl-t">文本</span>
+					<span class="wb-k">擦一擦</span>
+				</div>
+			</div>
+			<div class="y-you">
+				<div class="gd-ds">更改动画元素</div>
+				<div class="dh-jh">
+					<div><span class="huaban"></span></div>
+					<div><span class="luoye"></span></div>
+					<div><span class="piaoxue"></span></div>
+					<div><span class="yudi"></span></div>
+					<div><span class="qipao"></span></div>
+					<div><span class="yumao"></span></div>
+					<div><span class="yanhuo"></span></div>
+					<div><span class="yanwu"></span></div>
+				</div>
+				<div class="sx-dhc3">
+					<span class="ysl-t">强度</span>
+					<span class="ysl-z">
+						<span class="jd-xq"></span>
+					</span>
+					<span class="ysl-g">弱</span>
+				</div>
+				<div class="sx-dhc3">
+					<span class="ysl-t">速度</span>
+					<span class="wb-k">匀速播放<span class="hx hx-j"></span></span>
+				</div>
+			</div>
+	    </div>
+	    <!-- 表单 -->
+	    <div class="zx sh_rk">
+	    	 <div class="gz_k gz_k1">
+	    		<span class="shk shk1"></span>
+	    		<span class="skzz">输入框</span>
+	    	 </div>
+	    	 <div class="gz_k gz_k2">
+	    		<span class="shk shk2"></span>
+	    		<span class="skzz">按钮</span>
+	    	 </div>
+	    	 <div class="gz_k gz_k3">
+	    		<span class="shk shk3"></span>
+	    		<span class="skzz">单选</span>
+	    	 </div>
+	    	 <div class="gz_k gz_k4">
+	    		<span class="shk shk4"></span>
+	    		<span class="skzz">多选</span>
+	    	 </div>
+	    	 <div class="gz_k gz_k5">
+	    		<span class="shk shk5"></span>
+	    		<span class="skzz">下拉列表</span>
+	    	 </div>
+	    </div>
+	    <!-- 互动 -->
+	    <div class="zx tjx-h">
+	    	<div class="sx-dht">
+				<div>属性</div>
+				<div class="btc">动画</div>	
+			</div>
+			<div class="qhm-y">
+				<div class="xzs-t">
+					<div><span class="xzs-t1"></span></div>
+					<div><span class="xzs-t2"></span></div>
+					<div><span class="xzs-t3"></span></div>
+					<div><span class="xzs-t4"></span></div>
+				</div>
+				<div class="xzs-tm">
+					<div>喜欢</div>
+					<div>点赞</div>
+					<div>送花</div>
+					<div>投票</div>
+				</div>
+				<div class="bwj-z">
+				  <span>背景</span>
+				  <span class="bwj-z1">
+				  	<span class="col-x"></span>
+				  </span>
+				  <span>文字</span>
+				  <span class="bwj-z2"></span>
+			    </div>
+			    <div class="sx-dhc3">
+					<span class="ysl-t">透明</span>
+					<span class="ysl-z">
+						<span class="jd-xq bf"></span>
+					</span>
+					<span class="ysl-g">0%</span>
+				</div>
+				<div class="sx-dhc3">
+					<span class="ysl-t">圆角</span>
+					<span class="ysl-z">
+						<span class="jd-xq"></span>
+					</span>
+					<span class="ysl-g">0%</span>
+				</div>
+				<div class="bum-n">
+					<span>布满</span>
+					<span class="bm-z">左右</span>
+					<span class="bm-y">上下</span>
+				</div>
+				<div class="hu-ix"></div>
+				<div class="yi-bi">
+					<span>阴影</span>
+					<span class="huii">
+						<span class="kgq-2"></span>
+					</span>
+				</div>
+				<div class="hu-ix"></div>
+				<div class="yi-bi">
+					<span>边框</span>
+					<span class="huii">
+						<span class="kgq-2"></span>
+					</span>
+				</div>
+				<div class="hu-ix"></div>
+				<div class="w-zhi">
+					<span>位置</span>
+					<span class="dxx">X</span>
+					<span class="dw-p dw-px">0px</span>
+					<span class="dxx">Y</span>
+					<span class="dw-x dw-px">0px</span>
+				</div>
+				<div class="w-zhi">
+					<span>大小</span>
+					<span class="dxx">W</span>
+					<span class="dw-p dw-px">0px</span>
+					<span class="dxx">H</span>
+					<span class="dw-x dw-px">0px</span>
+				</div>
+				<div class="hu-ix"></div>
+				<div class="wz-tb">
+					<span class="wz-t1"></span>
+					<span class="wz-t2"></span>
+					<span class="wz-t3"></span>
+					<span class="wz-t4"></span>
+					<span class="wz-t5"></span>
+					<span class="wz-t6"></span>
+				</div>
+				<div class="h_mr">恢复默认</div>
+			</div>
+			<div class="sx-sxc">
+				<div class="tj-yl">
+					<button class="tj-dh">
+					    <span class="dian-j"></span>
+					    <span class="dian-z">添加动画</span>
+					</button>
+					<button class="yl-dh">
+					    <span class="dian-y"></span>
+					    <span class="dian-z">预览动画</span>
+					</button>
+				</div>				
+			</div>			
+	    </div>
+	    <!-- 左边选项卡 -->
+		<div class="yz-f">
+				<div class="yz-f1">
+				  <span class="fzy-1"></span>
+				  <div class="yu-y">
+				      <span class="yulan">文本</span>
+                      <span class="arrow-y"></span>
+				  </div>
+				</div>
+				<div class="yz-f2">
+				  <span class="fzy-2"></span>
+				  <div class="yu-y">
+				      <span class="yulan">背景</span>
+                      <span class="arrow-y"></span>
+				  </div>
+				</div>
+				<div class="yz-f3">
+				  <span class="fzy-3"></span>
+				  <div class="yu-y">
+				      <span class="yulan">图片</span>
+                      <span class="arrow-y"></span>
+				  </div>
+				</div>
+				<div class="yz-f4">
+				  <span class="fzy-4"></span>
+				  <div class="yu-y">
+				      <span class="yulan">贴图</span>
+                      <span class="arrow-y"></span>
+				  </div>
+				</div>
+				<div class="yz-f5">
+				  <span class="fzy-5"></span>
+				  <div class="yu-y">
+				      <span class="yulan">音乐</span>
+                      <span class="arrow-y"></span>
+				  </div>
+				</div>
+				<div class="yz-f6">
+				  <span class="fzy-6"></span>
+				  <div class="yu-y">
+				      <span class="yulan">特效</span>
+                      <span class="arrow-y"></span>
+				  </div>
+				</div>
+				<div class="yz-f7">
+				  <span class="fzy-7"></span>
+				  <div class="yu-y">
+				      <span class="yulan">表单</span>
+                      <span class="arrow-y"></span>
+				  </div>
+				</div>
+				<div class="yz-f8">
+				  <span class="fzy-8"></span>
+				  <div class="yu-y">
+				      <span class="yulan">互动</span>
+                      <span class="arrow-y"></span>
+				  </div>
+				</div>			    
+	    </div>
+        <div class="zx gt-mm">
+        	<div class="sx-dht">
+				<div>属性</div>
+				<div class="btc">动画</div>	
+			</div>
+			<div class="gm-mx">
+				<div class="tjx-x">
+					<div class="bo-t">
+						<span>标题</span>
+						<select type="text" class="xlkko">
+						  <option value="请输入内容">请输入内容</option>
+						  <option value="请输入内容">请输入内容</option>
+						  <option value="请输入内容">请输入内容</option>
+						</select>
+					</div>
+					<div class="xx-hz">
+					  <!-- ***1022 -->
+					  <!-- <div class="bo-t1">
+					    <div class="xs">0/20</div>
+					    <span class="xuanx">选项1</span>
+					    <input type="text" class="qs-r" maxlength="10" placeholder="请输入内容">
+					    <span class="yl-g"></span>
+					  </div>
+					  <div class="bo-t1">
+					    <div class="xs">0/20</div>
+					    <span class="xuanx">选项2</span>
+					    <input type="text" class="qs-r" maxlength="10" placeholder="请输入内容">
+					    <span class="yl-g"></span>
+					  </div>
+					  <div class="bo-t1">
+					    <div class="xs">0/20</div>
+					    <span class="xuanx">选项3</span>
+					    <input type="text" class="qs-r" maxlength="10" placeholder="请输入内容">
+					    <span class="yl-g"></span>
+					  </div> -->
+					</div>
+					<div class="zjx-xa">
+						<span class="ba-ja"></span>
+						<span>增加选项</span>
+						<span class="xx-sz">3/9</span>
+					</div>
+					<div class="hu-ix"></div>
+				</div>
+				<div class="sx-dhc3">
+					<span class="ysl-t">透明</span>
+					<span class="ysl-z hk1" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g">100%</span>
+				</div>
+				<div class="sx-dhc3">
+					<span class="ysl-t">圆角</span>
+					<span class="ysl-z hk2" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g">0%</span>
+				</div>
+				<div class="bwj-z">
+				  <span>背景</span>
+				  <span class="xa-h bwj-z1">
+				  <input type="text" class="szbjs" value="#bbbbbb" style="width:28px;height:28px;opacity: 0"/>
+				  </span>
+				  <span>文字</span>
+				  <span class="xa-b bwj-z2">
+				  <input type="text" class="szzts" value="#bbbbbb" style="width:28px;height:28px;opacity: 0"/>
+				  </span>
+			    </div>
+			    <div class="hu-ix"></div>
+                <div class="sx-dhc7" style="float: left">
+					<span class="yin-y">阴影</span>
+					<span class="huii">
+						<span class="kgq-2"></span>
+					</span>
+					<span class="yan-s" style="display: none">颜色</span>
+					<span class="ysl-g xyys" style="display: none">
+						<input type="text" class="xzyys" value="#bbbbbb" style="width:28px;height:28px;opacity: 0;"/>
+		            </span>
+				</div>
+				<div class="kzy-y"  style="float: left;">
+				  <div class="sx-dhc3">
+					<span class="ysl-t">模糊</span>
+					<span class="ysl-z xk5" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g xsz-z">8px</span>
+				  </div>
+				  <div class="sx-dhc3">
+					<span class="ysl-t">&nbsp;X轴</span>
+					<span class="ysl-z xk6" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g xxz-z">0px</span>
+				  </div>
+	              <div class="sx-dhc3">
+					<span class="ysl-t">&nbsp;Y轴</span>
+					<span class="ysl-z xk7" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g xyz-z">4px</span>
+				  </div>
+				</div>
+				<div class="hu-ix"></div>
+				<div class="w-zhi">
+					<span>位置</span>
+					<span class="dxx">X</span>
+					<span class="dw-p dw-px">0px</span>
+					<span class="dxx">Y</span>
+					<span class="dw-x dw-px">0px</span>
+				</div>
+				<div class="w-zhi">
+					<span>大小</span>
+					<span class="dxx">W</span>
+					<span class="dw-k dw-px">0px</span>
+					<span class="dxx">H</span>
+					<span class="dw-g dw-px">0px</span>
+				</div>
+				<div class="hu-ix"></div>
+				<div class="wz-tb">
+					<span class="wz-t1"></span>
+					<span class="wz-t2"></span>
+					<span class="wz-t3"></span>
+					<span class="wz-t4"></span>
+					<span class="wz-t5"></span>
+					<span class="wz-t6"></span>
+				</div>
+				<div class="h_mr">恢复默认</div>
+			</div>
+			<div class="sx-sxc">
+				<div class="tj-yl">
+					<button class="tj-dh">
+					    <span class="dian-j"></span>
+					    <span class="dian-z">添加动画</span>
+					</button>
+					<button class="yl-dh">
+					    <span class="dian-y"></span>
+					    <span class="dian-z">预览动画</span>
+					</button>
+				</div>			
+			</div>
+        </div>
+        <div class="zx aa-nn">
+        	<div class="sx-dht">
+				<div>属性</div>
+				<div class="btc">动画</div>	
+			</div>
+			<div class="sx-dhc">
+				<div class="bo-t">
+					<span>按钮</span>
+					<input type="text" class="bo-tk antj" placeholder="请命名" value="">
+				</div>
+				<div class="bo-t" style="margin-top: 20px">
+					<span>链接</span>
+					<input type="text" class="bo-tk" placeholder="http://">
+				</div>
+				<div class="sx-dhc3" style="float: left">
+					<span class="ysl-t">透明</span>
+					<span class="ysl-z hk1" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g">100%</span>
+				</div>
+				<div class="sx-dhc3" style="float: left">
+					<span class="ysl-t">圆角</span>
+					<span class="ysl-z hk2" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g">0%</span>
+				</div>
+				<div class="bwj-z">
+				  <span>背景</span>
+				  <span class="xb-h bwj-z1">
+				      <input type="text" class="szbjs" value="#bbbbbb" style="width:28px;height:28px;opacity: 0"/>
+				  </span>
+				  <span>文字</span>
+				  <span class="xb-b bwj-z2">
+				  	  <input type="text" class="szzts" value="#333333" style="width:28px;height:28px;opacity: 0"/>
+				  </span>
+			    </div>
+			    <div class="hu-ix"></div>
+			    
+
+
+				<div class="sx-dhc7" style="float: left">
+					<span class="yin-y">阴影</span>
+					<span class="huii">
+						<span class="kgq-2"></span>
+					</span>
+					<span class="yan-s" style="display: none">颜色</span>
+					<span class="ysl-g byys" style="display: none">
+						<input type="text" class="bzyys" value="#bbbbbb" style="width:28px;height:28px;opacity: 1;"/>
+		            </span>
+				</div>
+				<div class="kzy-y"  style="float: left">
+				  <div class="sx-dhc3">
+					<span class="ysl-t">模糊</span>
+					<span class="ysl-z bk5" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g bsz-z">8px</span>
+				  </div>
+				  <div class="sx-dhc3">
+					<span class="ysl-t">&nbsp;X轴</span>
+					<span class="ysl-z bk6" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g bxz-z">0px</span>
+				  </div>
+	              <div class="sx-dhc3">
+					<span class="ysl-t">&nbsp;Y轴</span>
+					<span class="ysl-z bk7" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g byz-z">4px</span>
+				  </div>
+				</div>
+				<div class="hu-ix"></div>
+				<div class="w-zhi">
+					<span>位置</span>
+					<span class="dxx">X</span>
+					<span class="dw-p dw-px">0px</span>
+					<span class="dxx">Y</span>
+					<span class="dw-x dw-px">0px</span>
+				</div>
+				<div class="w-zhi">
+					<span>大小</span>
+					<span class="dxx">W</span>
+					<span class="dw-k dw-px">0px</span>
+					<span class="dxx">H</span>
+					<span class="dw-g dw-px">0px</span>
+				</div>
+				<div class="hu-ix"></div> 
+				<div class="wz-tb"  style="float: left">
+					<span class="wz-t1"></span>
+					<span class="wz-t2"></span>
+					<span class="wz-t3"></span>
+					<span class="wz-t4"></span>
+					<span class="wz-t5"></span>
+					<span class="wz-t6"></span>
+				</div>
+				<div class="h_mr">恢复默认</div>
+			</div>
+			<div class="sx-sxc">
+				<div class="tj-yl">
+					<button class="tj-dh">
+					    <span class="dian-j"></span>
+					    <span class="dian-z">添加动画</span>
+					</button>
+					<button class="yl-dh">
+					    <span class="dian-y"></span>
+					    <span class="dian-z">预览动画</span>
+					</button>
+				</div>				
+			</div>
+        </div>
+        <div class="zx dx-k">
+        	<div class="sx-dht">
+				<div>属性</div>
+				<div class="btc">动画</div>	
+			</div>
+			<div class="dx-kx">
+				<div class="bo-t">
+					<span>文本</span>
+					<input type="text" class="bo-tk ddxsk" placeholder="姓名" maxlength="10">
+				</div>
+				<div class="bwj-z">
+				  <span>背景</span>
+				  <span class="xc-h bwj-z1">
+				  <input type="text" class="szbjs" value="#bbbbbb" style="width:28px;height:28px;opacity: 0"/>
+				  </span>
+				  <span>文字</span>
+				  <span class="xc-b bwj-z2">
+                  <input type="text" class="szzts" value="#bbbbbb" style="width:28px;height:28px;opacity: 0"/>
+				  </span>
+			    </div>
+			    <div class="sx-dhc3">
+					<span class="ysl-t">透明</span>
+					<span class="ysl-z hk1" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g">100%</span>
+				</div>
+				<div class="sx-dhc3">
+					<span class="ysl-t">圆角</span>
+					<span class="ysl-z hk2" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g">0%</span>
+				</div>
+				<div class="hu-ix"></div>
+				<div class="w-zhi">
+					<span>位置</span>
+					<span class="dxx">X</span>
+					<span class="dw-p dw-px">0px</span>
+					<span class="dxx">Y</span>
+					<span class="dw-x dw-px">0px</span>
+				</div>
+				<div class="w-zhi">
+					<span>大小</span>
+					<span class="dxx">W</span>
+					<span class="dw-k dw-px">0px</span>
+					<span class="dxx">H</span>
+					<span class="dw-g dw-px">0px</span>
+				</div>
+				<div class="hu-ix"></div>
+				<div class="wz-tb">
+					<span class="wz-t1"></span>
+					<span class="wz-t2"></span>
+					<span class="wz-t3"></span>
+					<span class="wz-t4"></span>
+					<span class="wz-t5"></span>
+					<span class="wz-t6"></span>
+				</div>
+				<div class="h_mr">恢复默认</div>
+			</div>
+			<div class="sx-sxc">
+				<div class="tj-yl">
+					<button class="tj-dh">
+					    <span class="dian-j"></span>
+					    <span class="dian-z">添加动画</span>
+					</button>
+					<button class="yl-dh">
+					    <span class="dian-y"></span>
+					    <span class="dian-z">预览动画</span>
+					</button>
+				</div>				
+			</div>
+        </div>
+        <!-- 背景 -->
+	    <div class="zx be-jin">
+		  <div class="b-j">背景</div>
+		  <div class="sxtp">
+			<div class="schf">
+				<button class="sc-bt">
+				<span>上传背景</span>
+				<input type="file" id="file">
+				</button>
+				<button class="hf-mr">恢复默认</button>
+			</div>
+			<div class="caij" id="clipArea">
+			    <span class="sz-j"></span>		
+			</div>
+			<button class="cjz" >
+			    <span class="cjczd" id="clipBtn">裁剪</span>
+                <span class="cjzzc"></span>
+			    </button>
+			<div class="sx-dhc3">
+					<span class="jdt-z">
+					  <span class="pbys" style="display: none">
+					    <span class="pbysz"></span>
+					  </span>
+					  <input type="text" id="top-left" value="#0088cc" style="width:28px;height:28px;opacity: 0"/>
+					</span>
+					<span class="ysl-z" id="ysbt" style="width:152px;height: 5px;background-color:#fff;border:none">
+					</span>
+					<span class="ysl-g jbmt">100%</span>
+				</div>
+		  </div>
+		</div>
+	</div>
+ </div>
+<script src="js/jquery.min.js"></script>
+<script src="js/iscroll-zoom.js"></script>
+<script src="js/hammer.js"></script>
+<script src="js/lrz.all.bundle.js"></script>
+<script src="js/jquery.photoClip.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script src="js/jquery.Jcrop.min.js"></script>
+<script src="js/aes.js"></script>
+<script src="js/md5.js"></script>
+<script src="js/mode-ecb.js"></script>
+<script src="js/pad-pkcs7.js"></script>
+<script src="js/do.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/function.js"></script>
+<script type="text/javascript" src="js/jquery.minicolors.js"></script>
+<script type="text/javascript" src="js/newGraph.js"></script>
+<script type="text/javascript" src="js/newTxt.js"></script>
+<script type="text/javascript" src="js/newPic.js"></script>
+<script type="text/javascript" src="js/newShape.js"></script>
+<script type="text/javascript" src="js/newInput.js"></script>
+<script src="js/animate.js"></script>
+<script>
+var clipArea = new bjj.PhotoClip("#clipArea", {
+	size: [144, 258],
+	outputSize: [360, 640],
+	file: "#file",
+	view: "#view",
+	ok: "#clipBtn",	
+});
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#top-left').minicolors({
+			change:function(hex,opacity){
+				var log;
+					try {
+						log = hex ? hex : 'transparent';
+						if( opacity ) log += ', ' + opacity;
+						$('.tzsz').val(log);
+                        $('.sztt').css('background-color',log);
+						$('.eles').css('background-color',log);
+						$('.jdt-z').css('background-color',log);
+						} catch(e) {}
+					},
+			theme: 'default'
+			})
+	})
+	function bczy(){
+		window.location.href="home.html";
+	}
+</script>
+</body>
+</html>
