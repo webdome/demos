@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>first example</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="script/avalon.js"></script>
+        <script src="script/avalon.modern.js"></script>
+        <script>
+            var vm = avalon.define({
+                $id: 'test',
+                color:'#2eb3e8',
+                width:'200',
+                height:'100',
+            })
+        </script>
+    </head>
+
+    <body ms-controller="test">
+        <input ms-duplex="@color"><input ms-duplex="@width"><input ms-duplex="@height">
+        <div style="width:200px;height:100px;border:1px solid pink;" :css="{background: @color,width: @width, height: @height,}"></div>
+    </body>
+</html>
