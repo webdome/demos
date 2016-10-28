@@ -1,5 +1,5 @@
 /*变形对象构造函数*/
-function newTxt(txtElem) {
+function newTxt(txtElem, elem_id) {
   // 定位元素
   this.box = txtElem;
   this.bottomRight = txtElem.find('.bottomRight')[0];
@@ -20,47 +20,70 @@ function newTxt(txtElem) {
   this.mouseCur = {};
   this.boxPosition = {};
   this.divStart = {};
-  // 随机生成编号 
-  this.num = Math.floor(Math.random() * 10000000000);
-  // 字体样式
-  this.fontSize = getComputedStyle(this.paragraph).fontSize;
-  this.fontFamily = getComputedStyle(this.paragraph).fontFamily.split(',')[0];
-  // this.color = getComputedStyle(this.paragraph).color;
-  // this.fontWeight = getComputedStyle(this.paragraph).fontWeight;
-  // this.textShadow = getComputedStyle(this.paragraph).textShadow;
-  // this.textAlign = getComputedStyle(this.paragraph).textAlign;
-  this.fontText = this.paragraph.innerText;
-  // this.fontStyle = getComputedStyle(this.paragraph).fontStyle; //新增
-  // this.textDecoration = getComputedStyle(this.paragraph).textDecoration; //新增
-  // this.lineHeight = getComputedStyle(this.paragraph).lineHeight; //新增
-  this.letterSpacing = getComputedStyle(this.paragraph).letterSpacing; //新增
-  // 字体框样式
-  this.color = "#515151";
-  this.width = parseFloat(getComputedStyle(this.box[0]).width);
-  this.height = parseFloat(getComputedStyle(this.box[0]).height);
-  this.opacity = 1;
-  this.txtShadowC = "#fff";
-  this.txtShadowX = 0;
-  this.txtShadowY = 0;
-  this.txtShadowS = 0;
-  this.lineHeight = 28;
-  this.fontWeight = 400;
-  this.fontStyle = "normal";
-  this.textAlign = "left";
-  this.textDecoration = "none";
-  this.index = 150;
-  this.positionLeft = 0;
-  this.positionTop = 0;
-  this.totalAngle = 0;
-  this.animate = {};
+  this.eleType = 296;
+  var elemObjs = getStorage();
+  if (elem_id) {
+    this.elem_id = elem_id;
+    this.fontSize = elemObjs[elem_id].fontSize;
+    this.fontFamily = elemObjs[elem_id].fontFamily;
+    this.fontText = elemObjs[elem_id].fontText;
+    this.color = elemObjs[elem_id].color;
+    this.width = elemObjs[elem_id].width;
+    this.height = elemObjs[elem_id].height;
+    this.opacity = elemObjs[elem_id].opacity;
+    var textShadow = elemObjs[elem_id].fontSize.split(' ');
+    this.txtShadowC = textShadow[0];
+    this.txtShadowX = parseInt(textShadow[1]);
+    this.txtShadowY = parseInt(textShadow[2]);
+    this.txtShadowS = parseInt(textShadow[3]);
+    this.lineHeight = elemObjs[elem_id].lineHeight;
+    this.fontWeight = elemObjs[elem_id].fontWeight;
+    this.fontStyle = elemObjs[elem_id].fontStyle;
+    this.textAlign = elemObjs[elem_id].textAlign;
+    // this.textDecoration = elemObjs[elem_id].fontSize;
+    this.zIndex = elemObjs[elem_id].zIndex;
+    this.positionLeft = elemObjs[elem_id].left;
+    this.positionTop = elemObjs[elem_id].top;
+    this.totalAngle = elemObjs[elem_id].rotaAngle;
+    this.animate = elemObjs[elem_id].animate;
+    this.gpid = elemObjs[elem_id].gpid;
+  } else {
+    // 随机生成编号 
+    this.elem_id = 'txt_' + Math.floor(Math.random() * 10000000000);
+    // 样式
+    this.fontSize = "24px";
+    this.fontFamily = "microsoft yahei";
+    this.fontText = "请输入文本";
+    this.color = "#515151";
+    this.width = parseFloat(getComputedStyle(this.box[0]).width);
+    this.height = parseFloat(getComputedStyle(this.box[0]).height);
+    this.opacity = 1;
+    this.txtShadowC = "#fff";
+    this.txtShadowX = 0;
+    this.txtShadowY = 0;
+    this.txtShadowS = 0;
+    this.lineHeight = 28;
+    this.fontWeight = 400;
+    this.fontStyle = "normal";
+    this.textAlign = "left";
+    // this.textDecoration = "none";
+    this.zIndex = 150;
+    this.positionLeft = 0;
+    this.positionTop = 0;
+    this.totalAngle = 0;
+    this.animate = {};
+    this.gpid = "1";
+  }
   var self = this;
   // 本地存储
   this.dataStorage = function() {
-    self.box.attr('id', 'txt_' + self.num);
-    var storageStr = '{"gpeid":"' + 'txt_' + self.num + '","sysgpeid":"","gpid":"1","sysgpid":"","eleType":"296","z-index":"' + self.index + '","opacity":"' + self.opacity + '","line-height":"' + self.lineHeight + '","left":"' + (self.positionLeft + self.width / 2) + '","top":"' + (self.positionTop + self.height / 2) + '","width":"' + self.width + '","height":"' + self.height + '","rotaAngle":"' + self.totalAngle + '","fontSize":"' + self.fontSize + '","fontFamily":' + self.fontFamily + ',"color":"' + self.color + '","fontWeight":"' + self.fontWeight + '","fontStyle":"' + self.fontStyle + '","tex-shadow":"' + self.txtShadowC + ' ' + self.txtShadowX + ' ' + self.txtShadowY + ' ' + self.txtShadowS + '","fontDirection":"' + self.textDecoration + '","textAlign":"' + self.textAlign + '","fontText":"' + self.fontText + '","animate":' + JSON.stringify(self.animate) + '}';
-    window.sessionStorage.setItem('txt_' + self.num, storageStr);
+    self.box.attr('id', self.elem_id);
+    var storageStr = '{"gpeid":"' + self.elem_id + '","sysgpeid":"","gpid":' + self.gpid + ',"sysgpid":"","eleType":' + self.eleType + ',"zIndex":' + self.zIndex + ',"opacity":' + self.opacity + ',"lineHeight":' + self.lineHeight + ',"left":' + self.positionLeft + ',"top":' + self.positionTop + ',"width":' + self.width + ',"height":' + self.height + ',"rotaAngle":' + self.totalAngle + ',"fontSize":"' + self.fontSize + '","fontFamily":' + JSON.stringify(self.fontFamily) + ',"color":"' + self.color + '","fontWeight":"' + self.fontWeight + '","fontStyle":"' + self.fontStyle + '","textShadow":"' + self.txtShadowC + ' ' + self.txtShadowX + 'px ' + self.txtShadowY + 'px ' + self.txtShadowS + 'px","textAlign":"' + self.textAlign + '","fontText":"' + self.fontText + '","animate":' + JSON.stringify(self.animate) + '}';
+    window.sessionStorage.setItem(self.elem_id, storageStr);
   };
-  self.dataStorage();
+  if (!elem_id) {
+    self.dataStorage();
+  }
   // 旋转
   this.rotate.onmousedown = function(e) {
     e.stopPropagation();

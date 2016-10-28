@@ -1,14 +1,14 @@
 //添加特效
 var tjmb = function(c) {
-  $('<canvas id="canvas" width="360px" height="640px"></canvas>').appendTo($('.eles'));
+  $('<canvas id="canvas" width="360px" height="640px" style="display:none"></canvas>').appendTo($('.eles'));
   //var ctx = $('#canvas').get(0).getContext("2d");
   var canvas = document.getElementById("canvas");
   var ctx = canvas.getContext("2d");
   var x1, y1, a = 30,
     timeout, totimes = 100,
     jiange = 30;
-  canvas.width = $('.eles').width();
-  canvas.height = $('.eles').height();
+  canvas.width = $('.box_bg').width();
+  canvas.height = $('.box_bg').height();
   var img = new Image();
   img.src = c;
   img.onload = function() {
@@ -58,9 +58,7 @@ var tjmb = function(c) {
             }
           }
           if (dd / (imgData.width * imgData.height / 900) < 0.9999) {
-            $(canvas).animate({
-              "opacity": 0
-            });
+            $(canvas).animate({'opacity':0});
           }　　　　　　　
         }, 100)
       });
@@ -111,10 +109,9 @@ var ydcj = function() {
   }
   //调整背景颜色的透明度
 $('#ysbt').slider({
-  value: 100,
   slide: function(event, ui) {
-    var bjz = ui.value / 100;
-    $('.eles').css('opacity', bjz);
+    var bjz = 1 - ui.value / 100;
+    $('.box_bg').css('opacity', bjz);
     $(this).next().text(ui.value + "%");
   }
 });
@@ -174,9 +171,13 @@ var delatese = function() {
   //重新点击添加图形后右边操作区的初始化
 var cstt = function() {
     $('.hk1').slider({
-      value: 100
+      value: 0
     });
-    $('.hk1').next().text('100%');
+    $('.hk1').next().text('0%');
+    $('.fx1').slider({
+      value: 0
+    });
+    $('.fx1').next().text('0%');
     $('.hk2').slider({
       value: 0
     });
@@ -192,9 +193,8 @@ var cstt = function() {
     $('.huii').removeClass('lv');
     $('.kgq-2').css('left', "1px");
     $('.yan-s').css('display', 'none');
-    $('.yyys').css({
+    $('.yyys, .syys').css({
       'display': 'none',
-      'background-color': '#515151'
     });
     $('.byys').css({
       'display': 'none',
@@ -235,13 +235,15 @@ var cstt = function() {
     $('.dw-x').text('0px');
     $('.dw-g').text('0px');
     $('.dw-k').text('0px');
-    $('.bwj-z1').css('background-color', '#ccc');
+    $('.bwj-z1').css('background-color', '#fff');
     $('.bwj-z2').css('background-color', '#333');
+    $('.kzsps').hide();
+    $('.ysko').css('background-color','#2eb3e8');
   }
   //再次操作选中图片时右边操作区对应的值
-var cztfz = function() {
+var cztfz = function(myz) {
     var num = $('.eles li[data-cur="1"]').attr('id');
-    var op = (elemObj[num].opacity * 100).toFixed(0);
+    var op = ((1 - elemObj[num].opacity) * 100).toFixed(0);
     var wi = elemObj[num].width;
     var wiz = Number(wi).toFixed(0);
     var he = elemObj[num].height;
@@ -266,20 +268,38 @@ var cztfz = function() {
     });
     $('.hk3').next().text('' + ro + '°');
     var leftz = elemObj[num].positionLeft.toFixed(0);
-    var topz = elemObj[num].positionTop;
+    var topz = elemObj[num].positionTop.toFixed(0);
     $('.hzb').text('' + leftz + 'px');
     $('.zzb').text('' + topz + 'px');
     $('.thzb').text('' + wiz + 'px');
     $('.tzzb').text('' + hez + 'px');
+    if(myz.hasClass('box_shape')){
+      $('.kzsps').show();
+      var fillz = elemObj[num].fill; 
+      $('.ysko').css('background-color',fillz);
+      $('.ggt-p').css('width','273px');
+      $('.cai-j').hide();
+    }else if(myz.hasClass('box_graph')){
+      $('.ggt-p').css('width','273px');
+      $('.cai-j').hide();
+    }else if(myz.hasClass('box_pic')){
+      $('.ggt-p').css('width','130px');
+      $('.cai-j').show();
+    }
     if (elemObj[num].boxShadowC == "#fff" && elemObj[num].boxShadowX == 0 && elemObj[num].boxShadowY == 0 && elemObj[num].boxShadowS == 0) {
       $('.huii').removeClass('lv');
       $('.kgq-2').css('left', '1px');
       $('.yan-s').hide();
-      $('.yyys').hide();
+      $('.syys').hide();
       $('.kzy-y').hide();
     } else {
+      $('.huii').addClass('lv');
+      $('.kgq-2').css('left', '12px');
+      $('.yan-s').show();
+      $('.syys').show();
+      $('.kzy-y').show();
       var bcz = elemObj[num].boxShadowC;
-      $('.yyys').css('background-color', bcz);
+      $('.syys').css('background-color', bcz);
       var bsz = elemObj[num].boxShadowS;
       var bss = (Number(bsz) / Number(40) * 100).toFixed(0);
       $('.hk5').slider({
@@ -306,7 +326,7 @@ var cztfz = function() {
   //再次操作选中文本时右边操作区对应的值
 var czwfz = function() {
   var num = $('.eles li[data-cur="1"]').attr('id');
-  var op = (elemObj[num].opacity * 100).toFixed(0);
+  var op = ((1 - elemObj[num].opacity) * 100).toFixed(0);
   $('.hk1').slider({
     value: op
   });
@@ -368,11 +388,11 @@ var czwfz = function() {
 //再次点击按钮操作区对应的值
 var andyz = function() {
   var num = $('.eles li[data-cur="1"]').attr('id');
-  var op = (elemObj[num].opacity * 100).toFixed(0);
-  $('.hk1').slider({
+  var op = ((1 - elemObj[num].opacity) * 100).toFixed(0);
+  $('.fx1').slider({
     value: op
   });
-  $('.hk1').next().text('' + op + '%');
+  $('.fx1').next().text('' + op + '%');
   var ro = elemObj[num].totalAngle;
   ro = Number(ro).toFixed(0);
   var roz = (ro / 3.6);
@@ -454,15 +474,15 @@ $('.xlkko').on('change', function() {
   })
   //下拉框的重新点击
 var srck = function() {
-    $('.hk1').slider({
-      value: 100
+    $('.fx1').slider({
+      value: 0
     });
-    $('.hk1').next().text('100%');
+    $('.fx1').next().text('0%');
     $('.hk2').slider({
       value: 0
     });
     $('.hk2').next().text('0%');
-    $('.bwj-z1').css('background-color', '#ccc');
+    $('.bwj-z1').css('background-color', '#fff');
     $('.bwj-z2').css('background-color', '#333');
     $('.huii').removeClass('lv');
     $('.kgq-2').css('left', "1px");
@@ -496,7 +516,7 @@ var srck = function() {
     $('.xx-sz').text('3/9');
     // end
   }
-  // 下拉框重新点击  ***1022
+  // 下拉框再次点击  ***1022
 var ddxla = function() {
     $('.bo-t1').remove();
     $('.xlkko option').remove();
@@ -513,15 +533,15 @@ var ddxla = function() {
       $('.bo-t1:eq(' + key + ') .xs').text(length + '/20');
       // 样式渲染
       var num = $('.eles li[data-cur="1"]').attr('id');
-      var op = (elemObj[num].opacity * 100).toFixed(0);
+      var op = ((1 - elemObj[num].opacity) * 100).toFixed(0);
       var wi = elemObj[num].width;
       var wiz = Number(wi).toFixed(0);
       var he = elemObj[num].height;
       var hez = Number(he).toFixed(0);
-      $('.hk1').slider({
+      $('.fx1').slider({
         value: op
       });
-      $('.hk1').next().text('' + op + '%');
+      $('.fx1').next().text('' + op + '%');
       var whz = wi >= he ? he : wi;
       var br = elemObj[num].borderRadius;
       var hk2z = ((br / whz) * 200).toFixed(0);
@@ -577,10 +597,10 @@ var ddxla = function() {
   }
   //单多选框的重新点击
 var ddrc = function() {
-    $('.hk1').slider({
-      value: 100
+    $('.fx1').slider({
+      value: 0
     });
-    $('.hk1').next().text('100%');
+    $('.fx1').next().text('0%');
     $('.hk2').slider({
       value: 0
     });
@@ -589,22 +609,22 @@ var ddrc = function() {
     $('.dw-x').text('0px');
     $('.dw-g').text('0px');
     $('.dw-k').text('0px');
-    $('.bwj-z1').css('background-color', '#ccc');
+    $('.bwj-z1').css('background-color', '#fff');
     $('.bwj-z2').css('background-color', '#333');
     $('.ddxsk').val('').removeAttr('id');
   }
   //单多选框的再次点击
 var ddzcc = function() {
   var num = $('.eles li[data-cur="1"]').attr('id');
-  var op = (elemObj[num].opacity * 100).toFixed(0);
+  var op = ((1 - elemObj[num].opacity) * 100).toFixed(0);
   var wi = elemObj[num].width;
   var wiz = Number(wi).toFixed(0);
   var he = elemObj[num].height;
   var hez = Number(he).toFixed(0);
-  $('.hk1').slider({
+  $('.fx1').slider({
     value: op
   });
-  $('.hk1').next().text('' + op + '%');
+  $('.fx1').next().text('' + op + '%');
   var whz = wi >= he ? he : wi;
   var br = elemObj[num].borderRadius;
   var hk2z = ((br / whz) * 200).toFixed(0);
@@ -632,8 +652,112 @@ var ddzcc = function() {
   var inputTxt = elemObj[num].inputTxt[inputTxt_id];
   $('.ddxsk').val(inputTxt).attr('id', inputTxt_id);
 }
-
-
+//互动页的重新点击
+ var hdxl = function(){
+   $('.fx1').slider({
+      value: 0
+    });
+   $('.fx1').next().text('0%');
+   $('.hk2').slider({
+      value: 0
+    });
+   $('.hk2').next().text('0%');
+   $('.huii').removeClass('lv');
+    $('.kgq-2').css('left', "1px");
+    $('.yan-s').css('display', 'none');
+    $('.dyys').css({
+      'display': 'none',
+    });
+    $('.kzy-y').css('display', 'none');
+    $('.dk5').slider({
+      value: 20
+    });
+    $('.dk5').next().text('8px');
+    $('.dk6').slider({
+      value: 50
+    });
+    $('.dk6').next().text('0px');
+    $('.dk7').slider({
+      value: 60
+    });
+    $('.dk7').next().text('4px');
+    $('.xd-h').css('background-color','#fff');
+    $('.xd-b').css('background-color','#ff5448');
+    $('.dw-p').text('0px');
+    $('.dw-x').text('0px');
+    $('.dw-g').text('100px');
+    $('.dw-k').text('40px');
+ }
+//再次点击互动页的操作
+ var rhdxl = function(){
+  var num = $('.eles li[data-cur="1"]').attr('id');
+  var op = ((1 - elemObj[num].opacity) * 100).toFixed(0);
+  $('.fx1').slider({
+    value: op
+  });
+  $('.fx1').next().text('' + op + '%');
+  var wi = elemObj[num].width;
+  var wiz = Number(wi).toFixed(0);
+  var he = elemObj[num].height;
+  var hez = Number(he).toFixed(0);
+  var whz = wi >= he ? he : wi;
+  var br = elemObj[num].borderRadius;
+  var hk2z = ((br / whz) * 200).toFixed(0);
+  var xhk2z = ((br / whz) * 100).toFixed(0);
+  $('.hk2').slider({
+    value: hk2z
+  });
+  $('.hk2').next().text('' + xhk2z + '%');
+  var bg = elemObj[num].backgroundColor;
+  var co = elemObj[num].fill;
+  $('.xd-h').css('background-color',bg);
+  $('.xd-b').css('background-color',co);
+  var leftz = elemObj[num].positionLeft.toFixed(0);
+  var topz = elemObj[num].positionTop;
+  var wi = elemObj[num].width;
+  var wiz = Number(wi).toFixed(0);
+  var he = elemObj[num].height;
+  var hez = Number(he).toFixed(0);
+  $('.dw-p').text('' + leftz + 'px');
+  $('.dw-x').text('' + topz + 'px');
+  $('.dw-k').text('' + wiz + 'px');
+  $('.dw-g').text('' + hez + 'px');
+  if (elemObj[num].boxShadowC == "#fff" && elemObj[num].boxShadowX == 0 && elemObj[num].boxShadowY == 0 && elemObj[num].boxShadowS == 0) {
+        $('.huii').removeClass('lv');
+        $('.kgq-2').css('left', '1px');
+        $('.yan-s').hide();
+        $('.dyys').hide();
+        $('.kzy-y').hide();
+      } else {
+        $('.huii').addClass('lv');
+        $('.kgq-2').css('left', '12px');
+        $('.yan-s').show();
+        $('.dyys').show();
+        $('.kzy-y').show();
+        var bcz = elemObj[num].boxShadowC;
+        $('.dyys').css('background-color', bcz);
+        var bsz = elemObj[num].boxShadowS;
+        var bss = (Number(bsz) / Number(40) * 100).toFixed(0);
+        $('.dk5').slider({
+          value: bss
+        });
+        $('.dk5').next().text('' + bsz + 'px');
+        var bxz = elemObj[num].boxShadowX;
+        var bxs = Number(bxz) + 20;
+        bxs = (bxs / Number(40) * 100).toFixed(0);
+        $('.dk6').slider({
+          value: bxs
+        });
+        $('.dk6').next().text('' + bxz + 'px');
+        var byz = elemObj[num].boxShadowY;
+        var bys = Number(byz) + 20;
+        bys = (bys / Number(40) * 100).toFixed(0);
+        $('.dk7').slider({
+          value: bys
+        });
+        $('.dk7').next().text('' + byz + 'px');
+      }
+}
 //动画的添加与删除
 var ancs = function(self) {
   // ***删除动画页元素
@@ -642,13 +766,16 @@ var ancs = function(self) {
   // ***取出激活项的所有动画 渲染到动画区
   var elem_id = self.attr('id');
   var animates = elemObj[elem_id].animate;
+  if (animates == '{}') {
+    return;
+  }
   var n = 1;
   $.each(animates, function(key, value) {
     var ani_name = value.animation;
     var ani_dur = value.duration;
     var ani_delay = value.delay;
     var ani_count = value.count;
-    var one_animate = '<div class="dh-y ' + elem_id + '" id="' + key + '"><div class="dh-y1"><span class="zhx hx-j"></span><span class="dh-z">动画' + (n++) + '</span><span class="xh-x"></span></div><div class="dh-cz"><div class="chu-f"><span class="chu-fz">触发</span><select class="chu-fj"><option>进入页面</option><option>单击</option></select></div><div class="don-ff"><span class="chu-fz">动画</span><select class="input input--dropdown js--animations"><optgroup label="无"><option value = "no"> 无 </option></optgroup><optgroup label = "强调"><option value = "bounce"> 弹跳 </option><option value = "flash"> 闪动 </option><option value = "pulse"> 脉冲 </option><option value = "rubberBand"> 橡皮筋 </option><option value = "shake"> 轻摇 </option><option value = "swing"> 摆动 </option><option value = "tada"> 嗒哒 </option><option value = "wobble"> 摇晃 </option><option value = "jello"> 果冻 </option></optgroup><optgroup label = "进入"><option value = "slideInDown"> 上移入 </option><option value = "slideInLeft"> 左移入 </option><option value = "slideInRight"> 右移入 </option><option value = "slideInUp"> 下移入 </option><option value = "fadeIn"> 淡入 </option><option value = "fadeInDown"> 上淡入 </option><option value = "fadeInDownBig"> 上淡入大 </option><option value = "fadeInLeft"> 左淡入 </option><option value = "fadeInLeftBig"> 左淡入大 </option><option value = "fadeInRight"> 右淡入 </option><option value = "fadeInRightBig"> 右淡入大 </option><option value = "fadeInUp"> 下淡入 </option><option value = "fadeInUpBig"> 下淡入大 </option><option value = "bounceIn"> 弹入 </option><option value = "bounceInDown"> 向下弹入 </option><option value = "bounceInUp"> 向上弹入 </option><option value = "bounceInLeft"> 从左弹入 </option><option value = "bounceInRight"> 从右弹入 </option><option value = "hinge"> 悬掉 </option><option value = "flip"> 翻转 </option><option value = "flipInX"> X翻转 </option><option value = "flipInY"> Y翻转 </option><option value = "lightSpeedIn"> 光速 </option><option value = "rotateIn"> 旋转 </option><option value = "rotateInDownLeft"> 左下旋转 </option><option value = "rotateInDownRight"> 右下旋转 </option><option value = "rotateInUpLeft"> 左上旋转 </option><option value = "rotateInUpRight"> 右上旋转 </option><option value = "slideninLeft"> 滑动 </option><option value = "zoomIn"> 放大 </option><option value = "zoomInDown"> 下放大 </option><option value = "zoomInLeft"> 左放大 </option><option value = "zoomInRight"> 右放大 </option><option value = "zoomInUp"> 上放大 </option><option value = "rollIn"> 滚入 </option></optgroup><optgroup label = "退出"><option value = "slideOutDown"> 上移出 </option><option value = "slideOutLeft"> 左移出 </option><option value = "slideOutRight"> 右移出 </option><option value = "slideOutUp"> 下移出 </option><option value = "fadeOut"> 淡出 </option><option value = "fadeOutDown"> 下淡出 </option><option value = "fadeOutDownBig"> 下淡出大 </option><option value = "fadeOutLeft"> 左淡出 </option><option value = "fadeOutLeftBig"> 左淡出大 </option><option value = "fadeOutRight"> 右淡出 </option><option value = "fadeOutRightBig"> 右淡出大 </option><option value = "fadeOutUp"> 上淡出 </option><option value = "fadeOutUpBig"> 上淡出大 </option><option value = "bounceOut"> 弹出 </option><option value = "bounceOutDown"> 下弹出 </option><option value = "bounceOutLeft"> 左弹出 </option><option value = "bounceOutRight"> 右弹出 </option><option value = "bounceOutUp"> 上弹出 </option><option value = "flipOutX"> X翻转 </option><option value = "flipOutY"> Y翻转 </option><option value = "lightSpeedOut"> 光速 </option><option value = "rotateOut"> 旋转 </option><option value = "rotateOutDownLeft"> 左下旋转 </option><option value = "rotateOutDownRight"> 右下旋转 </option><option value = "rotateOutUpLeft"> 左上旋转 </option><option value = "rotateOutUpRight"> 右上旋转 </option><option value = "slideInRight"> 滑动 </option><option value = "zoomOut"> 缩小 </option><option value = "zoomOutDown"> 下缩小 </option><option value = "zoomOutLeft"> 左缩小 </option><option value = "zoomOutRight"> 右缩小 </option><option value = "zoomOutUp"> 上缩小 </option><option value = "rollOut"> 滚出 </option></optgroup></select><select class="zc-j"><option>中心</option><option>↑</option><option>→</option><option>↓</option><option>←</option></select></div><div class="zs-t"><span class="chu-fz">时间</span><span class="cjt-j aiti" style="border:none"></span><span class="ji-m">' + ani_dur + '</span></div><div class="zs-t"><span class="chu-fz">延迟</span><span class="cjt-j delay"  style="border:none"></span><span class="ji-m">' + ani_delay + '</span></div><div class="zs-t"><span class="chu-fz">次数</span><span class="cjt-j time" style="border:none"></span><span class="ji-m">' + ani_count + '</span></div><div class="sx-dhc7"><span class="yin-y">循环</span><span class="huii xun-h"><span class="kgq-2"></span></span></div></div></div>';
+    var one_animate = '<div class="dh-y ' + elem_id + '" id="' + key + '"><div class="dh-y1"><span class="zhx hx-j"></span><span class="dh-z">动画' + (n++) + '</span><span class="xh-x"></span></div><div class="dh-cz"><div class="chu-f"><span class="chu-fz">触发</span><select class="chu-fj"><option>进入页面</option><option>单击</option></select></div><div class="don-ff"><span class="chu-fz">动画</span><select class="input input--dropdown js--animations"><optgroup label="无"><option value = "no"> 无 </option></optgroup><optgroup label = "强调"><option value = "bounce"> 弹跳 </option><option value = "flash"> 闪动 </option><option value = "pulse"> 脉冲 </option><option value = "rubberBand"> 橡皮筋 </option><option value = "shake"> 轻摇 </option><option value = "swing"> 摆动 </option><option value = "tada"> 嗒哒 </option><option value = "wobble"> 摇晃 </option><option value = "jello"> 果冻 </option></optgroup><optgroup label = "进入"><option value = "slideInDown"> 上移入 </option><option value = "slideInLeft"> 左移入 </option><option value = "slideInRight"> 右移入 </option><option value = "slideInUp"> 下移入 </option><option value = "fadeIn"> 淡入 </option><option value = "fadeInDown"> 上淡入 </option><option value = "fadeInDownBig"> 上淡入大 </option><option value = "fadeInLeft"> 左淡入 </option><option value = "fadeInLeftBig"> 左淡入大 </option><option value = "fadeInRight"> 右淡入 </option><option value = "fadeInRightBig"> 右淡入大 </option><option value = "fadeInUp"> 下淡入 </option><option value = "fadeInUpBig"> 下淡入大 </option><option value = "bounceIn"> 弹入 </option><option value = "bounceInDown"> 向下弹入 </option><option value = "bounceInUp"> 向上弹入 </option><option value = "bounceInLeft"> 从左弹入 </option><option value = "bounceInRight"> 从右弹入 </option><option value = "hinge"> 悬掉 </option><option value = "flip"> 翻转 </option><option value = "flipInX"> X翻转 </option><option value = "flipInY"> Y翻转 </option><option value = "lightSpeedIn"> 光速 </option><option value = "rotateIn"> 旋转 </option><option value = "rotateInDownLeft"> 左下旋转 </option><option value = "rotateInDownRight"> 右下旋转 </option><option value = "rotateInUpLeft"> 左上旋转 </option><option value = "rotateInUpRight"> 右上旋转 </option><option value = "slideninLeft"> 滑动 </option><option value = "zoomIn"> 放大 </option><option value = "zoomInDown"> 下放大 </option><option value = "zoomInLeft"> 左放大 </option><option value = "zoomInRight"> 右放大 </option><option value = "zoomInUp"> 上放大 </option><option value = "rollIn"> 滚入 </option></optgroup><optgroup label = "退出"><option value = "slideOutDown"> 上移出 </option><option value = "slideOutLeft"> 左移出 </option><option value = "slideOutRight"> 右移出 </option><option value = "slideOutUp"> 下移出 </option><option value = "fadeOut"> 淡出 </option><option value = "fadeOutDown"> 下淡出 </option><option value = "fadeOutDownBig"> 下淡出大 </option><option value = "fadeOutLeft"> 左淡出 </option><option value = "fadeOutLeftBig"> 左淡出大 </option><option value = "fadeOutRight"> 右淡出 </option><option value = "fadeOutRightBig"> 右淡出大 </option><option value = "fadeOutUp"> 上淡出 </option><option value = "fadeOutUpBig"> 上淡出大 </option><option value = "bounceOut"> 弹出 </option><option value = "bounceOutDown"> 下弹出 </option><option value = "bounceOutLeft"> 左弹出 </option><option value = "bounceOutRight"> 右弹出 </option><option value = "bounceOutUp"> 上弹出 </option><option value = "flipOutX"> X翻转 </option><option value = "flipOutY"> Y翻转 </option><option value = "lightSpeedOut"> 光速 </option><option value = "rotateOut"> 旋转 </option><option value = "rotateOutDownLeft"> 左下旋转 </option><option value = "rotateOutDownRight"> 右下旋转 </option><option value = "rotateOutUpLeft"> 左上旋转 </option><option value = "rotateOutUpRight"> 右上旋转 </option><option value = "slideInRight"> 滑动 </option><option value = "zoomOut"> 缩小 </option><option value = "zoomOutDown"> 下缩小 </option><option value = "zoomOutLeft"> 左缩小 </option><option value = "zoomOutRight"> 右缩小 </option><option value = "zoomOutUp"> 上缩小 </option><option value = "rollOut"> 滚出 </option></optgroup></select><select class="zc-j"><option>中心</option><option>↑</option><option>→</option><option>↓</option><option>←</option></select></div><div class="zs-t"><span class="chu-fz">时间</span><span class="cjt-j aiti" style="border:none"></span><span class="ji-m">' + ani_dur + '</span></div><div class="zs-t"><span class="chu-fz">延迟</span><span class="cjt-j delay"  style="border:none"></span><span class="ji-m">' + ani_delay + '</span></div><div class="zs-t"><span class="chu-fz">次数</span><span class="cjt-j time" style="border:none"></span><span class="ji-m">' + ani_count + '</span></div><div class="sx-dhc7"><span class="yin-y">循环</span><span class="xun-h"><span class="kgq-2"></span></span></div></div></div>';
     one_animate = one_animate.replace('value = "' + ani_name + '"', 'value="' + ani_name + '" selected');
     $(one_animate).appendTo($('.sx-sxc'));
     // 找到对应id的动画设置栏  设置滑块的功能与滑块的位置

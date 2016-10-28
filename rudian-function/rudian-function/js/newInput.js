@@ -1,5 +1,5 @@
 /*图形对象构造函数*/
-function newInput(inputElem) {
+function newInput(inputElem, elem_id) {
   // 定位元素
   this.box = inputElem;
   this.bottomRight = inputElem.find('.bottomRight')[0];
@@ -18,32 +18,62 @@ function newInput(inputElem) {
   this.mouseCur = {};
   this.boxPosition = {};
   this.divStart = {};
-  // 随机生成编号
-  this.num = Math.floor(Math.random()*10000000000); 
-  // 贴图框样式
-  this.width = parseFloat(getComputedStyle(this.box[0]).width);
-  this.height = parseFloat(getComputedStyle(this.box[0]).height);
-  this.opacity = 1;
-  this.boxShadowC  = "#fff";
-  this.boxShadowX = 0;
-  this.boxShadowY = 0;
-  this.boxShadowS = 0;
-  this.inputTxt = {};
-  this.positionLeft = 0;
-  this.positionTop = 0;
-  this.totalAngle = 0;
-  this.borderRadius = 0; 
-  this.backgroundColor = "#ccc";
-  this.color = "#515151";
-  this.animate = {};
+  
+  var elemObjs = getStorage();
+  if (elem_id) {
+    this.elem_id = elem_id;
+    this.width = elemObjs[elem_id].width;
+    this.height = elemObjs[elem_id].height;
+    this.opacity = elemObjs[elem_id].opacity;
+    var boxShadow = elemObjs[elem_id].boxShadow.split(' ');
+    this.boxShadowC = boxShadow[0];
+    this.boxShadowX = parseInt(boxShadow[1]);
+    this.boxShadowY = parseInt(boxShadow[2]);
+    this.boxShadowS = parseInt(boxShadow[3]);
+    this.inputTxt = elemObjs[elem_id].inputTxt;
+    this.positionLeft = elemObjs[elem_id].left;
+    this.positionTop = elemObjs[elem_id].top;
+    this.totalAngle = elemObjs[elem_id].rotaAngle;
+    this.borderRadius = elemObjs[elem_id].borderRadius;
+    this.backgroundColor = elemObjs[elem_id].backgroundColor;
+    this.color = elemObjs[elem_id].color;
+    this.animate = elemObjs[elem_id].animate;
+    this.gpid = elemObjs[elem_id].gpid;
+    this.zIndex = elemObjs[elem_id].zIndex;
+    this.eleType = elemObjs[elem_id].eleType;
+  } else {
+    // 随机生成编号
+    this.elem_id = 'input_' + Math.floor(Math.random() * 10000000000);
+    // 样式
+    this.width = 100;
+    this.height = 40;
+    this.opacity = 1;
+    this.boxShadowC = "#fff";
+    this.boxShadowX = 0;
+    this.boxShadowY = 0;
+    this.boxShadowS = 0;
+    this.inputTxt = {};
+    this.positionLeft = 0;
+    this.positionTop = 0;
+    this.totalAngle = 0;
+    this.borderRadius = 0;
+    this.backgroundColor = "#fff";
+    this.color = "#515151";
+    this.animate = {};
+    this.gpid = "1";
+    this.zIndex = 100;
+    this.eleType = 0;
+  }
   var self = this;
   // 本地存储
   this.dataStorage = function() {
-    self.box.attr('id','input_'+self.num);
-    var storageStr = '{"gpeid":"'+'input_'+self.num+'","sysgpeid":"","gpid":"1","sysgpid":"","eleType":"409","opacity":"'+this.opacity+'","box-shadow":"'+self.boxShadowC+' '+self.boxShadowX +' '+self.boxShadowY+' '+self.boxShadowS+'","txt":"'+JSON.stringify(self.inputTxt)+'"."left":"'+(self.positionLeft+self.width/2)+'","top":"'+(self.positionTop+self.height/2)+'","zIndex":"","width":"'+self.width+'","height":"'+self.height+'","rotaAngle":"'+self.totalAngle+'","borderRadius":"'+self.borderRadius+'","backgroundColor":"'+self.backgroundColor+'","color":"'+self.color+'","fontSize":"","fontFamily":"","color":"","fontWeight":"","textShadow":"","fontDirection":"","textAlign":"","fontText":"","animate":'+JSON.stringify(self.animate)+'}';
-    window.sessionStorage.setItem('input_'+self.num, storageStr);
+    self.box.attr('id', self.elem_id);
+    var storageStr = '{"gpeid":"' + self.elem_id + '","sysgpeid":"","gpid":' + self.gpid + ',"sysgpid":"","eleType":'+self.eleType+',"opacity":' + this.opacity + ',"boxShadow":"' + self.boxShadowC + ' ' + self.boxShadowX + 'px ' + self.boxShadowY + 'px ' + self.boxShadowS + 'px","inputTxt":' + JSON.stringify(self.inputTxt) + ',"left":' + self.positionLeft + ',"top":' + self.positionTop + ',"zIndex":'+self.zIndex+',"width":' + self.width + ',"height":' + self.height + ',"rotaAngle":' + self.totalAngle + ',"borderRadius":' + self.borderRadius + ',"backgroundColor":"' + self.backgroundColor + '","color":"' + self.color + '","fontSize":"","fontFamily":"","color":"","fontWeight":"","textShadow":"","fontDirection":"","textAlign":"","fontText":"","animate":' + JSON.stringify(self.animate) + '}';
+    window.sessionStorage.setItem(self.elem_id, storageStr);
   };
-  self.dataStorage();
+  if (!elem_id) {
+    self.dataStorage();
+  }
   // 旋转
   this.rotate.onmousedown = function(e) {
     e.stopPropagation();
@@ -51,7 +81,7 @@ function newInput(inputElem) {
     if (e.button === 0) {
       self.boxPosition.x = self.box.offset().left + self.width / 2;
       self.boxPosition.y = self.box.offset().top + self.height / 2;
-      console.log(self.boxPosition.x,self.boxPosition.y);
+      console.log(self.boxPosition.x, self.boxPosition.y);
       document.addEventListener("mousemove", self.doRotate, true);
       document.addEventListener("mouseup", self.stopRotate, true);
     }
@@ -377,8 +407,8 @@ function newInput(inputElem) {
     var top = e.clientY - self.mouseStart.y + self.divStart.y;
     self.box[0].style.left = left + "px";
     self.box[0].style.top = top + "px";
-    $('.dw-p').text(left+'px');
-    $('.dw-x').text(top+'px');
+    $('.dw-p').text(left + 'px');
+    $('.dw-x').text(top + 'px');
   };
   this.stopMove = function(e) {
     e.stopPropagation();

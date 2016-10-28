@@ -6,6 +6,7 @@ function getStorage() {
 		var num = obj.gpeid;
 		objs[num] = obj;
 	});
+	return objs;
 	// console.log(objs);
 }
 // 更新动画本地存储
@@ -124,8 +125,4 @@ $(function() {
 			$('.srz[id*="'+elem_id+'"]').remove(); // 删除左侧对应图层  ***1021
 		}
 	});
-});
-// 刷新页面删除本地存储
-$(function() {
-	window.sessionStorage.clear();
 });

@@ -201,6 +201,50 @@ $(document).ready(function(e) {
     $('.feyeo').hide();
     $('.lll').show();
   })
+  $('#shanx1').radialIndicator({
+    radius : 39,
+    barWidth : 5,
+    barBgColor : "#fff",
+    barColor : "#48D5B2",
+    fontColor : "#333",
+    fontSize : 18,
+    fontWight : 400,
+    roundCorner : true,
+    initValue : 80
+  });  
+  $('#shanx2').radialIndicator({
+    radius : 39,
+    barWidth : 5,
+    barBgColor : "#fff",
+    barColor : "#FF7E7E",
+    fontColor : "#333",
+    fontSize : 18,
+    fontWight : 400,
+    roundCorner : true,
+    initValue : 40
+  }); 
+  $('#shanx3').radialIndicator({
+    radius : 39,
+    barWidth : 5,
+    barBgColor : "#fff",
+    barColor : "#8D91FF",
+    fontColor : "#333",
+    fontSize : 18,
+    fontWight : 400,
+    roundCorner : true,
+    initValue : 50
+  }); 
+  $('#shanx4').radialIndicator({
+    radius : 39,
+    barWidth : 5,
+    barBgColor : "#fff",
+    barColor : "#FFC36D",
+    fontColor : "#333",
+    fontSize : 18,
+    fontWight : 400,
+    roundCorner : true,
+    initValue : 20
+  });
 });
 
 // 登录处理 取出用户id 根据id获取作品 如果没有用户id则需要登录 获取用户作品数生成页码

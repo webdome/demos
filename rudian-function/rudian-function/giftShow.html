@@ -50,7 +50,7 @@
 			bottom:0;
 			left:0;
 			right: 0;
-			background: url(images/login_bg.jpg) no-repeat center;
+			background: url(images/tcbg.png) no-repeat center;
 			background-size:cover;
 		}
 		.bjsc .gnyk{
@@ -264,8 +264,14 @@
 		  top: 20px;
 		  right: 20px;
 		  border-radius: 50%;
-		  background-color: #333;
 		  z-index: 1000;
+		  background:#fff url(images/zz/bjyyfh.png) no-repeat center;
+		  animation: rota 10s linear infinite;
+		}
+		@keyframes rota{
+			0% {transform: rotate(0deg);}
+			50% {transform: rotate(180deg);}
+			100% {transform: rotate(360deg);}
 		}
 		#giftPreview .swiper-button-next,#giftPreview_phone .swiper-button-next{
 			position: absolute;
@@ -298,19 +304,19 @@
 	          	<span class="ciho">吃货</span>
 	          	<span class="naich">每天早晨一杯奶茶，心情都是<br/>美美哒</span>
 	        </div>
-	        <div class="kyz"></div>
+	        <div class="kyz" id="qrcode"></div>
 	        <div class="ssfx"><span>扫一扫，分享给朋友</span></div>
 	        <div class="kyx">
-	          	<span class="k"><a href="http://user.qzone.qq.com/1009262387/infocenter?ptsig=O-UTt2aAZUhSUff5tvKv6X1BIZefPd0V*ef0Ea21LuA_"></a></span>
-	          	<span class="q"><a href="#"></a></span>
-	          	<span class="w"><a href="#"></a></span>
-	          	<span class="f"><a href="#"></a></span>
-	          	<span class="p"><a href="#"></a></span>
-	          	<span class="x"><a href="#"></a></span>
+	          	<span class="k"><a href=""></a></span>
+	          	<span class="q"><a href=""></a></span>
+	          	<span class="w"><a href=""></a></span>
+	          	<span class="f"><a href=""></a></span>
+	          	<span class="p"><a href=""></a></span>
+	          	<span class="x"><a href=""></a></span>
 	        </div>
 	        <div class="wzz">
 	          	<span>这么漂亮的场景→</span>
-	          	<span><a href="#">我也要制作</a></span>
+	          	<span><a href="login.html">我也要制作</a></span>
 	        </div>
 	      </div>
 	    </div>
@@ -320,6 +326,8 @@
 	<div id="giftPreview_phone"></div>
 	<!-- end -->
 	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script src="js/jquery.qrcode.js"></script>
+	<script src="js/qrcode.js"></script>
 	<script src="js/aes.js"></script>
 	<script src="js/md5.js"></script>
 	<script src="js/mode-ecb.js"></script>
@@ -378,9 +386,13 @@
 		            	} else if (n == 0) {
 		              		n = '01';
 		            	}
-		            	if (obj03[j].effect) {
-		              		pageJs += 'animate_' + n +':{element:"main1_ani_' + n + '",animation:"' + obj03[j].effect + '",duration:"' + obj03[j].duration + 's",delay:"' + obj03[j].delay + 's"},';
-		            	}
+		            	// 渲染动画JS
+		            	if (obj03[j].animation.length) {
+		            		for(var a = 0;a<obj03[j].animation.length;a++){
+		            			pageJs += 'animate_' + n +':{element:"main1_ani_' + n + '",animation:"' + obj03[j].animation[a].animation + '",duration:"' + obj03[j].animation[a].duration + 's",delay:"' + obj03[j].animation[a].delay + 's"},';
+		            		}
+		              	}
+		              	// 文本渲染
 		            	if (obj03[j].eletype == 296) {
 		              		var width = obj03[j].width + 'px';
 			              	var pleft = obj03[j].left + 'px';
@@ -391,8 +403,10 @@
 			              	var fontw = obj03[j].fontweight;
 		              		pageHtml += '<p class="main1_ani_' + n + '" style="width:' + width + ';top:' + ptop + ';left:' + pleft + ';z-index:' + zIndex + ';font-size:' + fonts + ';color:' + color + ';font-weight:' + fontw + ';">' + obj03[j].path + '</p>';
 		            	} else {
+		            	// 背景渲染
 		              		if (obj03[j].isbg == 1) {
 		                		bg.css('background-image','url("http://106.3.37.173:81/image/' + obj03[j].path + '")');
+		                // 图片渲染
 		              		} else if (obj03[j].eletype == 62) {
 		                		var width = obj03[j].width + 'px';
 		                		var pleft = obj03[j].left - obj03[j].width / 2 + 'px';
@@ -412,6 +426,7 @@
 			        wrapper.append(slide);
 			        container.append(wrapper);
 		    	}
+		    	// 判断PC端还是移动端
 		      	if (isPhone) {
 		      		var target = $('#giftPreview_phone');
 		      		$('#giftPreview_phone').show();
@@ -426,7 +441,11 @@
 		      	var js = document.createElement('script');
 		      	js.text = pageJs;
 		      	document.body.appendChild(js);
+		      	// 生成并插入二维码
+		      	$('#qrcode').qrcode({width: 200,height: 200,text: window.location.href});
+		      	// 启动swiper及动画
 		      	callback();
+		      	// 背景音乐渲染
 		      	if (obj01.mpath != null) {
 		        	$('<div><audio src="' + obj01.mpath + '" loop="loop"></audio><span id="audio"></span></div>').appendTo(target);
 		        	$('audio')[0].play();
@@ -434,8 +453,10 @@
 		          	e.stopPropagation;
 		          	if ($('audio')[0].paused) {
 		            	$('audio')[0].play();
+		            	$('#audio').css('animation','rota 10s linear infinite');
 		          	} else {
 		            	$('audio')[0].pause();
+		            	$('#audio').css('animation','none');
 		          	}
 		        });
 		      }

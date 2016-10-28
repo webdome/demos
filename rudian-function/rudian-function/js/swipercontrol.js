@@ -7,11 +7,11 @@ function callback() {
 		grabCursor: true,
 		loop: true,
 		nextButton: '.swiper-button-next',
-		// onInit: function(swiper) {
-		// 	myAC_main1.init(swiperAnimateParam_main1, swiper);
-		// 	myAC_main1.play();
-		// 	// 如果页面中未使用Loading效果，则必须取消本行代码的注释，以开启myAC_main1主动画控制器中动画的播放
-		// },
+		onInit: function(swiper) {
+			myAC_main1.init(swiperAnimateParam_main1, swiper);
+			myAC_main1.play();
+			// 如果页面中未使用Loading效果，则必须取消本行代码的注释，以开启myAC_main1主动画控制器中动画的播放
+		},
 		onSlideChangeEnd: function(swiper) {
 			myAC_main1.play();
 		},

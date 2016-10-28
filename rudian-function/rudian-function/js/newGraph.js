@@ -1,5 +1,5 @@
 /*图形对象构造函数*/
-function newGraph(graphElem) {
+function newGraph(graphElem, elem_id) {
   // 定位元素
   this.box = graphElem;
   this.bottomRight = graphElem.find('.bottomRight')[0];
@@ -18,30 +18,56 @@ function newGraph(graphElem) {
   this.mouseCur = {};
   this.boxPosition = {};
   this.divStart = {};
-  // 随机生成编号
-  this.num = Math.floor(Math.random()*10000000000); 
-  // 贴图框样式
-  this.width = parseFloat(getComputedStyle(this.box[0]).width);
-  this.height = parseFloat(getComputedStyle(this.box[0]).height);
-  this.opacity = 1;
-  this.boxShadowC  = "#515151";
-  this.boxShadowX = 0;
-  this.boxShadowY = 4;
-  this.boxShadowS = 8;
-  this.borderRadius = 0;
-  this.positionLeft = 0;
-  this.positionTop = 0;
-  this.totalAngle = 0;
-  this.index = 50;
-  this.animate = {};
+  this.eleType = 409;
+  var elemObjs = getStorage();
+  if (elem_id) {
+    this.elem_id = elem_id;
+    this.width = elemObjs[elem_id].width;
+    this.height = elemObjs[elem_id].height;
+    this.opacity = elemObjs[elem_id].opacity;
+    this.borderRadius = elemObjs[elem_id].borderRadius;
+    var boxShadow = elemObjs[elem_id].boxShadow.split(' ');
+    this.boxShadowC = boxShadow[0];
+    this.boxShadowX = parseInt(boxShadow[1]);
+    this.boxShadowY = parseInt(boxShadow[2]);
+    this.boxShadowS = parseInt(boxShadow[3]);
+    this.positionLeft = elemObjs[elem_id].left;
+    this.positionTop = elemObjs[elem_id].top;
+    this.totalAngle = elemObjs[elem_id].rotaAngle;
+    this.zIndex = elemObjs[elem_id].zIndex;
+    this.animate = elemObjs[elem_id].animate;
+    this.path = elemObjs[elem_id].path;
+    this.gpid = elemObjs[elem_id].gpid;
+  } else {
+    // 随机生成编号
+    this.elem_id = 'graph_' + Math.floor(Math.random() * 10000000000);
+    // 样式
+    this.width = parseFloat(getComputedStyle(this.box[0]).width);
+    this.height = parseFloat(getComputedStyle(this.box[0]).height);
+    this.opacity = 1;
+    this.boxShadowC = "#fff";
+    this.boxShadowX = 0;
+    this.boxShadowY = 0;
+    this.boxShadowS = 0;
+    this.borderRadius = 0;
+    this.positionLeft = 0;
+    this.positionTop = 0;
+    this.totalAngle = 0;
+    this.zIndex = 50;
+    this.animate = {};
+    this.path = "";
+    this.gpid = "1";
+  }
   var self = this;
   // 本地存储
   this.dataStorage = function() {
-    self.box.attr('id','graph_'+self.num);
-    var storageStr = '{"gpeid":"'+'graph_'+self.num+'","sysgpeid":"","gpid":"1","sysgpid":"","eleType":"409","opacity":"'+self.opacity+'","z-index":"'+self.index+'","border-radius":"'+self.borderRadius+'","box-shadow":"'+self.boxShadowC+' '+self.boxShadowX +' '+self.boxShadowY+' '+self.boxShadowS+'","left":"'+(self.positionLeft+self.width/2)+'","top":"'+(self.positionTop+self.height/2)+'","width":"'+self.width+'","height":"'+self.height+'","rotaAngle":"'+self.totalAngle+'","fontSize":"","fontFamily":"","color":"","fontWeight":"","textShadow":"","fontDirection":"","textAlign":"","fontText":"","animate":'+JSON.stringify(self.animate)+'}';
-    window.sessionStorage.setItem('graph_'+self.num, storageStr);
+    self.box.attr('id', self.elem_id);
+    var storageStr = '{"gpeid":"' + self.elem_id + '","sysgpeid":"","gpid":' + self.gpid + ',"sysgpid":"","eleType":'+self.eleType+',"opacity":' + self.opacity + ',"zIndex":' + self.zIndex + ',"borderRadius":' + self.borderRadius + ',"boxShadow":"' + self.boxShadowC + ' ' + self.boxShadowX + 'px ' + self.boxShadowY + 'px ' + self.boxShadowS + 'px","left":' + self.positionLeft + ',"top":' + self.positionTop + ',"width":' + self.width + ',"height":' + self.height + ',"path":"' + self.path + '","rotaAngle":' + self.totalAngle + ',"animate":' + JSON.stringify(self.animate) + '}';
+    window.sessionStorage.setItem(self.elem_id, storageStr);
   };
-  self.dataStorage();
+  if (!elem_id) {
+    self.dataStorage();
+  }
   // 旋转
   this.rotate.onmousedown = function(e) {
     e.stopPropagation();
@@ -67,9 +93,9 @@ function newGraph(graphElem) {
     self.dataStorage();
     document.removeEventListener("mousemove", self.doRotate, true);
     document.removeEventListener("mouseup", self.stopRotate, true);
-    var rotaz = (self.totalAngle/360*100).toFixed(0);
+    var rotaz = (self.totalAngle / 360 * 100).toFixed(0);
     $('.hk3').slider({
-      value:rotaz
+      value: rotaz
     })
     var rotahz = self.totalAngle.toFixed(0) + '°';
     $('.pic-sd .picr').text(rotahz);
@@ -156,7 +182,7 @@ function newGraph(graphElem) {
     self.box[0].style.left = self.positionLeft - w + "px";
     var leftz = self.positionLeft - w;
     leftz = leftz.toFixed(0);
-    $('.hzb').text(''+leftz+'px');
+    $('.hzb').text('' + leftz + 'px');
     var widz = (self.width + w).toFixed(0) + "px";
     $('.tzzb').text(widz);
   };
@@ -190,8 +216,8 @@ function newGraph(graphElem) {
     self.box[0].style.height = self.height + h + "px";
     self.box[0].style.top = self.positionTop - h + "px";
     var topz = self.positionTop - h;
-    $('.zzb').text(''+topz +'px');
-    var heiz = (self.height + h).toFixed(0) +"px";
+    $('.zzb').text('' + topz + 'px');
+    var heiz = (self.height + h).toFixed(0) + "px";
     $('.thzb').text(heiz);
   };
   this.stopTopDrag = function(e) {
@@ -225,9 +251,9 @@ function newGraph(graphElem) {
     }
     self.box[0].style.width = self.width + changew + "px";
     self.box[0].style.height = self.height + changeh + "px";
-    var widz = (self.width + changew).toFixed(0) +"px";
+    var widz = (self.width + changew).toFixed(0) + "px";
     $('.tzzb').text(widz);
-    var heiz = (self.height + changeh).toFixed(0) +"px";
+    var heiz = (self.height + changeh).toFixed(0) + "px";
     $('.thzb').text(heiz);
   };
   this.stopBottomRightDrag = function(e) {
@@ -263,10 +289,10 @@ function newGraph(graphElem) {
     self.box[0].style.left = self.positionLeft - changew + "px";
     var leftz = self.positionLeft - changew;
     leftz = leftz.toFixed(0);
-    $('.hzb').text(''+leftz+'px');
-    var widz = (self.width + changew).toFixed(0) +"px";
+    $('.hzb').text('' + leftz + 'px');
+    var widz = (self.width + changew).toFixed(0) + "px";
     $('.thzb').text(widz);
-    var heiz = (self.height + changeh).toFixed(0) +"px";
+    var heiz = (self.height + changeh).toFixed(0) + "px";
     $('.tzzb').text(heiz);
   };
   this.stopBottomLeftDrag = function(e) {
@@ -305,9 +331,9 @@ function newGraph(graphElem) {
     var leftz = self.positionLeft - changew;
     // leftz = leftz.toFixed(0);
     console.log(leftz);
-    $('.hzb').text(leftz.toFixed(0)+'px');
-    var topz = self.positionTop - changeh;   
-    $('.zzb').text(''+topz+'px');
+    $('.hzb').text(leftz.toFixed(0) + 'px');
+    var topz = self.positionTop - changeh;
+    $('.zzb').text('' + topz + 'px');
     var widz = (self.width + changew).toFixed(0) + "px";
     $('.thzb').text(widz);
     var heiz = (self.height + changeh).toFixed(0) + "px";
@@ -348,7 +374,7 @@ function newGraph(graphElem) {
     self.box[0].style.top = self.positionTop - changeh + "px";
     var topz = self.positionTop - changeh;
     topz = topz.toFixed(0);
-    $('.zzb').text(''+topz+'px');
+    $('.zzb').text('' + topz + 'px');
     var widz = (self.width + changew).toFixed(0) + "px";
     $('.thzb').text(widz);
     var heiz = (self.height + changeh).toFixed(0) + "px";
@@ -384,8 +410,8 @@ function newGraph(graphElem) {
     var top = e.clientY - self.mouseStart.y + self.divStart.y;
     self.box[0].style.left = left + "px";
     self.box[0].style.top = top + "px";
-    $('.hzb').text(left +"px");
-    $('.zzb').text(top +"px");
+    $('.hzb').text(left + "px");
+    $('.zzb').text(top + "px");
   };
   this.stopMove = function(e) {
     e.stopPropagation();

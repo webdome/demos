@@ -21,7 +21,7 @@ function dataDeal(returnCode, returnMsg, category) {
         } else {
           var bgurl = 'url(http://106.3.37.173:81/image/' + value.path + ')';
         }
-        $('<li class="tu tu' + (key + 1) + '" style="background:' + bgurl + ' center no-repeat;background-size:cover;" ><div class="yfb">已发布</div><div class="wbeizhu"><div class="chihuo">' + value.giftName + '</div><div class="faxian"><span class="yan"></span><span class="shu">0</span></div></div><div class="xza"><div class="ybx"><a class="dyj" href="giftShow.html?gift_id='+value.id+'" target="_blank"></a><a class="dxh"></a></div><div class="beizhu"><div class="chihuo">' + value.giftName + '</div><div class="faxian"><span class="yan"></span><span class="shu">0</span></div></div><div class="zsgc1"><span class="mean1"></span><span class="shan1"></span><span class="shezhi1"><span class="ban1"></span><span class="szz">设置</span></span></div></div></li>').appendTo($('.picture'));
+        $('<li class="tu tu' + (key + 1) + '" style="background:' + bgurl + ' center no-repeat;background-size:cover;" ><div class="yfb">已发布</div><div class="wbeizhu"><div class="chihuo">' + value.giftName + '</div><div class="faxian"><span class="yan"></span><span class="shu">0</span></div></div><div class="xza"><div class="ybx"><a class="dyj" href="giftShow.html?gift_id=' + value.id + '" target="_blank"></a><a class="dxh"></a></div><div class="beizhu"><div class="chihuo">' + value.giftName + '</div><div class="faxian"><span class="yan"></span><span class="shu">0</span></div></div><div class="zsgc1"><span class="mean1"></span><span class="shan1"></span><span class="shezhi1"><span class="ban1"></span><span class="szz">设置</span></span></div></div></li>').appendTo($('.picture'));
       });
       break;
       // 获取作品总条数
@@ -38,43 +38,30 @@ function dataDeal(returnCode, returnMsg, category) {
       // 音乐列表
     case "music_list":
       $('.sc-yy .sc-yys').empty();
+      $('.yy-lb').empty();
       $.each(returnMsg, function(key, value) {
         if (key == 0) {
-          $('<div class="c_y stl fg" data-id="' + value.id + '">' + value.value + '</div>').appendTo($('.sc-yy .sc-yys'));
+          $('<div class="c_y stl-c fg" data-id="' + value.id + '">' + value.value + '</div>').appendTo($('.sc-yy .sc-yys'));
           getData({
             "name": "",
             "parId": value.id,
             "pageSize": "24",
             "pageNo": "1"
-          }, "elementsService.do", 'getMusic', "music_list_default");
+          }, "elementsService.do", 'getMusic', "music_list_one");
         } else {
           $('<div class="stl fg" data-id="' + value.id + '">' + value.value + '</div>').appendTo($('.sc-yy .sc-yys'));
         }
       });
       break;
-    case "music_list_default":
-      $('.yy-lb').empty();
-      if (returnMsg == "{}") {
-        $('<div>无更多数据</div>').appendTo($('.yy-lb'));
-        return;
-      }
-      $.each(returnMsg, function(key, value) {
-        $('<li class="lb-t" data-url="' + value.path + '"><span class="lb-gm" style="font-size:12px;cursor:default">' + value.eleName + '</span><span class="bfzi"></span><span class="sg-zt sg-zt2"></span></li>').appendTo($('.yy-lb'));
-      });
-      break;
     case "music_list_one":
-      // $('.yy-lb').empty();
-      // ***1022
-      if ($('.yy-lb').children().hasClass("no_more")) {
-        return;
-      }
+      // 1026
       if (!returnMsg.length) {
         $('<h2 style="text-align:center;" class="no_more">无更多数据</h2>').appendTo($('.yy-lb'));
         return;
       }
       // end
       $.each(returnMsg, function(key, value) {
-        $('<li class="lb-t" data-url="' + value.path + '"><span class="lb-gm" style="font-size:12px;cursor:default">' + value.eleName + '</span><span class="bfzi"></span><span class="sg-zt sg-zt2"></span></li>').appendTo($('.yy-lb'));
+        $('<li class="lb-t" data-url="' + value.path + '"><span class="lb-gm" style="font-size:12px;cursor:default" title="' + value.eleName + '">' + value.eleName + '</span><span class="bfzi"></span><span class="sg-zt sg-zt2"></span></li>').appendTo($('.yy-lb'));
       });
       break;
       // ***1021 图片裁切功能
@@ -92,7 +79,6 @@ function dataDeal(returnCode, returnMsg, category) {
       break;
       // 1024 获取贴图分类
     case "graph_class":
-      $('.tie-z .sc-yys').empty();
       $('<div class="c_y">全部</div>').appendTo($('.tie-z .sc-yys'));
       getData({
         "pageSize": "24",
@@ -104,49 +90,26 @@ function dataDeal(returnCode, returnMsg, category) {
       break;
       // 贴图列表// ***1024
     case "graph_list":
-      $('.tie-z .tu-ce>div').empty();
-      if (returnMsg == "{}") {
-        $('<div>无更多数据</div>').appendTo($('.tie-z .tu-ce>div'));
+      if (!returnMsg.length) {
+        $('<div style="text-align:center;" class="no_more">无更多数据</div>').appendTo($('.tie-z .tu-ce'));
         return;
       }
       $.each(returnMsg, function(key, value) {
-        var tu_p = $('<div class="tu-p" data-url="http://106.3.37.173:81/map/' + value.path + '"><img src="http://106.3.37.173:81/map/' + value.path + '"/></div>');
-        tu_p.appendTo($('.tie-z .tu-ce>div'));
-        // var img = tu_p.children('img');
-        // img.css({
-        //   'margin-top': -(img[0].height / 2),
-        //   'margin-left': -(img[0].width / 2),
-        // });
+        var tu_p = $('<div class="tu-p" style="background:url(http://106.3.37.173:81/map/' + value.path + ') no-repeat center;background-size:contain;" data-url="http://106.3.37.173:81/map/' + value.path + '"><img src="http://106.3.37.173:81/map/' + value.path + '" style="display:none;"/></div>');
+        tu_p.appendTo($('.tie-z .tu-ce'));
       });
-      setTimeout(function() {
-        $('.tu-p>img').each(function() {
-          $(this).css({
-            'margin-top': -($(this)[0].height / 2),
-            'margin-left': -($(this)[0].width / 2),
-          });
-        });
-      }, 50);
-
       break;
       // 图片列表  1024
     case "pic_list":
-      $('.tp-sj .tu-p').remove();
-      if (returnMsg == "{}") {
-        $('<div>无更多数据</div>').appendTo($('.tp-sj .tu-ce>div'));
+      if (!returnMsg.length) {
+        $('<div style="text-align:center;" class="no_more">无更多数据</div>').appendTo($('.tp-sj .tu-ce'));
         return;
       }
       $.each(returnMsg, function(key, value) {
-        var tu_p = $('<div class="tu-p" data-url="http://106.3.37.173:81/image/' + value.path + '"><img src="http://106.3.37.173:81/image/' + value.path + '"/><span class="xt-s"></span></div>');
-        tu_p.appendTo($('.tp-sj .tu-ce>div'));
+        var tu_p = $('<div class="tu-p" style="background:url(http://106.3.37.173:81/image/' + value.path + ') no-repeat center;background-size:contain;" data-url="http://106.3.37.173:81/image/' + value.path + '"><img src="http://106.3.37.173:81/image/' + value.path + '" style="display:none;"/><span class="xt-s"></span></div>');
+        tu_p.appendTo($('.tp-sj .tu-ce'));
       });
-      setTimeout(function() {
-        $('.tu-p>img').each(function() {
-          $(this).css({
-            'margin-top': -($(this)[0].height / 2),
-            'margin-left': -($(this)[0].width / 2),
-          });
-        });
-      }, 50);
+
       break;
       /*end*/
       // 形状分类
@@ -154,7 +117,7 @@ function dataDeal(returnCode, returnMsg, category) {
       $('.xing-z .sc-yys').empty();
       $('<div class="c_y">全部</div>').appendTo($('.xing-z .sc-yys'));
       getData({
-        'pageSize': '24',
+        'pageSize': '36',
         'pageNo': '1',
       }, "elementsService.do", 'getShape', "shape_one");
       $.each(returnMsg, function(key, value) {
@@ -163,19 +126,15 @@ function dataDeal(returnCode, returnMsg, category) {
       break;
       // 形状列表
     case 'shape_one':
-        $('.xing-z .tu-ce>div').empty();
-      if (returnMsg == "{}") {
-        $('<div>无更多数据</div>').appendTo($('.xing-z .tu-ce>div'));
+      if (!returnMsg.length) {
+        $('<div style="text-align:center;" class="no_more">无更多数据</div>').appendTo($('.xing-z .tu-ce'));
         return;
       }
       $.each(returnMsg, function(key, value) {
-        var tu_p = $('<div class="tu-p" data-path="">'+value.graph+'</div>');
-        tu_p.appendTo($('.xing-z .tu-ce>div'));
-        // var img = tu_p.children('img');
-        // img.css({
-        //   'margin-top': -(img[0].height / 2),
-        //   'margin-left': -(img[0].width / 2),
-        // });
+        // 1027
+        var tu_p = $('<div class="tu-p" data-id="'+value.id+'">' + value.graph + '</div>');  
+        // end
+        tu_p.appendTo($('.xing-z .tu-ce'));
       });
       break;
   }

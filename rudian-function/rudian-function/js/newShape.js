@@ -1,5 +1,5 @@
 /*变形对象构造函数*/
-function newShape(shapeElem) {
+function newShape(shapeElem, elem_id) {
   // 定位元素
   this.box = shapeElem;
   this.move = shapeElem.find('.container')[0];
@@ -18,32 +18,62 @@ function newShape(shapeElem) {
   this.mouseCur = {};
   this.boxPosition = {};
   this.divStart = {};
-  // 随机生成编号
-  this.num = Math.floor(Math.random() * 10000000000);
-  // 图片框样式
-  this.width = parseFloat(getComputedStyle(this.box[0]).width);
-  this.height = parseFloat(getComputedStyle(this.box[0]).height);
-  this.hwratio = this.height / this.width;
-  this.whratio = this.width / this.height;
-  this.opacity = 1;
-  this.borderRadius = 0;
-  this.boxShadowC  = "#fff";
-  this.boxShadowX = 0;
-  this.boxShadowY = 0;
-  this.boxShadowS = 0;
-  this.positionLeft = 0;
-  this.positionTop = 0;
-  this.totalAngle = 0;
-  this.index = 50;
-  this.animate = {};
+  this.eleType = 470;
+  var elemObjs = getStorage();
+  if (elem_id) {
+    this.elem_id = elem_id;
+    this.width = elemObjs[elem_id].width;
+    this.height = elemObjs[elem_id].height;
+    this.hwratio = elemObjs[elem_id].height / elemObjs[elem_id].width;
+    this.whratio = elemObjs[elem_id].width / elemObjs[elem_id].height;
+    this.opacity = elemObjs[elem_id].opacity;
+    // this.borderRadius = elemObjs[elem_id].borderRadius;
+    var boxShadow = elemObjs[elem_id].boxShadow.split(' ');
+    this.boxShadowC = boxShadow[0];
+    this.boxShadowX = parseInt(boxShadow[1]);
+    this.boxShadowY = parseInt(boxShadow[2]);
+    this.boxShadowS = parseInt(boxShadow[3]);
+    this.positionLeft = elemObjs[elem_id].left;
+    this.positionTop = elemObjs[elem_id].top;
+    this.totalAngle = elemObjs[elem_id].rotaAngle;
+    this.zIndex = elemObjs[elem_id].zIndex;
+    this.animate = elemObjs[elem_id].animate;
+    this.path = elemObjs[elem_id].path;
+    this.gpid = elemObjs[elem_id].gpid;
+  } else {
+    // 随机生成编号
+    this.elem_id = 'shape_' + Math.floor(Math.random() * 10000000000);
+    // 样式
+    this.width = 80;
+    this.height = 80;
+    this.hwratio = this.height / this.width;
+    this.whratio = this.width / this.height;
+    this.opacity = 1;
+    // this.borderRadius = 0;
+    this.boxShadowC = "#fff";
+    this.boxShadowX = 0;
+    this.boxShadowY = 0;
+    this.boxShadowS = 0;
+    this.positionLeft = 0;
+    this.positionTop = 0;
+    this.totalAngle = 0;
+    this.zIndex = 50;
+    this.fill = "#2eb3e8";
+    this.animate = {};
+    this.path = "";
+    this.gpid = "1";
+  }
+
   var self = this;
   // 本地存储
   this.dataStorage = function() {
-    self.box.attr('id', 'shape_' + self.num);
-    var storageStr = '{"gpeid":"' + 'shape_' + self.num + '","sysgpeid":"","gpid":"1","sysgpid":"","eleType":"62","opacity":"'+self.opacity+'","z-index":"'+self.index+'","border-radius":"'+self.borderRadius+'","box-shadow":"'+self.boxShadowC+' '+self.boxShadowX +' '+self.boxShadowY+' '+self.boxShadowS+'","left":"' + (self.positionLeft + self.width / 2) + '","top":"' + (self.positionTop + self.height / 2) + '","width":"' + self.width + '","height":"' + self.height + '","rotaAngle":"' + self.totalAngle + '","fontSize":"","fontFamily":"","color":"","fontWeight":"","textShadow":"","fontDirection":"","textAlign":"","fontText":"","animate":'+JSON.stringify(self.animate)+'}';
-    window.sessionStorage.setItem('shape_' + self.num, storageStr);
+    self.box.attr('id', self.elem_id);
+    var storageStr = '{"gpeid":"' + self.elem_id + '","sysgpeid":"","gpid":' + self.gpid + ',"sysgpid":"","eleType":'+self.eleType+',"opacity":' + self.opacity + ',"zIndex":' + self.zIndex + ',"fill":"' + self.fill + '","boxShadow":"' + self.boxShadowC + ' ' + self.boxShadowX + 'px ' + self.boxShadowY + 'px ' + self.boxShadowS + 'px","left":' + self.positionLeft + ',"top":' + self.positionTop + ',"width":' + self.width + ',"height":' + self.height + ',"path":' + JSON.stringify(self.path) + ',"rotaAngle":' + self.totalAngle + ',"animate":' + JSON.stringify(self.animate) + '}';
+    window.sessionStorage.setItem(self.elem_id, storageStr);
   };
-  self.dataStorage();
+  if (!elem_id) {
+    self.dataStorage();
+  }
   // 旋转
   this.rotate.onmousedown = function(e) {
     e.stopPropagation();
@@ -69,11 +99,11 @@ function newShape(shapeElem) {
     self.dataStorage();
     document.removeEventListener("mousemove", self.doRotate, true);
     document.removeEventListener("mouseup", self.stopRotate, true);
-    var rotaz = (self.totalAngle/360*100).toFixed(0);
+    var rotaz = (self.totalAngle / 360 * 100).toFixed(0);
     $('.pic-sd .hk3').slider({
-      value:rotaz
+      value: rotaz
     })
-    var rotahz = rotaz*3.6.toFixed(0)+'°';
+    var rotahz = rotaz * 3.6.toFixed(0) + '°';
     $('.pic-sd .picr').text(rotahz);
   };
   // 右侧水平拽 ==>上下扩张
@@ -350,7 +380,7 @@ function newShape(shapeElem) {
     self.box[0].style.height = self.height + h + "px";
     self.box[0].style.top = self.positionTop - h + "px";
     self.box[0].style.left = self.positionLeft - w + "px";
-     //左上角拉改变元素的大小和位置
+    //左上角拉改变元素的大小和位置
     var widz = (self.width + w).toFixed(0) + "px";
     $('.pic-sd .tzzb').text(widz);
     var heiz = (self.height + h).toFixed(0) + "px";
@@ -395,7 +425,7 @@ function newShape(shapeElem) {
     self.box[0].style.width = self.width + w + "px";
     self.box[0].style.height = self.height + h + "px";
     self.box[0].style.top = self.positionTop - h + "px";
-     //右上角拉改变元素的大小和top值
+    //右上角拉改变元素的大小和top值
     var widz = (self.width + w).toFixed(0) + "px";
     $('.pic-sd .tzzb').text(widz);
     var heiz = (self.height + h).toFixed(0) + "px";
@@ -434,8 +464,8 @@ function newShape(shapeElem) {
     var top = e.clientY - self.mouseStart.y + self.divStart.y;
     self.box[0].style.left = left + "px";
     self.box[0].style.top = top + "px";
-    $('.pic-sd .hzb').text(left+'px');
-    $('.pic-sd .zzb').text(top+'px');
+    $('.pic-sd .hzb').text(left + 'px');
+    $('.pic-sd .zzb').text(top + 'px');
   };
   this.stopMove = function(e) {
     e.stopPropagation();
