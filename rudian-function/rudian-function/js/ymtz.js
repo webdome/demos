@@ -202,63 +202,68 @@ $(document).ready(function(e) {
     $('.lll').show();
   })
   $('#shanx1').radialIndicator({
-    radius : 39,
-    barWidth : 5,
-    barBgColor : "#fff",
-    barColor : "#48D5B2",
-    fontColor : "#333",
-    fontSize : 18,
-    fontWight : 400,
-    roundCorner : true,
-    initValue : 80
-  });  
+    radius: 39,
+    barWidth: 5,
+    barBgColor: "#fff",
+    barColor: "#48D5B2",
+    fontColor: "#333",
+    fontSize: 18,
+    fontWight: 400,
+    roundCorner: true,
+    initValue: 80
+  });
   $('#shanx2').radialIndicator({
-    radius : 39,
-    barWidth : 5,
-    barBgColor : "#fff",
-    barColor : "#FF7E7E",
-    fontColor : "#333",
-    fontSize : 18,
-    fontWight : 400,
-    roundCorner : true,
-    initValue : 40
-  }); 
+    radius: 39,
+    barWidth: 5,
+    barBgColor: "#fff",
+    barColor: "#FF7E7E",
+    fontColor: "#333",
+    fontSize: 18,
+    fontWight: 400,
+    roundCorner: true,
+    initValue: 40
+  });
   $('#shanx3').radialIndicator({
-    radius : 39,
-    barWidth : 5,
-    barBgColor : "#fff",
-    barColor : "#8D91FF",
-    fontColor : "#333",
-    fontSize : 18,
-    fontWight : 400,
-    roundCorner : true,
-    initValue : 50
-  }); 
+    radius: 39,
+    barWidth: 5,
+    barBgColor: "#fff",
+    barColor: "#8D91FF",
+    fontColor: "#333",
+    fontSize: 18,
+    fontWight: 400,
+    roundCorner: true,
+    initValue: 50
+  });
   $('#shanx4').radialIndicator({
-    radius : 39,
-    barWidth : 5,
-    barBgColor : "#fff",
-    barColor : "#FFC36D",
-    fontColor : "#333",
-    fontSize : 18,
-    fontWight : 400,
-    roundCorner : true,
-    initValue : 20
+    radius: 39,
+    barWidth: 5,
+    barBgColor: "#fff",
+    barColor: "#FFC36D",
+    fontColor: "#333",
+    fontSize: 18,
+    fontWight: 400,
+    roundCorner: true,
+    initValue: 20
   });
 });
 
 // 登录处理 取出用户id 根据id获取作品 如果没有用户id则需要登录 获取用户作品数生成页码
 try {
-  var userid = document.cookie.match(/user_msg=(\d+)/g).join('').split('=')[1];
-  $('#tipEvent').attr('data-id', userid);
+  // var userid = document.cookie.match(/user_msg=(\d+)/g).join('').split('=')[1];
+  var user_obj = JSON.parse(document.cookie.replace('user_msg=', ''));
+  console.log(user_obj);
+  $('#tipEvent').attr('data-id', user_obj.id);
+  $('.dhead').attr('src', user_obj.photo);
+  $('.touxiang>a>img').attr('src', user_obj.photo);
+  $('.mz').text(user_obj.username);
   getData({
-    "userId": userid,
+    "userId": user_obj.id,
     "isDraft": "1",
     "pageSize": "20",
     "pageNo": "1"
   }, 'giftsService.do', 'getGift', 'draft');
   getData({
-    "userId": userid,
+    "userId": user_obj.id,
     "isDraft": "1",
   }, 'giftsService.do', 'getGiftCount', 'draft_count');
 } catch (err) {
@@ -287,7 +292,7 @@ $('.backt').click(function(e) {
 //     $('#giftPreview').empty();
 //     $('body').children('script:last').remove();
 //   })
-  // 分页切换 点击数字 点击箭头 点击首尾页
+// 分页切换 点击数字 点击箭头 点击首尾页
 $('.liebiao').on('click', 'span', function(e) {
   e.stopPropagation;
   var class_num = $(this).attr('class');
@@ -301,7 +306,7 @@ $('.liebiao').on('click', 'span', function(e) {
       $('.num:first').addClass('page_cur');
     }
   } else if (class_num == 'num99') {
-    if ($('.page_cur').index() == $('.liebiao').children().length-3) {
+    if ($('.page_cur').index() == $('.liebiao').children().length - 3) {
       return;
     } else {
       pageNo = $('.liebiao').children().length - 4;
@@ -339,4 +344,12 @@ $('.liebiao').on('click', 'span', function(e) {
     "pageSize": "20",
     "pageNo": pageNo
   }, 'giftsService.do', 'getGift', 'draft');
+  $("html,body").animate({
+    scrollTop: 0,
+  }, 500);
+});
+
+$('.tjcj').on('click',function(e){
+  e.stopPropagation;
+  window.location.href = "index.html";
 });

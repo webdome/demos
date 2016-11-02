@@ -1,5 +1,5 @@
 /*图形对象构造函数*/
-function newInput(inputElem, elem_id) {
+function newInput(inputElem, gpeid) {
   // 定位元素
   this.box = inputElem;
   this.bottomRight = inputElem.find('.bottomRight')[0];
@@ -20,30 +20,35 @@ function newInput(inputElem, elem_id) {
   this.divStart = {};
   
   var elemObjs = getStorage();
-  if (elem_id) {
-    this.elem_id = elem_id;
-    this.width = elemObjs[elem_id].width;
-    this.height = elemObjs[elem_id].height;
-    this.opacity = elemObjs[elem_id].opacity;
-    var boxShadow = elemObjs[elem_id].boxShadow.split(' ');
+  if (gpeid) {
+    this.gpeid = gpeid;
+    this.width = elemObjs[gpeid].width;
+    this.height = elemObjs[gpeid].height;
+    this.opacity = elemObjs[gpeid].opacity;
+    var boxShadow = elemObjs[gpeid].boxShadow.split(' ');
     this.boxShadowC = boxShadow[0];
     this.boxShadowX = parseInt(boxShadow[1]);
     this.boxShadowY = parseInt(boxShadow[2]);
     this.boxShadowS = parseInt(boxShadow[3]);
-    this.inputTxt = elemObjs[elem_id].inputTxt;
-    this.positionLeft = elemObjs[elem_id].left;
-    this.positionTop = elemObjs[elem_id].top;
-    this.totalAngle = elemObjs[elem_id].rotaAngle;
-    this.borderRadius = elemObjs[elem_id].borderRadius;
-    this.backgroundColor = elemObjs[elem_id].backgroundColor;
-    this.color = elemObjs[elem_id].color;
-    this.animate = elemObjs[elem_id].animate;
-    this.gpid = elemObjs[elem_id].gpid;
-    this.zIndex = elemObjs[elem_id].zIndex;
-    this.eleType = elemObjs[elem_id].eleType;
+    this.inputTxt = elemObjs[gpeid].inputTxt;
+    this.positionLeft = elemObjs[gpeid].left;
+    this.positionTop = elemObjs[gpeid].top;
+    this.totalAngle = elemObjs[gpeid].rotaAngle;
+    this.borderRadius = elemObjs[gpeid].borderRadius;
+    this.backgroundColor = elemObjs[gpeid].backgroundColor;
+    this.color = elemObjs[gpeid].color;
+    this.animate = elemObjs[gpeid].animate;
+    this.gpid = elemObjs[gpeid].gpid;
+    this.zIndex = elemObjs[gpeid].zIndex;
+    this.eleType = elemObjs[gpeid].eleType;
+    this.sysgpeid = elemObjs[gpeid].sysgpeid;
+    this.sysgpid = elemObjs[gpeid].sysgpid;
+    var border = elemObjs[gpeid].border.split(' solid ');
+    this.borderSize = border[0];
+    this.borderColor = border[1];
   } else {
     // 随机生成编号
-    this.elem_id = 'input_' + Math.floor(Math.random() * 10000000000);
+    this.gpeid = 'input_' + Math.floor(Math.random() * 10000000000);
     // 样式
     this.width = 100;
     this.height = 40;
@@ -60,18 +65,22 @@ function newInput(inputElem, elem_id) {
     this.backgroundColor = "#fff";
     this.color = "#515151";
     this.animate = {};
-    this.gpid = "1";
+    this.gpid = 0;
     this.zIndex = 100;
+    this.borderSize = 1;
+    this.borderColor = "#fff";
     this.eleType = 0;
+    this.sysgpeid = 0;
+    this.sysgpid = 0;
   }
   var self = this;
   // 本地存储
   this.dataStorage = function() {
-    self.box.attr('id', self.elem_id);
-    var storageStr = '{"gpeid":"' + self.elem_id + '","sysgpeid":"","gpid":' + self.gpid + ',"sysgpid":"","eleType":'+self.eleType+',"opacity":' + this.opacity + ',"boxShadow":"' + self.boxShadowC + ' ' + self.boxShadowX + 'px ' + self.boxShadowY + 'px ' + self.boxShadowS + 'px","inputTxt":' + JSON.stringify(self.inputTxt) + ',"left":' + self.positionLeft + ',"top":' + self.positionTop + ',"zIndex":'+self.zIndex+',"width":' + self.width + ',"height":' + self.height + ',"rotaAngle":' + self.totalAngle + ',"borderRadius":' + self.borderRadius + ',"backgroundColor":"' + self.backgroundColor + '","color":"' + self.color + '","fontSize":"","fontFamily":"","color":"","fontWeight":"","textShadow":"","fontDirection":"","textAlign":"","fontText":"","animate":' + JSON.stringify(self.animate) + '}';
-    window.sessionStorage.setItem(self.elem_id, storageStr);
+    self.box.attr('id', self.gpeid);
+    var storageStr = '{"gpeid":"' + self.gpeid + '","sysgpeid":'+self.sysgpeid+',"gpid":' + self.gpid + ',"sysgpid":'+self.sysgpid+',"eleType":'+self.eleType+',"opacity":' + this.opacity + ',"border":"'+self.borderSize+'px solid '+self.borderColor+'","boxShadow":"' + self.boxShadowC + ' ' + self.boxShadowX + 'px ' + self.boxShadowY + 'px ' + self.boxShadowS + 'px","inputTxt":' + JSON.stringify(self.inputTxt) + ',"left":' + self.positionLeft + ',"top":' + self.positionTop + ',"zIndex":'+self.zIndex+',"width":' + self.width + ',"height":' + self.height + ',"rotaAngle":' + self.totalAngle + ',"borderRadius":' + self.borderRadius + ',"backgroundColor":"' + self.backgroundColor + '","color":"' + self.color + '","fontSize":"","fontFamily":"","color":"","fontWeight":"","textShadow":"","fontDirection":"","textAlign":"","fontText":"","animate":' + JSON.stringify(self.animate) + '}';
+    window.sessionStorage.setItem(self.gpeid, storageStr);
   };
-  if (!elem_id) {
+  if (!gpeid) {
     self.dataStorage();
   }
   // 旋转
@@ -81,7 +90,6 @@ function newInput(inputElem, elem_id) {
     if (e.button === 0) {
       self.boxPosition.x = self.box.offset().left + self.width / 2;
       self.boxPosition.y = self.box.offset().top + self.height / 2;
-      console.log(self.boxPosition.x, self.boxPosition.y);
       document.addEventListener("mousemove", self.doRotate, true);
       document.addEventListener("mouseup", self.stopRotate, true);
     }

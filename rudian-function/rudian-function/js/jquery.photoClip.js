@@ -112,7 +112,7 @@
 			} else {
 				var fileReader = new FileReader();
 				fileReader.onprogress = function(e) {
-					console.log((e.loaded / e.total * 100).toFixed() + "%");
+					// console.log((e.loaded / e.total * 100).toFixed() + "%");
 				};
 				fileReader.onload = function(e) {
 					lrz(files)

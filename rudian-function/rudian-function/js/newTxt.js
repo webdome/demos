@@ -1,5 +1,5 @@
 /*变形对象构造函数*/
-function newTxt(txtElem, elem_id) {
+function newTxt(txtElem, gpeid) {
   // 定位元素
   this.box = txtElem;
   this.bottomRight = txtElem.find('.bottomRight')[0];
@@ -22,38 +22,41 @@ function newTxt(txtElem, elem_id) {
   this.divStart = {};
   this.eleType = 296;
   var elemObjs = getStorage();
-  if (elem_id) {
-    this.elem_id = elem_id;
-    this.fontSize = elemObjs[elem_id].fontSize;
-    this.fontFamily = elemObjs[elem_id].fontFamily;
-    this.fontText = elemObjs[elem_id].fontText;
-    this.color = elemObjs[elem_id].color;
-    this.width = elemObjs[elem_id].width;
-    this.height = elemObjs[elem_id].height;
-    this.opacity = elemObjs[elem_id].opacity;
-    var textShadow = elemObjs[elem_id].fontSize.split(' ');
+  if (gpeid) {
+    this.gpeid = gpeid;
+    this.fontSize = elemObjs[gpeid].fontSize;
+    this.fontFamily = elemObjs[gpeid].fontFamily;
+    this.fontText = elemObjs[gpeid].fontText;
+    this.textDecoration = elemObjs[gpeid].textDecoration;
+    this.color = elemObjs[gpeid].color;
+    this.width = elemObjs[gpeid].width;
+    this.height = elemObjs[gpeid].height;
+    this.opacity = elemObjs[gpeid].opacity;
+    var textShadow = elemObjs[gpeid].textShadow.split(' ');
     this.txtShadowC = textShadow[0];
     this.txtShadowX = parseInt(textShadow[1]);
     this.txtShadowY = parseInt(textShadow[2]);
     this.txtShadowS = parseInt(textShadow[3]);
-    this.lineHeight = elemObjs[elem_id].lineHeight;
-    this.fontWeight = elemObjs[elem_id].fontWeight;
-    this.fontStyle = elemObjs[elem_id].fontStyle;
-    this.textAlign = elemObjs[elem_id].textAlign;
-    // this.textDecoration = elemObjs[elem_id].fontSize;
-    this.zIndex = elemObjs[elem_id].zIndex;
-    this.positionLeft = elemObjs[elem_id].left;
-    this.positionTop = elemObjs[elem_id].top;
-    this.totalAngle = elemObjs[elem_id].rotaAngle;
-    this.animate = elemObjs[elem_id].animate;
-    this.gpid = elemObjs[elem_id].gpid;
+    this.lineHeight = elemObjs[gpeid].lineHeight;
+    this.fontWeight = elemObjs[gpeid].fontWeight;
+    this.fontStyle = elemObjs[gpeid].fontStyle;
+    this.textAlign = elemObjs[gpeid].textAlign;
+    this.zIndex = elemObjs[gpeid].zIndex;
+    this.positionLeft = elemObjs[gpeid].left;
+    this.positionTop = elemObjs[gpeid].top;
+    this.totalAngle = elemObjs[gpeid].rotaAngle;
+    this.animate = elemObjs[gpeid].animate;
+    this.gpid = elemObjs[gpeid].gpid;
+    this.sysgpeid = elemObjs[gpeid].sysgpeid;
+    this.sysgpid = elemObjs[gpeid].sysgpid;
   } else {
     // 随机生成编号 
-    this.elem_id = 'txt_' + Math.floor(Math.random() * 10000000000);
+    this.gpeid = 'txt_' + Math.floor(Math.random() * 10000000000);
     // 样式
-    this.fontSize = "24px";
+    this.fontSize = 24;
     this.fontFamily = "microsoft yahei";
     this.fontText = "请输入文本";
+    this.textDecoration = "none";
     this.color = "#515151";
     this.width = parseFloat(getComputedStyle(this.box[0]).width);
     this.height = parseFloat(getComputedStyle(this.box[0]).height);
@@ -63,25 +66,26 @@ function newTxt(txtElem, elem_id) {
     this.txtShadowY = 0;
     this.txtShadowS = 0;
     this.lineHeight = 28;
-    this.fontWeight = 400;
+    this.fontWeight = "400";
     this.fontStyle = "normal";
     this.textAlign = "left";
-    // this.textDecoration = "none";
     this.zIndex = 150;
     this.positionLeft = 0;
     this.positionTop = 0;
     this.totalAngle = 0;
     this.animate = {};
-    this.gpid = "1";
+    this.gpid = 0;
+    this.sysgpeid = 0;
+    this.sysgpid = 0;
   }
   var self = this;
   // 本地存储
   this.dataStorage = function() {
-    self.box.attr('id', self.elem_id);
-    var storageStr = '{"gpeid":"' + self.elem_id + '","sysgpeid":"","gpid":' + self.gpid + ',"sysgpid":"","eleType":' + self.eleType + ',"zIndex":' + self.zIndex + ',"opacity":' + self.opacity + ',"lineHeight":' + self.lineHeight + ',"left":' + self.positionLeft + ',"top":' + self.positionTop + ',"width":' + self.width + ',"height":' + self.height + ',"rotaAngle":' + self.totalAngle + ',"fontSize":"' + self.fontSize + '","fontFamily":' + JSON.stringify(self.fontFamily) + ',"color":"' + self.color + '","fontWeight":"' + self.fontWeight + '","fontStyle":"' + self.fontStyle + '","textShadow":"' + self.txtShadowC + ' ' + self.txtShadowX + 'px ' + self.txtShadowY + 'px ' + self.txtShadowS + 'px","textAlign":"' + self.textAlign + '","fontText":"' + self.fontText + '","animate":' + JSON.stringify(self.animate) + '}';
-    window.sessionStorage.setItem(self.elem_id, storageStr);
+    self.box.attr('id', self.gpeid);
+    var storageStr = '{"gpeid":"' + self.gpeid + '","sysgpeid":'+self.sysgpeid+',"gpid":' + self.gpid + ',"sysgpid":'+self.sysgpid+',"eleType":' + self.eleType + ',"zIndex":' + self.zIndex + ',"opacity":' + self.opacity + ',"lineHeight":' + self.lineHeight + ',"left":' + self.positionLeft + ',"top":' + self.positionTop + ',"width":' + self.width + ',"height":' + self.height + ',"rotaAngle":' + self.totalAngle + ',"fontSize":"' + self.fontSize + '","fontFamily":' + JSON.stringify(self.fontFamily) + ',"color":"' + self.color + '","fontWeight":"' + self.fontWeight + '","fontStyle":"' + self.fontStyle + '","textDecoration":"'+self.textDecoration+'","textShadow":"' + self.txtShadowC + ' ' + self.txtShadowX + 'px ' + self.txtShadowY + 'px ' + self.txtShadowS + 'px","textAlign":"' + self.textAlign + '","fontText":"' + self.fontText + '","animate":' + JSON.stringify(self.animate) + '}';
+    window.sessionStorage.setItem(self.gpeid, storageStr);
   };
-  if (!elem_id) {
+  if (!gpeid) {
     self.dataStorage();
   }
   // 旋转
@@ -101,7 +105,13 @@ function newTxt(txtElem, elem_id) {
     self.mouseCur.x = e.clientX;
     self.mouseCur.y = e.clientY;
     self.totalAngle = (Math.atan2(self.boxPosition.x - self.mouseCur.x, -(self.boxPosition.y - self.mouseCur.y)) + Math.PI) / 2 / Math.PI * 360;
-    self.box[0].style.webkitTransform = 'rotate(' + self.totalAngle + 'deg)';
+    self.box[0].style.transform = 'rotate(' + self.totalAngle + 'deg)';
+    var rotaz = (self.totalAngle / 360 * 100).toFixed(0);
+    $('.sx-dh .hk3').slider({
+      value: rotaz
+    })
+    var rotahz = (rotaz * 3.6).toFixed(0) + '°';
+    $('.sx-dh .txtr').text(rotahz);
   };
   this.stopRotate = function(e) {
     e.stopPropagation();
@@ -109,12 +119,7 @@ function newTxt(txtElem, elem_id) {
     self.dataStorage();
     document.removeEventListener("mousemove", self.doRotate, true);
     document.removeEventListener("mouseup", self.stopRotate, true);
-    var rotaz = (self.totalAngle / 360 * 100).toFixed(0);
-    $('.sx-dh .hk3').slider({
-      value: rotaz
-    })
-    var rotahz = (rotaz * 3.6).toFixed(0) + '°';
-    $('.sx-dh .txtr').text(rotahz);
+    
   };
   // 右侧水平拽
   this.right.onmousedown = function(e) {

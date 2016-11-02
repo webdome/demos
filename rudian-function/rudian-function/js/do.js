@@ -8,7 +8,7 @@ function dataDeal(returnCode, returnMsg, category) {
       if (returnCode == "002") {
         $('.login_msg').text(returnMsg);
       } else {
-        document.cookie = "user_msg=" + returnMsg.id;
+        document.cookie = "user_msg=" + JSON.stringify(returnMsg);
         window.location.href = "home.html";
       }
       break;
@@ -61,13 +61,13 @@ function dataDeal(returnCode, returnMsg, category) {
       }
       // end
       $.each(returnMsg, function(key, value) {
-        $('<li class="lb-t" data-url="' + value.path + '"><span class="lb-gm" style="font-size:12px;cursor:default" title="' + value.eleName + '">' + value.eleName + '</span><span class="bfzi"></span><span class="sg-zt sg-zt2"></span></li>').appendTo($('.yy-lb'));
+        $('<li class="lb-t" data-url="' + value.path + '" id="' + value.id + '"><span class="lb-gm" style="font-size:12px;cursor:default" title="' + value.eleName + '">' + value.eleName + '</span><span class="bfzi"></span><span class="sg-zt sg-zt2"></span></li>').appendTo($('.yy-lb'));
       });
       break;
       // ***1021 图片裁切功能
     case "picCut":
-      $('.eles>li[data-cur="1"]>.pic>img').attr("src", returnMsg);
-      var num = $('.eles>li[data-cur="1"]').attr('id');
+      // console.log(returnMsg);
+      $('.eles>li[data-cur="1"]>.pic>img').attr("src", returnMsg[0].path);
       $('.eles>li[data-cur="1"]').css({
         'width': send_w,
         'height': send_h,
@@ -76,6 +76,7 @@ function dataDeal(returnCode, returnMsg, category) {
       updatePicStorage("height", send_h);
       updatePicStorage("hwratio", send_h / send_w);
       updatePicStorage("whratio", send_w / send_h);
+      updatePicStorage('eleId', returnMsg[0].id);
       break;
       // 1024 获取贴图分类
     case "graph_class":
@@ -95,23 +96,30 @@ function dataDeal(returnCode, returnMsg, category) {
         return;
       }
       $.each(returnMsg, function(key, value) {
-        var tu_p = $('<div class="tu-p" style="background:url(http://106.3.37.173:81/map/' + value.path + ') no-repeat center;background-size:contain;" data-url="http://106.3.37.173:81/map/' + value.path + '"><img src="http://106.3.37.173:81/map/' + value.path + '" style="display:none;"/></div>');
+        var tu_p = $('<div class="tu-p" style="background:url(http://106.3.37.173:81/map/' + value.path + ') no-repeat center;background-size:contain;" data-url="http://106.3.37.173:81/map/' + value.path + '" data-id="' + value.id + '"><img src="http://106.3.37.173:81/map/' + value.path + '" style="display:none;"/></div>');
         tu_p.appendTo($('.tie-z .tu-ce'));
       });
       break;
-      // 图片列表  1024
+    case "pic_class":
+      // 默认请求我的图库
+      $('<div class="own_pic c_y">我的图库</div>').appendTo($('.xc-tou'));
+      $('.own_pic').trigger('click');
+      $.each(returnMsg, function(key, value) {
+        // <span class="xt-s"></span>
+        $('<div data-id="' + value.id + '" class="public_pic">' + value.value + '</div>').appendTo($('.xc-tou'));
+      });
+      break;
+      // 图片列表
     case "pic_list":
       if (!returnMsg.length) {
-        $('<div style="text-align:center;" class="no_more">无更多数据</div>').appendTo($('.tp-sj .tu-ce'));
+        $('<h2 style="text-align:center;" class="no_more">无更多数据</h2>').appendTo($('.tp-sj .tu-ce'));
         return;
       }
       $.each(returnMsg, function(key, value) {
-        var tu_p = $('<div class="tu-p" style="background:url(http://106.3.37.173:81/image/' + value.path + ') no-repeat center;background-size:contain;" data-url="http://106.3.37.173:81/image/' + value.path + '"><img src="http://106.3.37.173:81/image/' + value.path + '" style="display:none;"/><span class="xt-s"></span></div>');
+        var tu_p = $('<div class="tu-p" style="background:url(http://106.3.37.173:81/image/' + value.path + ') no-repeat center;background-size:contain;" data-url="http://106.3.37.173:81/image/' + value.path + '" data-id="' + value.id + '"><img src="http://106.3.37.173:81/image/' + value.path + '" style="display:none;"/><span class="xt-s"></span></div>');
         tu_p.appendTo($('.tp-sj .tu-ce'));
       });
-
       break;
-      /*end*/
       // 形状分类
     case 'shape_list':
       $('.xing-z .sc-yys').empty();
@@ -132,18 +140,35 @@ function dataDeal(returnCode, returnMsg, category) {
       }
       $.each(returnMsg, function(key, value) {
         // 1027
-        var tu_p = $('<div class="tu-p" data-id="'+value.id+'">' + value.graph + '</div>');  
+        var tu_p = $('<div class="tu-p" data-id="' + value.id + '">' + value.graph + '</div>');
         // end
         tu_p.appendTo($('.xing-z .tu-ce'));
       });
       break;
+      // 保存作品
+    case 'saveGift':
+      console.log(returnMsg);
+      // 得到返回的数据 赋值给缓存内的元素 以便二次修改
+      var elemObjs = getStorage();
+      console.log(elemObjs);
+      $.each(elemObjs, function(key, value) {
+        value.sysgpid = returnMsg[value.gpid];
+        value.sysgpeid = returnMsg[value.gpeid];
+        if (elemObj[value.gpeid]) {
+          elemObj[value.gpeid].sysgpid = returnMsg[value.gpid];
+          elemObj[value.gpeid].sysgpeid = returnMsg[value.gpeid];
+        }
+      });
+      var pages = $('.x-zk');
+      $.each(pages, function(key, value) {
+        var gpid = Number($(value).attr('id').replace('_zs', ''));
+        $(value).attr('sysgpid', returnMsg[gpid]);
+      });
+      $('.cont-c').attr('sysgid', returnMsg[$('.cont-c').attr('gid')]);
+      setStorage(elemObjs);
+      // console.log(elemObjs);
+      break;
   }
-}
-// 更新图片本地存储
-function updatePicStorage(key, value) {
-  var num = $('.eles>li[data-cur="1"]').attr('id');
-  elemObj[num][key] = value;
-  elemObj[num].dataStorage();
 }
 // 数据解密------------------------
 function getData(packets, interName, methName, category) {
@@ -159,7 +184,7 @@ function getData(packets, interName, methName, category) {
   $.ajax({
     url: 'http://106.3.37.173:8080/love/' + interName,
     // url: 'http://192.168.1.9:8080/love/' + interName,
-    type: 'get',
+    type: 'post',
     dataType: 'json',
     data: {
       'op': methName,
@@ -188,4 +213,17 @@ function getData(packets, interName, methName, category) {
       }
     }
   });
+}
+// 上传方法 获取packets sign
+function setData(packets) {
+  var token = "0FB451072D3FB25E3D5AE438D64FF3D7";
+  var key = CryptoJS.enc.Utf8.parse(token.slice(0, 16));
+  var data = CryptoJS.enc.Utf8.parse(JSON.stringify(packets));
+  var packetsAES = CryptoJS.AES.encrypt(data, key, {
+    mode: CryptoJS.mode.ECB,
+    padding: CryptoJS.pad.Pkcs7
+  }).toString();
+  var sign = "[" + [packetsAES, token].sort().toString().replace(",", ", ") + "]";
+  var signMD5 = CryptoJS.MD5(sign).toString();
+  return [packetsAES, signMD5];
 }

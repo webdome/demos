@@ -1,29 +1,138 @@
+// 取出所有本地存储、页面、作品一起解析为待保存的gift对象
+function saveGift() {
+	var elemObjs = getStorage();
+	var giftObj = {};
+	var giftPageElements = [];
+	var giftPages = [];
+	var pages = $('.x-zk');
+	var musicId = $('audio').attr('data-id') ? $('audio').attr('data-id') : 0;
+	var gid = Number($('.cont-c').attr('gid'));
+	var pageIndex = 1;
+	$.each(elemObjs, function(key, value) {
+		if (value.eleType == 296) {
+			value.top = value.top * 2;
+			value.left = value.left * 2;
+		} else {
+			value.top = (value.top + value.height / 2) * 2;
+			value.left = (value.left + value.width / 2) * 2;
+		}
+		value.width = value.width * 2;
+		value.height = value.height * 2;
+		if (value.fontSize) {
+			value.fontSize = value.fontSize * 2;
+		}
+		if (value.lineHeight) {
+			value.lineHeight = value.lineHeight * 2;
+		}
+		if (value.boxShadow) {
+			var boxshadow = value.boxShadow.split(' ');
+			var boxshadowC = boxshadow[0];
+			var boxshadowX = parseInt(boxshadow[1]) * 2;
+			var boxshadowY = parseInt(boxshadow[2]) * 2;
+			var boxshadowS = parseInt(boxshadow[3]) * 2;
+			value.boxShadow = boxshadowC + ' ' + boxshadowX + 'px ' + boxshadowY + 'px ' + boxshadowS + 'px';
+		}
+		if (value.textShadow) {
+			var textshadow = value.textShadow.split(' ');
+			var textshadowC = textshadow[0];
+			var textshadowX = parseInt(textshadow[1]) * 2;
+			var textshadowY = parseInt(textshadow[2]) * 2;
+			var textshadowS = parseInt(textshadow[3]) * 2;
+			value.textShadow = textshadowC + ' ' + textshadowX + 'px ' + textshadowY + 'px ' + textshadowS + 'px';
+		}
+		if (value.path) {
+			delete value.path;
+		}
+		var inputTxt = [];
+		if (value.inputTxt) {
+			$.each(value.inputTxt, function(i, txt) {
+				inputTxt.push(txt);
+			});
+			value.inputTxt = inputTxt;
+		}
+		var ani_arr = [];
+		var animates = value.animate;
+		$.each(animates, function(ani_name, ani_obj) {
+			ani_obj.duration = ani_obj.duration.replace('s', '');
+			ani_obj.delay = ani_obj.delay.replace('s', '');
+			ani_arr.push(ani_obj);
+		})
+		value.animate = ani_arr;
+		giftPageElements.push(value);
+	});
+	var sysgid = Number($('.cont-c').attr('sysgid')) ? Number($('.cont-c').attr('sysgid')) : 0;
+	$.each(pages, function(key, value) {
+		var gpid = Number($(value).attr('id').replace('_zs', ''));
+		var sysgpid = Number($(value).attr('sysgpid')) ? Number($(value).attr('sysgpid')) : 0;
+		var obj = {
+			"gpid": gpid,
+			"sysgpid": sysgpid,
+			"gid": gid,
+			"sysgid": sysgid,
+			"reOrder": pageIndex++,
+			"modId": "0",
+		};
+		giftPages.push(obj);
+	});
+	giftObj.userId = JSON.parse(document.cookie.replace('user_msg=', '')).id;
+	giftObj.gift = {
+		"gid": gid,
+		"sysgid": sysgid,
+		"giftName": "自由创作",
+		"isOpen": "82",
+		"music": musicId,
+	};
+	giftObj.giftPages = giftPages;
+	giftObj.giftPageElements = giftPageElements;
+	return giftObj;
+}
 // 取出存储的元素全部样式 转化为json对象存储到数组中待用
 function getStorage() {
 	var objs = {};
 	$.each(sessionStorage, function(key, value) {
 		var obj = JSON.parse(value);
-		var num = obj.gpeid;
-		objs[num] = obj;
+		var gpeid = obj.gpeid;
+		objs[gpeid] = obj;
 	});
 	return objs;
 	// console.log(objs);
 }
+// 更新图片本地存储
+function updatePicStorage(key, value) {
+	var num = $('.eles>li[data-cur="1"]').attr('id');
+	elemObj[num][key] = value;
+	elemObj[num].dataStorage();
+}
+
+function setStorage(obj) {
+	$.each(obj, function(key, value) {
+		window.sessionStorage.setItem(key, JSON.stringify(value));
+	});
+}
 // 更新动画本地存储
 function updataAniStorage() {
-	var num = $('.eles>li[data-cur="1"]').attr('id');
-	elemObj[num].dataStorage();
+	var gpeid = $('.eles>li[data-cur="1"]').attr('id');
+	elemObj[gpeid].dataStorage();
+}
+// 更新背景对象属性及本地存储
+function updataBgStorage(key, value) {
+	var gpeid = $('.eles>.box_bg').attr('id');
+	elemObj[gpeid][key] = value;
+	var bgStorage = JSON.parse(window.sessionStorage.getItem(gpeid));
+	bgStorage[key] = value;
+	bgStorage = JSON.stringify(bgStorage);
+	window.sessionStorage.setItem(gpeid, bgStorage);
 }
 // 动画存储
 function aniShowAndStorage(elem) {
 	var ani_name = elem.parents('.dh-y').find(".don-ff option:selected").val();
-	var elem_id = $('.eles>li[data-cur="1"]').attr('id');
-	var ani_id = elem.parents('.' + elem_id).attr('id');
+	var gpeid = $('.eles>li[data-cur="1"]').attr('id');
+	var ani_id = elem.parents('.' + gpeid).attr('id');
 	var ani_dur = elem.parents('.dh-y').find('.zs-t:eq(0)>.ji-m').text();
 	var ani_delay = elem.parents('.dh-y').find('.zs-t:eq(1)>.ji-m').text();
 	var ani_count = elem.parents('.dh-y').find('.zs-t:eq(2)>.ji-m').text();
 	var ani_obj = {
-		"element": elem_id,
+		"element": gpeid,
 		"animation": ani_name,
 		"start": 0,
 		"type": 0,
@@ -35,94 +144,6 @@ function aniShowAndStorage(elem) {
 		"status": "running",
 		"finish": "none",
 	};
-	elemObj[elem_id].animate[ani_id] = ani_obj;
+	elemObj[gpeid].animate[ani_id] = ani_obj;
 	updataAniStorage();
 }
-// ***动画设置--------------------
-$(function() {
-	// 触发方式
-
-	// 动画方式
-	$(document).delegate('.don-ff>select', 'change', function(e) {
-		e.stopPropagation;
-		var ani_name = $(this).parents('.dh-y').find(".don-ff option:selected").val();
-		var elem_id = $('.eles>li[data-cur="1"]').attr('id');
-		var ani_id = $(this).parents('.' + elem_id).attr('id');
-		var ani_dur = $(this).parents('.dh-y').find('.zs-t:eq(0)>.ji-m').text();
-		var ani_delay = $(this).parents('.dh-y').find('.zs-t:eq(1)>.ji-m').text();
-		var ani_count = $(this).parents('.dh-y').find('.zs-t:eq(2)>.ji-m').text();
-		$('.eles>li[data-cur="1"]>div:eq(0)').css('animation', ani_name + " " + ani_dur + ' ease ' + ani_delay + ' ' + ani_count + ' backwards');
-		// ***1021
-		setTimeout(function() {
-			$('.eles>li[data-cur="1"]>div:eq(0)')[0].style.animation = "";
-		}, parseInt(ani_dur) * 1000 + 100);
-		var ani_obj = {
-			"element": elem_id,
-			"animation": ani_name,
-			"start": 0,
-			"type": 0,
-			"duration": ani_dur,
-			"delay": ani_delay,
-			"count": ani_count,
-			"timing": "ease",
-			"direction": "normal",
-			"status": "running",
-			"finish": "none",
-		};
-		elemObj[elem_id].animate[ani_id] = ani_obj;
-		updataAniStorage();
-	});
-	// 动画方向
-	
-	// 动画时间
-	// index 738
-	// 动画延迟
-	// index 750
-	// 动画次数  （固定次数或循环）
-	// index 760
-});
-
-// ***动画预览--------------------// ***1024
-$(function() {
-	$('.yl-dh').on('click', function(e) {
-		e.stopPropagation;
-		var elem_id = $('.eles>li[data-cur="1"]').attr('id');
-		var animates = elemObj[elem_id].animate;
-		var ani_dur = 0;
-		var ani_elem = $('.eles>li[data-cur="1"]>div:eq(0)').clone();
-		$.each(animates, function(key, value) {
-			var box = $('<div style="width:100%;height:100%;"></div>');
-			var one_dur = parseFloat(value.duration);
-			var one_count = parseFloat(value.count);
-			var one_delay = parseFloat(value.delay);
-			var one_time = one_dur * one_count + one_delay;
-			if (one_time > ani_dur) {
-				ani_dur = one_time;
-			}
-			box.css('animation', value.animation + " " + value.duration + " ease " + value.delay + " " + value.count + " backwards");
-			$('.eles>li[data-cur="1"]>div:eq(0)').wrap(box);
-		});
-		// 修复表单元素动画预览bug
-		$('.input').parent().css('display','table');
-		// 按照最大时间移除
-		setTimeout(function() {
-			$('.eles>li[data-cur="1"]>div:eq(0)').remove();
-			$('.eles>li[data-cur="1"]').prepend(ani_elem);
-		}, ani_dur * 1000 + 500);
-	});
-});
-
-// ***删除元素---------------------
-$(function() {
-	// delete 按键删除元素
-	$(document).on("keydown", function(e) {
-		e.stopPropagation();
-		if (e.keyCode === 46) { // 如果键盘按的是delete键就删除当前激活项
-			var elem_id = $('.eles>li[data-cur="1"]').attr('id');
-			window.sessionStorage.removeItem(elem_id); // 清除对应的本地存储
-			delete elemObj[elem_id]; // 删除元素总集合中对应的成员
-			$('.eles>li[data-cur="1"]').remove(); // 删除元素
-			$('.srz[id*="'+elem_id+'"]').remove(); // 删除左侧对应图层  ***1021
-		}
-	});
-});

@@ -938,8 +938,8 @@ input, button {
   left: 50%;
   top: 50%;
   margin-left: -162px;  /*width: 360px;*/
-  width: 324px;  /*height: 640px;*/
-  height: 576px;
+  width: 320px;  /*height: 640px;*/
+  height: 504px;
   margin-top: -288px;
   z-index: 2;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.2);
@@ -1080,7 +1080,7 @@ input, button {
 .yxj-yc div span {
   display: inline-block;
 }
-.ysxc-1 {
+.ysxc {
   position: absolute;
   width: 9px;
   height: 9px;
@@ -1560,7 +1560,7 @@ input, button {
 .yin-y {
   float: left;
 }
-.huii,.xun-h{
+.huii,.xun-h,.baku{
   position: relative;
   float: left;
   display: inline-block;
@@ -1583,7 +1583,7 @@ input, button {
   border-radius: 50%;
   box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.3);
 }
-.yan-s {
+.yan-s, .yan-k{
   float: left;
   margin-left: 103px;
 }
@@ -2070,12 +2070,16 @@ input, button {
 .xc-tou {
   width: 100%;    /*height: 99px;*/
   border-bottom: 1px solid #ccc;
+  padding:10px;
+  box-sizing: border-box;
+  height: 170px;
+  overflow: scroll;
 }
 .xc-tou .xc-tou1 {
   width: 100%;
   height: 30px;
 }
-.xc-tou .xc-tou1 div {
+.xc-tou>div {
   display: inline-block;
   width: 78px;
   height: 28px;
@@ -2086,6 +2090,10 @@ input, button {
   cursor: pointer;
   margin-right: 15px;
   position: relative;
+  margin-bottom: 10px;
+}
+.xc-tou>div:nth-child(3n){
+  margin-right: 0;
 }
 .xc-tou .xc-tou1 .xhzf {
   margin-right: 0;
@@ -2138,7 +2146,7 @@ input, button {
 .tp-sj {
   float: left;
   width: 100%;
-  height: calc(100% - 100px);
+  height: calc(100% - 170px);
   padding-top: 10px;
   box-sizing: border-box;
 }
@@ -2146,6 +2154,7 @@ input, button {
   float: left;
   width: 100%;
   height: 100%;
+  overflow: scroll;
 }
 .tu-ce .jia-t {
   width: 78px;
@@ -2265,7 +2274,7 @@ input, button {
       line-height: 21px;*/
   border: 1px solid #333;
 }
-.sc-yys .c_y {
+.sc-yys .c_y ,.xc-tou .c_y{
   background: #333;
   color: #fff;
 }
@@ -2494,8 +2503,11 @@ background: url(../images/zz/zant.png) 0px 0px no-repeat;
 .y-you {
   display: none;
   float: left;
-  width: 279px;
+  width:100%;
+  height: calc(100% - 50px);
+  box-sizing: border-box;
   padding: 20px 20px 0;
+  overflow: scroll;
 }
 .y-you .gd-ds {
   float: left;
@@ -2646,8 +2658,10 @@ background: url(../images/zz/zant.png) 0px 0px no-repeat;
 }
 .qhm-y {
   float: left;
-  width: 280px;
+  width: 100%;
+  height: calc(100% - 80px);
   padding: 30px 19px;
+  overflow: scroll;
 }
 .xzs-t {
   float: left;
@@ -2813,7 +2827,7 @@ background: url(../images/zz/zant.png) 0px 0px no-repeat;
   float: left;
   width: 279px;
   padding: 20px 20px;
-  height: calc(100% - 40px);
+  height: calc(100% - 80px);
   overflow: scroll;
 }
 .tjx-x {
@@ -3367,7 +3381,7 @@ background: url(../images/zz/zant.png) 0px 0px no-repeat;
   color: red;
   z-index: 170;
 }
-.fxbc, .anbc, .dxbc, .dubc, .xlbc {
+.fxbc, .anbc, .dxbc, .dubc, .xlbc, .arcg {
   position: absolute;
   top: 0;
   left: 0;
@@ -3385,4 +3399,30 @@ background: url(../images/zz/zant.png) 0px 0px no-repeat;
   z-index: 40;
   width:100%;
   height: 100%;
+  margin: 0;
+}
+.sr_zz{
+  display: none;
+}
+.srkc{
+  width:100%;
+  height: calc( 100% - 80px);
+  padding: 0px 20px;
+  box-sizing: border-box;
+  overflow: scroll;
+}
+.zys{
+  width:98px;
+  height: 28px;
+  margin-left:15px;
+  background-color: #fff;
+  border:1px solid #ccc;
+}
+.wbsr{
+  width:223px;
+  height: 28px;
+  border:1px solid #ccc;
+  margin-left:15px;
+  background-color: #fff;
+  border-radius: 4px;
 }

@@ -1,5 +1,5 @@
 /*图形对象构造函数*/
-function newGraph(graphElem, elem_id) {
+function newGraph(graphElem, gpeid) {
   // 定位元素
   this.box = graphElem;
   this.bottomRight = graphElem.find('.bottomRight')[0];
@@ -20,27 +20,30 @@ function newGraph(graphElem, elem_id) {
   this.divStart = {};
   this.eleType = 409;
   var elemObjs = getStorage();
-  if (elem_id) {
-    this.elem_id = elem_id;
-    this.width = elemObjs[elem_id].width;
-    this.height = elemObjs[elem_id].height;
-    this.opacity = elemObjs[elem_id].opacity;
-    this.borderRadius = elemObjs[elem_id].borderRadius;
-    var boxShadow = elemObjs[elem_id].boxShadow.split(' ');
+  if (gpeid) {
+    this.gpeid = gpeid;
+    this.width = elemObjs[gpeid].width;
+    this.height = elemObjs[gpeid].height;
+    this.opacity = elemObjs[gpeid].opacity;
+    this.borderRadius = elemObjs[gpeid].borderRadius;
+    var boxShadow = elemObjs[gpeid].boxShadow.split(' ');
     this.boxShadowC = boxShadow[0];
     this.boxShadowX = parseInt(boxShadow[1]);
     this.boxShadowY = parseInt(boxShadow[2]);
     this.boxShadowS = parseInt(boxShadow[3]);
-    this.positionLeft = elemObjs[elem_id].left;
-    this.positionTop = elemObjs[elem_id].top;
-    this.totalAngle = elemObjs[elem_id].rotaAngle;
-    this.zIndex = elemObjs[elem_id].zIndex;
-    this.animate = elemObjs[elem_id].animate;
-    this.path = elemObjs[elem_id].path;
-    this.gpid = elemObjs[elem_id].gpid;
+    this.positionLeft = elemObjs[gpeid].left;
+    this.positionTop = elemObjs[gpeid].top;
+    this.totalAngle = elemObjs[gpeid].rotaAngle;
+    this.zIndex = elemObjs[gpeid].zIndex;
+    this.animate = elemObjs[gpeid].animate;
+    this.path = elemObjs[gpeid].path;
+    this.eleId = elemObjs[gpeid].eleId;
+    this.gpid = elemObjs[gpeid].gpid;
+    this.sysgpeid = elemObjs[gpeid].sysgpeid;
+    this.sysgpid = elemObjs[gpeid].sysgpid;
   } else {
     // 随机生成编号
-    this.elem_id = 'graph_' + Math.floor(Math.random() * 10000000000);
+    this.gpeid = 'graph_' + Math.floor(Math.random() * 10000000000);
     // 样式
     this.width = parseFloat(getComputedStyle(this.box[0]).width);
     this.height = parseFloat(getComputedStyle(this.box[0]).height);
@@ -56,16 +59,19 @@ function newGraph(graphElem, elem_id) {
     this.zIndex = 50;
     this.animate = {};
     this.path = "";
-    this.gpid = "1";
+    this.gpid = 0;
+    this.eleId = 0;
+    this.sysgpeid = 0;
+    this.sysgpid = 0;
   }
   var self = this;
   // 本地存储
   this.dataStorage = function() {
-    self.box.attr('id', self.elem_id);
-    var storageStr = '{"gpeid":"' + self.elem_id + '","sysgpeid":"","gpid":' + self.gpid + ',"sysgpid":"","eleType":'+self.eleType+',"opacity":' + self.opacity + ',"zIndex":' + self.zIndex + ',"borderRadius":' + self.borderRadius + ',"boxShadow":"' + self.boxShadowC + ' ' + self.boxShadowX + 'px ' + self.boxShadowY + 'px ' + self.boxShadowS + 'px","left":' + self.positionLeft + ',"top":' + self.positionTop + ',"width":' + self.width + ',"height":' + self.height + ',"path":"' + self.path + '","rotaAngle":' + self.totalAngle + ',"animate":' + JSON.stringify(self.animate) + '}';
-    window.sessionStorage.setItem(self.elem_id, storageStr);
+    self.box.attr('id', self.gpeid);
+    var storageStr = '{"gpeid":"' + self.gpeid + '","sysgpeid":'+self.sysgpeid+',"gpid":' + self.gpid + ',"sysgpid":'+self.sysgpid+',"eleType":'+self.eleType+',"opacity":' + self.opacity + ',"zIndex":' + self.zIndex + ',"borderRadius":' + self.borderRadius + ',"boxShadow":"' + self.boxShadowC + ' ' + self.boxShadowX + 'px ' + self.boxShadowY + 'px ' + self.boxShadowS + 'px","left":' + self.positionLeft + ',"top":' + self.positionTop + ',"width":' + self.width + ',"height":' + self.height + ',"path":"' + self.path + '","eleId":'+self.eleId+',"rotaAngle":' + self.totalAngle + ',"animate":' + JSON.stringify(self.animate) + '}';
+    window.sessionStorage.setItem(self.gpeid, storageStr);
   };
-  if (!elem_id) {
+  if (!gpeid) {
     self.dataStorage();
   }
   // 旋转
@@ -86,6 +92,12 @@ function newGraph(graphElem, elem_id) {
     self.mouseCur.y = e.clientY;
     self.totalAngle = (Math.atan2(self.boxPosition.x - self.mouseCur.x, -(self.boxPosition.y - self.mouseCur.y)) + Math.PI) / 2 / Math.PI * 360;
     self.box[0].style.webkitTransform = 'rotate(' + self.totalAngle + 'deg)';
+    var rotaz = (self.totalAngle / 360 * 100).toFixed(0);
+    $('.hk3').slider({
+      value: rotaz
+    })
+    var rotahz = self.totalAngle.toFixed(0) + '°';
+    $('.pic-sd .picr').text(rotahz);
   };
   this.stopRotate = function(e) {
     e.stopPropagation();
@@ -93,12 +105,6 @@ function newGraph(graphElem, elem_id) {
     self.dataStorage();
     document.removeEventListener("mousemove", self.doRotate, true);
     document.removeEventListener("mouseup", self.stopRotate, true);
-    var rotaz = (self.totalAngle / 360 * 100).toFixed(0);
-    $('.hk3').slider({
-      value: rotaz
-    })
-    var rotahz = self.totalAngle.toFixed(0) + '°';
-    $('.pic-sd .picr').text(rotahz);
   };
   // 右侧水平拽
   this.right.onmousedown = function(e) {
@@ -329,8 +335,6 @@ function newGraph(graphElem, elem_id) {
     self.box[0].style.top = self.positionTop - changeh + "px";
     self.box[0].style.left = self.positionLeft - changew + "px";
     var leftz = self.positionLeft - changew;
-    // leftz = leftz.toFixed(0);
-    console.log(leftz);
     $('.hzb').text(leftz.toFixed(0) + 'px');
     var topz = self.positionTop - changeh;
     $('.zzb').text('' + topz + 'px');
