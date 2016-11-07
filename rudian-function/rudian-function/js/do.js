@@ -1,7 +1,7 @@
 // 声明裁切参数
 var imgH, imgW, boxW, boxH, send_x, send_y, send_w, send_h;
 // 请求处理回调函数
-function dataDeal(returnCode, returnMsg, category) {
+function dataDeal(returnCode, returnMsg, category, target) {
   switch (category) {
     // 登录
     case 'login':
@@ -21,7 +21,7 @@ function dataDeal(returnCode, returnMsg, category) {
         } else {
           var bgurl = 'url(http://106.3.37.173:81/image/' + value.path + ')';
         }
-        $('<li class="tu tu' + (key + 1) + '" style="background:' + bgurl + ' center no-repeat;background-size:cover;" ><div class="yfb">已发布</div><div class="wbeizhu"><div class="chihuo">' + value.giftName + '</div><div class="faxian"><span class="yan"></span><span class="shu">0</span></div></div><div class="xza"><div class="ybx"><a class="dyj" href="giftShow.html?gift_id=' + value.id + '" target="_blank"></a><a class="dxh"></a></div><div class="beizhu"><div class="chihuo">' + value.giftName + '</div><div class="faxian"><span class="yan"></span><span class="shu">0</span></div></div><div class="zsgc1"><span class="mean1"></span><span class="shan1"></span><span class="shezhi1"><span class="ban1"></span><span class="szz">设置</span></span></div></div></li>').appendTo($('.picture'));
+        $('<li class="tu tu' + (key + 1) + '" style="background:' + bgurl + ' center no-repeat;background-size:cover;" ><div class="yfb">已发布</div><div class="wbeizhu"><div class="chihuo">' + value.giftName + '</div><div class="faxian"><span class="yan"></span><span class="shu">0</span></div></div><div class="xza"><div class="ybx"><a class="dyj" href="giftShow.html?gift_id=' + value.id + '" target="_blank"></a><a class="dqb" href="index.html?gift_id=' + value.id + '" target="_blank"></a><a class="dxh"></a></div><div class="beizhu"><div class="chihuo">' + value.giftName + '</div><div class="faxian"><span class="yan"></span><span class="shu">0</span></div></div><div class="zsgc1"><span class="mean1"></span><span class="shan1"></span><span class="shezhi1"><span class="ban1"></span><span class="szz">设置</span></span></div></div></li>').appendTo($('.picture'));
       });
       break;
       // 获取作品总条数
@@ -35,6 +35,11 @@ function dataDeal(returnCode, returnMsg, category) {
         }
       }
       break;
+      // 获取单个作品详情
+    case "one_draft":
+      Secondary(returnMsg);
+      $('.y-t>div:eq(0)').trigger('click');
+      break;
       // 音乐列表
     case "music_list":
       $('.sc-yy .sc-yys').empty();
@@ -45,7 +50,7 @@ function dataDeal(returnCode, returnMsg, category) {
           getData({
             "name": "",
             "parId": value.id,
-            "pageSize": "24",
+            "pageSize": "36",
             "pageNo": "1"
           }, "elementsService.do", 'getMusic', "music_list_one");
         } else {
@@ -109,16 +114,38 @@ function dataDeal(returnCode, returnMsg, category) {
         $('<div data-id="' + value.id + '" class="public_pic">' + value.value + '</div>').appendTo($('.xc-tou'));
       });
       break;
-      // 图片列表
+      // 图片列表  1103***
     case "pic_list":
       if (!returnMsg.length) {
         $('<h2 style="text-align:center;" class="no_more">无更多数据</h2>').appendTo($('.tp-sj .tu-ce'));
         return;
       }
+      var del = '';
+      if ($('.own_pic').hasClass('c_y')) {
+        del = '<span class="xt-s"></span>';
+      }
       $.each(returnMsg, function(key, value) {
-        var tu_p = $('<div class="tu-p" style="background:url(http://106.3.37.173:81/image/' + value.path + ') no-repeat center;background-size:contain;" data-url="http://106.3.37.173:81/image/' + value.path + '" data-id="' + value.id + '"><img src="http://106.3.37.173:81/image/' + value.path + '" style="display:none;"/><span class="xt-s"></span></div>');
+        var tu_p = $('<div class="tu-p" style="background:url(http://106.3.37.173:81/image/' + value.path + ') no-repeat center;background-size:contain;" data-url="http://106.3.37.173:81/image/' + value.path + '" data-id="' + value.id + '"><img src="http://106.3.37.173:81/image/' + value.path + '" style="display:none;"/>' + del + '</div>');
         tu_p.appendTo($('.tp-sj .tu-ce'));
       });
+      break;
+      // 删除图片  同时删除页面中已经使用的该图片 包括对象集合和缓存中   1103***
+    case 'delPicture':
+      // console.log(returnMsg);
+      if (returnCode == 000) {
+        $(target).remove();
+        var elemObjs = getStorage();
+        var elem_id;
+        $.each(elemObjs, function(key, value) {
+          if (value.eleId == $(target).attr('data-id')) {
+            elem_id = key;
+          }
+        });
+        $('#' + elem_id).remove();
+        delete elemObj[elem_id];
+        window.sessionStorage.removeItem(elem_id);
+        alert(returnMsg);
+      }
       break;
       // 形状分类
     case 'shape_list':
@@ -171,7 +198,7 @@ function dataDeal(returnCode, returnMsg, category) {
   }
 }
 // 数据解密------------------------
-function getData(packets, interName, methName, category) {
+function getData(packets, interName, methName, category, target) {
   var token = "0FB451072D3FB25E3D5AE438D64FF3D7";
   var key = CryptoJS.enc.Utf8.parse(token.slice(0, 16));
   var data = CryptoJS.enc.Utf8.parse(JSON.stringify(packets));
@@ -207,7 +234,7 @@ function getData(packets, interName, methName, category) {
         }
       }
       if (typeof dataDeal === "function") {
-        dataDeal(returnCode, returnMsg, category);
+        dataDeal(returnCode, returnMsg, category, target);
       } else {
         console.log("dataDeal is not defined");
       }

@@ -33,7 +33,7 @@ body {
   width: 100%;
   height: 100%;
 }
-body * {
+.cont-z *,.cont-y *{
   font-family: Microsoft YaHei, \\u5fae\\u8f6f\\u96c5\\u9ed1;
 }
 input, button {
@@ -721,10 +721,15 @@ input, button {
 .x-zk {
   float: left;
   position: relative;
-  width: 175px;
+  width: 170px;
   height: 196px;
   text-align: center;
   border: 2px solid #efeff4;
+}
+.x-zk canvas{
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 /*.x-zk:hover {
   border: 2px solid #ccc !important;
@@ -749,8 +754,8 @@ input, button {
 }
 .x-zk .b-jq {
   width: 100px;
-  height: 178px;
-  margin-top: 9px;
+  height: 157px;
+  margin-top: 20px;
   background: #fff;
 }
 .x-zk .x-sc {
@@ -1204,7 +1209,7 @@ input, button {
   height: 100%;
 }
 .cont-y .be-jin {
-
+  overflow: scroll;
   /*display: none;*/
 }
 .cont-y .b-j {
@@ -2150,11 +2155,13 @@ input, button {
   padding-top: 10px;
   box-sizing: border-box;
 }
+.sc-tp .tu-ce{
+  overflow: scroll;
+}
 .tu-ce {
   float: left;
   width: 100%;
   height: 100%;
-  overflow: scroll;
 }
 .tu-ce .jia-t {
   width: 78px;
@@ -2815,6 +2822,7 @@ background: url(../images/zz/zant.png) 0px 0px no-repeat;
   width: 100%;
   height: calc(100% - 110px);
   box-sizing: border-box;
+  overflow: scroll;
 }
 
 /*表单导航的样式*/
@@ -3257,6 +3265,7 @@ background: url(../images/zz/zant.png) 0px 0px no-repeat;
   user-select: none;
   word-wrap: break-word;
   word-break: normal;
+  box-sizing: border-box;
 }
 
 /*图片的样式*/

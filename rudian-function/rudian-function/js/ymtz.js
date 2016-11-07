@@ -251,7 +251,7 @@ $(document).ready(function(e) {
 try {
   // var userid = document.cookie.match(/user_msg=(\d+)/g).join('').split('=')[1];
   var user_obj = JSON.parse(document.cookie.replace('user_msg=', ''));
-  console.log(user_obj);
+  // console.log(user_obj);
   $('#tipEvent').attr('data-id', user_obj.id);
   $('.dhead').attr('src', user_obj.photo);
   $('.touxiang>a>img').attr('src', user_obj.photo);

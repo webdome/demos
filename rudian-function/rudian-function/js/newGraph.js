@@ -126,7 +126,7 @@ function newGraph(graphElem, gpeid) {
     }
     self.box[0].style.width = self.width + w + "px";
     var widz = (self.width + w).toFixed(0) + "px";
-    $('.pic-sd .tzzb').text(widz);
+    $('.pic-sd .thzb').text(widz);
   };
   this.stopRightDrag = function(e) {
     e.stopPropagation();
@@ -156,7 +156,7 @@ function newGraph(graphElem, gpeid) {
     }
     self.box[0].style.height = self.height + h + "px";
     var heiz = (self.height + h).toFixed(0) + "px";
-    $('.pic-sd .thzb').text(heiz);
+    $('.pic-sd .tzzb').text(heiz);
   };
   this.stopBottomDrag = function(e) {
     e.stopPropagation();
@@ -190,7 +190,7 @@ function newGraph(graphElem, gpeid) {
     leftz = leftz.toFixed(0);
     $('.hzb').text('' + leftz + 'px');
     var widz = (self.width + w).toFixed(0) + "px";
-    $('.tzzb').text(widz);
+    $('.thzb').text(widz);
   };
   this.stopLeftDrag = function(e) {
     e.stopPropagation();
@@ -224,7 +224,7 @@ function newGraph(graphElem, gpeid) {
     var topz = self.positionTop - h;
     $('.zzb').text('' + topz + 'px');
     var heiz = (self.height + h).toFixed(0) + "px";
-    $('.thzb').text(heiz);
+    $('.tzzb').text(heiz);
   };
   this.stopTopDrag = function(e) {
     e.stopPropagation();
@@ -258,9 +258,9 @@ function newGraph(graphElem, gpeid) {
     self.box[0].style.width = self.width + changew + "px";
     self.box[0].style.height = self.height + changeh + "px";
     var widz = (self.width + changew).toFixed(0) + "px";
-    $('.tzzb').text(widz);
+    $('.thzb').text(widz);
     var heiz = (self.height + changeh).toFixed(0) + "px";
-    $('.thzb').text(heiz);
+    $('.tzzb').text(heiz);
   };
   this.stopBottomRightDrag = function(e) {
     e.stopPropagation();

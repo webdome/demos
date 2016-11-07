@@ -110,16 +110,16 @@ function dataDeal(returnCode, returnMsg, category, isPhone) {
 							n = '01';
 						}
 						// 渲染动画JS
-						if (obj03[j].animation.length) {
-							for (var a = 0; a < obj03[j].animation.length; a++) {
-								pageJs += 'animate_' + n + ':{element:"main1_ani_' + n + '",animation:"' + obj03[j].animation[a].animation + '",duration:"' + obj03[j].animation[a].duration + 's",delay:"' + obj03[j].animation[a].delay + 's"},';
+						if (obj03[j].animate.length) {
+							for (var a = 0; a < obj03[j].animate.length; a++) {
+								pageJs += 'animate_' + n + ':{element:"main1_ani_' + n + '",animation:"' + obj03[j].animate[a].animation + '",duration:"' + obj03[j].animate[a].duration + 's",delay:"' + obj03[j].animate[a].delay + 's"},';
 							}
 						}
 						var top = obj03[j].top - obj03[j].height / 2;
 						var left = obj03[j].left - obj03[j].width / 2;
 						// 文本渲染
 						if (obj03[j].eletype == 296) {
-							pageHtml += '<p class="main1_ani_' + n + '" style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;top:' + obj03[j].top + 'px;left:' + obj03[j].left + 'px;z-index:' + obj03[j].zindex + ';line-height:' + obj03[j].lineheight + 'px;font-size:' + obj03[j].fontsize + 'px;font-family:' + obj03[j].fontfamily + ';font-style:' + obj03[j].fontstyle + ';color:' + obj03[j].color + ';font-weight:' + obj03[j].fontweight + ';transform:rotate(' + obj03[j].rotaangle + 'deg);text-align:' + obj03[j].textalign + ';text-shadow:' + obj03[j].textshadow + ';text-decoration:' + obj03[j].textdecoration + ';">' + obj03[j].path + '</p>';
+							pageHtml += '<p class="main1_ani_' + n + '" style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;top:' + obj03[j].top + 'px;left:' + obj03[j].left + 'px;z-index:' + obj03[j].zindex + ';line-height:' + obj03[j].lineheight + 'px;font-size:' + obj03[j].fontsize + 'px;font-family:' + obj03[j].fontfamily + ';font-style:' + obj03[j].fontstyle + ';color:' + obj03[j].color + ';font-weight:' + obj03[j].fontweight + ';transform:rotate(' + obj03[j].rotaangle + 'deg);text-align:' + obj03[j].textalign + ';text-shadow:' + obj03[j].textshadow + ';text-decoration:' + obj03[j].textdecoration + ';padding:10px 20px;box-sizing:border-box;">' + obj03[j].path + '</p>';
 						} else if (obj03[j].eletype == 525) {
 							if (!obj03[j].backgroundimage) {
 								bg.css({
@@ -163,6 +163,9 @@ function dataDeal(returnCode, returnMsg, category, isPhone) {
 							}
 							select.appendTo(box);
 							pageHtml += box[0].outerHTML;
+							// 互动
+						}else if (obj03[j].eletype == 527 || obj03[j].eletype == 528 || obj03[j].eletype == 529 || obj03[j].eletype == 530) {
+							pageHtml += '<div style="text-align:center;display:table;width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zindex + ';top:' + top + 'px;left:' + left + 'px;transform:rotate(' + obj03[j].rotaangle + 'deg);"><div style="width:100%;height:100%;display:table-cell;vertical-align:middle;box-shadow:' + obj03[j].boxshadow + ';">' + obj03[j].graph.replace('<path ', '<path style="fill:' + obj03[j].color + ';"').replace('<svg ', '<svg style="position:relative;z-index:170;width:68px;height:56px;"') + '<span style="position:relative;z-index:170;font-size:60px;color:' + obj03[j].color + ';display:' + obj03[j].display + ';">0</span><div style="background-color:' + obj03[j].backgroundcolor + ';opacity:' + obj03[j].opacity + ';border-radius:' + obj03[j].borderradius + '%;position:absolute;top:0;left:0;right:0;bottom:0;z-index:160;"></div></div></div>';
 						}
 					}
 				}
@@ -241,6 +244,9 @@ function dataDeal2(returnMsg, category, isPhone) {
 				var pageHtml = '';
 				pageJs += "slide_" + (i + 1) + ":{";
 				for (var j = 0; j < obj03.length; j++) {
+					if (obj03[j].remove) {
+						return;
+					}
 					if (obj02[i].gpid == obj03[j].gpid) {
 						var n = j;
 						if (n < 10 && n > 0) {
@@ -258,7 +264,7 @@ function dataDeal2(returnMsg, category, isPhone) {
 						var left = obj03[j].left - obj03[j].width / 2;
 						// 文本渲染
 						if (obj03[j].eleType == 296) {
-							pageHtml += '<p class="main1_ani_' + n + '" style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;top:' + obj03[j].top + 'px;left:' + obj03[j].left + 'px;z-index:' + obj03[j].zIndex + ';font-size:' + obj03[j].fontSize + 'px;font-family:' + obj03[j].fontFamily + ';color:' + obj03[j].color + ';font-weight:' + obj03[j].fontWeight + ';font-style:' + obj03[j].fontStyle + ';transform:rotate(' + obj03[j].rotaAngle + 'deg);text-align:' + obj03[j].textAlign + ';text-shadow:' + obj03[j].textShadow + ';line-height:' + obj03[j].lineHeight + 'px;word-break:break-word;text-decoration:' + obj03[j].textDecoration + ';">' + obj03[j].fontText + '</p>';
+							pageHtml += '<p class="main1_ani_' + n + '" style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;top:' + obj03[j].top + 'px;left:' + obj03[j].left + 'px;z-index:' + obj03[j].zIndex + ';font-size:' + obj03[j].fontSize + 'px;font-family:' + obj03[j].fontFamily + ';color:' + obj03[j].color + ';font-weight:' + obj03[j].fontWeight + ';font-style:' + obj03[j].fontStyle + ';transform:rotate(' + obj03[j].rotaAngle + 'deg);text-align:' + obj03[j].textAlign + ';text-shadow:' + obj03[j].textShadow + ';line-height:' + obj03[j].lineHeight + 'px;word-break:break-word;box-sizing:border-box;text-decoration:' + obj03[j].textDecoration + ';">' + obj03[j].fontText + '</p>';
 						} else if (obj03[j].eleType == 525) {
 							if (!obj03[j].backgroundImage) {
 								bg.css({
@@ -285,25 +291,35 @@ function dataDeal2(returnMsg, category, isPhone) {
 							pageHtml += svg.replace('<svg ', '<svg style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;top:' + top + 'px;left:' + left + 'px;opacity:' + obj03[j].opacity + ';border-radius:' + obj03[j].borderRadius + '%;box-shadow:' + obj03[j].boxShadow + ';transform:rotate(' + obj03[j].rotaAngle + 'deg);z-index:' + obj03[j].zIndexz + ';"').replace('<path ', '<path style="fill:' + obj03[j].fill + ';"');
 							// 输入框
 						} else if (obj03[j].eleType == 520) {
-							pageHtml += '<div style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zIndex + ';top:' + top + 'px;left:' + left + 'px;"><textarea style="width:100%;height:100%;margin:0;padding:0;display:block;background-color:transparent;resize:none;box-shadow:' + obj03[j].boxShadow + ';color:' + obj03[j].color + ';position: relative;z-index: 170;border-radius:' + obj03[j].borderRadius + '%;" placeholder=' + obj03[j].inputTxt[0] + '></textarea><div style="border-size:' + obj03[j].borderSize + ';border-color:' + obj03[j].borderColor + ';background-color:' + obj03[j].backgroundColor + ';opacity:' + obj03[j].opacity + ';position: absolute;top:0;left:0;right:0;bottom:0;z-index:160;"></div></div>';
+							pageHtml += '<div style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zIndex + ';top:' + top + 'px;left:' + left + 'px;transform:rotate(' + obj03[j].rotaAngle + 'deg);"><textarea style="width:100%;height:100%;margin:0;padding:0;display:block;background-color:transparent;resize:none;box-shadow:' + obj03[j].boxShadow + ';color:' + obj03[j].color + ';position: relative;z-index: 170;border-radius:' + obj03[j].borderRadius + '%;" placeholder=' + obj03[j].inputTxt[0] + '></textarea><div style="border-size:' + obj03[j].borderSize + ';border-color:' + obj03[j].borderColor + ';background-color:' + obj03[j].backgroundColor + ';opacity:' + obj03[j].opacity + ';position: absolute;top:0;left:0;right:0;bottom:0;z-index:160;"></div></div>';
 							// 复选框
 						} else if (obj03[j].eleType == 521) {
-							pageHtml += '<div style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zIndex + ';top:' + top + 'px;left:' + left + 'px;display:table;"><div style="display:table-cell;vertical-align:middle;width:100%;height:100%;"><input type="checkbox" style="color:' + obj03[j].color + ';position:relative;z-index:170;border:0;background-color:transparent;"/><span style="position:relative;z-index:170;">' + obj03[j].inputTxt[0] + '</span><div style="position:absolute;top:0;left:0;bottom:0;right:0;background-color:' + obj03[j].backgroundColor + ';opacity:' + obj03[j].opacity + ';z-index:160;border-radius:' + obj03[j].borderRadius + '%;box-shadow:' + obj03[j].boxShadow + ';"></div></div></div>';
+							pageHtml += '<div style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zIndex + ';top:' + top + 'px;left:' + left + 'px;display:table;transform:rotate(' + obj03[j].rotaAngle + 'deg);"><div style="display:table-cell;vertical-align:middle;width:100%;height:100%;"><input type="checkbox" style="color:' + obj03[j].color + ';position:relative;z-index:170;border:0;background-color:transparent;"/><span style="position:relative;z-index:170;">' + obj03[j].inputTxt[0] + '</span><div style="position:absolute;top:0;left:0;bottom:0;right:0;background-color:' + obj03[j].backgroundColor + ';opacity:' + obj03[j].opacity + ';z-index:160;border-radius:' + obj03[j].borderRadius + '%;box-shadow:' + obj03[j].boxShadow + ';"></div></div></div>';
 							// 单选框
 						} else if (obj03[j].eleType == 522) {
-							pageHtml += '<div style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zIndex + ';top:' + top + 'px;left:' + left + 'px;display:table;"><div style="display:table-cell;vertical-align:middle;width:100%;height:100%;"><input type="radio" style="color:' + obj03[j].color + ';position:relative;z-index:170;border:0;background-color:transparent;"/><span style="position:relative;z-index:170;">' + obj03[j].inputTxt[0] + '</span><div style="position:absolute;top:0;left:0;bottom:0;right:0;background-color:' + obj03[j].backgroundColor + ';opacity:' + obj03[j].opacity + ';z-index:160;border-radius:' + obj03[j].borderRadius + '%;box-shadow:' + obj03[j].boxShadow + ';"></div></div></div>';
+							pageHtml += '<div style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zIndex + ';top:' + top + 'px;left:' + left + 'px;display:table;transform:rotate(' + obj03[j].rotaAngle + 'deg);"><div style="display:table-cell;vertical-align:middle;width:100%;height:100%;"><input type="radio" style="color:' + obj03[j].color + ';position:relative;z-index:170;border:0;background-color:transparent;"/><span style="position:relative;z-index:170;">' + obj03[j].inputTxt[0] + '</span><div style="position:absolute;top:0;left:0;bottom:0;right:0;background-color:' + obj03[j].backgroundColor + ';opacity:' + obj03[j].opacity + ';z-index:160;border-radius:' + obj03[j].borderRadius + '%;box-shadow:' + obj03[j].boxShadow + ';"></div></div></div>';
 							// 按钮
 						} else if (obj03[j].eleType == 523) {
-							pageHtml += '<div style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zIndex + ';top:' + top + 'px;left:' + left + 'px;"><button style="color:' + obj03[j].color + ';position:relative;z-index:170;border:0;background-color:transparent;outline:0;width:100%;height:100%;">' + obj03[j].inputTxt[0] + '</button><div style="position:absolute;top:0;left:0;bottom:0;right:0;background-color:' + obj03[j].backgroundColor + ';opacity:' + obj03[j].opacity + ';z-index:160;border-radius:' + obj03[j].borderRadius + '%;box-shadow:' + obj03[j].boxShadow + ';"></div></div>';
+							pageHtml += '<div style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zIndex + ';top:' + top + 'px;left:' + left + 'px;transform:rotate(' + obj03[j].rotaAngle + 'deg);"><button style="color:' + obj03[j].color + ';position:relative;z-index:170;border:0;background-color:transparent;outline:0;width:100%;height:100%;">' + obj03[j].inputTxt[0] + '</button><div style="position:absolute;top:0;left:0;bottom:0;right:0;background-color:' + obj03[j].backgroundColor + ';opacity:' + obj03[j].opacity + ';z-index:160;border-radius:' + obj03[j].borderRadius + '%;box-shadow:' + obj03[j].boxShadow + ';"></div></div>';
 							// 下拉框
 						} else if (obj03[j].eleType == 524) {
-							var box = $('<div style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zIndex + ';top:' + top + 'px;left:' + left + 'px;"><div style="position:absolute;top:0;left:0;bottom:0;right:0;background-color:' + obj03[j].backgroundColor + ';opacity:' + obj03[j].opacity + ';z-index:160;border-radius:' + obj03[j].borderRadius + '%;box-shadow:' + obj03[j].boxShadow + ';"></div></div>');
+							var box = $('<div style="width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zIndex + ';top:' + top + 'px;left:' + left + 'px;transform:rotate(' + obj03[j].rotaAngle + 'deg);"><div style="position:absolute;top:0;left:0;bottom:0;right:0;background-color:' + obj03[j].backgroundColor + ';opacity:' + obj03[j].opacity + ';z-index:160;border-radius:' + obj03[j].borderRadius + '%;box-shadow:' + obj03[j].boxShadow + ';"></div></div>');
 							var select = $('<select style="width:100%;height:100%;position:relative;z-index:170;color:' + obj03[j].color + ';border:0;background-color:transparent;outline:0;"></select>');
 							for (var t = 0; t < obj03[j].inputTxt.length; t++) {
 								$('<option>' + obj03[j].inputTxt[t] + '</option>').appendTo(select);
 							}
 							select.appendTo(box);
 							pageHtml += box[0].outerHTML;
+							// 互动
+						} else if (obj03[j].eleType == 527 || obj03[j].eleType == 528 || obj03[j].eleType == 529 || obj03[j].eleType == 530) {
+							var svg = $(parent.document).find('.xzs-t>div[data-id="'+obj03[j].eleId+'"]').html();
+							pageHtml += '<div style="text-align:center;display:table;width:' + obj03[j].width + 'px;height:' + obj03[j].height + 'px;z-index:' + obj03[j].zIndex + ';top:' + top + 'px;left:' + left + 'px;transform:rotate(' + obj03[j].rotaAngle + 'deg);"><div style="width:100%;height:100%;display:table-cell;vertical-align:middle;box-shadow:' + obj03[j].boxShadow + ';">' + svg.replace('<path ', '<path style="fill:' + obj03[j].color + ';"').replace('<svg ', '<svg style="position:relative;z-index:170;width:68px;height:56px;"') + '<span style="position:relative;z-index:170;font-size:60px;color:' + obj03[j].color + ';display:' + obj03[j].display + ';">0</span><div style="background-color:' + obj03[j].backgroundColor + ';opacity:' + obj03[j].opacity + ';border-radius:' + obj03[j].borderRadius + '%;position:absolute;top:0;left:0;right:0;bottom:0;z-index:160;"></div></div></div>';
+							// 擦一擦
+						}else if (obj03[j].eleType == 407) {
+
+							// 摇一摇
+						}else if (obj03[j].eleType == 406) {
+
 						}
 					}
 				}

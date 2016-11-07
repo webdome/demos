@@ -87,6 +87,8 @@ $(function() {
     var gpid = Math.floor(Math.random() * 10000);
     var alb = $('.btcd .x-zk').length + 1;
     var bg_id = 'bg_' + Math.floor(Math.random() * 10000000000);
+    var reOrder = $('.btcd .x-zk')?$('.btcd .x-zk').length + 1:1;
+    $('.yxj-ys').hide();
     // 左侧页面及图层变化
     $('.btcd .x-zk').css('border', '2px solid #efeff4');
     $('.btcd .x-zk .x-sc').css('display', 'none');
@@ -124,28 +126,44 @@ $(function() {
     };
     window.sessionStorage.setItem(bg_id, JSON.stringify(elemObj[bg_id]));
   });
-  //左侧删除一个页面
+  //左侧删除一个页面  1104***
   $('.btcd').on('click', '.x-sc', function(e) {
-    e.stopPropagation;
-    $(this).parent().remove();
-    var gpid = $(this).parent().attr('id').replace('_zs', '');
-    if ($(this).parent().attr('page-cur') == 1) { // 如果是当前页面 则同时清空操作区对象集合
-      $('.eles').remove();
-      elemObj = {};
+    e.stopPropagation();
+    if (confirm('确认删除?\n删除后无法恢复!')) {
+      $(this).parent().hide();
+      var gpid = $(this).parent().attr('id').replace('_zs', '');
+      var elemObjs = getStorage();
+      if ($(this).parent().attr('page-cur') == 1) { // 如果是当前页面 则同时清空操作区对象集合
+        $('.eles').remove();
+        elemObj = {};
+      }
+      // 如果存在sysgpid 添加remove属性  如果不存在直接删除
+      if ($(this).parent().attr('sysgpid')) {
+        $(this).parent().attr('remove', '1');
+        // 给页面对应所有元素添加 remove属性
+        $.each(elemObjs, function(gpeid, obj) {
+          $.each(obj, function(property, value) {
+            if (value == gpid) {
+              obj.remove = "1";
+              window.sessionStorage.setItem(gpeid, JSON.stringify(obj));
+            }
+          });
+        });
+      } else {
+        // 移除页面中所有元素
+        $.each(elemObjs, function(gpeid, obj) {
+          $.each(obj, function(property, value) {
+            if (value == gpid) {
+              window.sessionStorage.removeItem(gpeid); // 清除对应的本地存储
+            }
+          });
+        });
+      }
     }
-    // 移除页面中所有元素
-    var elemObjs = getStorage();
-    $.each(elemObjs, function(gpeid, obj) {
-      $.each(obj, function(property, value) {
-        if (value == gpid) {
-          window.sessionStorage.removeItem(gpeid); // 清除对应的本地存储
-        }
-      });
-    });
   });
   //左侧页面点击画布区对应元素可操作
   $('.btcd').on('click', '.x-zk', function(e) {
-    e.stopPropagation;
+    e.stopPropagation();
     $('.btcd .x-zk').css('border', '2px solid #efeff4');
     $('.btcd .x-zk .x-sc').css('display', 'none');
     $('.btcd .x-zk .x-jz').css('display', 'none');
@@ -167,13 +185,27 @@ $(function() {
   $('.ar-j').on('click', function(e) {
     e.stopPropagation;
     if ($(this).hasClass('ar-r')) {
-      $(this).removeClass('ar-r').addClass('ar-rx');
-      $(this).parent().next().slideDown()
+      if($(this).parent().next().children().length == 0){
+        return;
+      }else{
+        $(this).removeClass('ar-r').addClass('ar-rx');
+        $(this).parent().next().slideDown()
+      }
     } else {
       $(this).removeClass('ar-rx').addClass('ar-r');
       $(this).parent().next().slideUp()
     }
   });
+  //左侧页面顺序的调整
+  $('.btcd').sortable({
+      axis : "y",
+      stop : function() {
+        var uljh = $('.btcd .x-zk')
+        for(var i = 0;i < uljh.length; i++){
+            uljh.eq(i).attr('reOrder',i + 1).find('.paixu').text(i + 1);
+        }
+      }
+  })
   // 背景页面的跳转
   $('.yz-f2').on('click', function(e) {
       e.stopPropagation();
@@ -248,6 +280,17 @@ $(function() {
           }, 'elementsService.do', 'getPictureProList', 'pic_list');
         }
       }
+    }
+  });
+  // 图片删除  1103***
+  $('.tu-ce').on('click', '.xt-s', function(e) {
+    e.stopPropagation();
+    var picId = $(this).parent().attr('data-id');
+    var target = $(this).parent();
+    if (confirm('确认删除?\n页面相同元素也将移除!')) {
+      getData({
+        'id': picId
+      }, 'elementsService.do', 'delPicture', 'delPicture', target);
     }
   });
   // 贴图、形状页面的跳转  
@@ -398,10 +441,10 @@ $(function() {
     $(".eles li").attr('data-cur', '0')
     $(this).parents(".box_txt").attr('data-cur', '1');
   });
-  // 文本框失焦保存文本内容 
+  // 文本框失焦保存文本内容   ***1103
   $('.cont-zc').on('blur', '.eles .box_txt .txt>div', function(e) {
     e.stopPropagation;
-    var txt = $(this).text();
+    var txt = $(this).html().replace(/<\/div>/g, '').replace(/<div>/g, '<br/>');
     var gpeid = $(this).parents("li").attr('id');
     elemObj[gpeid].fontText = txt;
     elemObj[gpeid].dataStorage();
@@ -425,9 +468,9 @@ $(function() {
     var gpeid = oneElem.gpeid;
     elemObj[gpeid] = oneElem;
     $('.dw-k').text('200px');
-    $('.dw-g').text('80px');
+    $('.dw-g').text('40px');
     elemObj[gpeid].width = 200;
-    elemObj[gpeid].height = 80;
+    elemObj[gpeid].height = 40;
     // 添加gpid区分不同页面 
     elemObj[gpeid].gpid = gpid;
     elemObj[gpeid].eleType = 520;
@@ -490,7 +533,7 @@ $(function() {
     ddrc();
     var cj = ($('.eles').find('.form')) ? ($('.eles .form').length + 100) : 100;
     var elem = $('<li class="box_input dax form" data-cur="0" gpid="' + gpid + '" style="width:100px;height:40px;top:0;left:0;z-index:' + cj + '"></li>');
-    var input = $('<div class="input bdsr"><input type="checkbox" disabled="disabled" value="选项一"/ style="position:relative;z-index:170"><span class="ddxnr">选项一</span><div class="arcg"></div></div>');
+    var input = $('<div class="input bdxan"><input type="checkbox" disabled="disabled" value="选项一"/ style="position:relative;z-index:170"><span class="ddxnr">选项一</span><div class="dxbc"></div></div>');
     var ctrl = $('<div class="container"></div><div class="bottomRight"></div><div class="bottomLeft"></div><div class="topLeft"></div><div class="topRight"></div><div class="rightc"></div><div class="leftc"></div><div class="topc"></div><div class="bottomc"></div><div class="rotate"></div><div class="line"></div>');
     elem.append(input);
     elem.append(ctrl);
@@ -562,7 +605,7 @@ $(function() {
   $('.qu1').on('click', function() {
     $('.zhe-z5').fadeOut(400);
   });
-  // 更换图片  
+  // 点击更换 跳转  
   $('.ggt-p').on('click', function(e) {
     e.stopPropagation;
     var elem_class = $('.eles>li[data-cur="1"]>div:eq(0)').attr('class');
@@ -954,6 +997,14 @@ $(function() {
     var ani_dur = $(this).parents('.dh-y').find('.zs-t:eq(0)>.ji-m').text();
     var ani_delay = $(this).parents('.dh-y').find('.zs-t:eq(1)>.ji-m').text();
     var ani_count = $(this).parents('.dh-y').find('.zs-t:eq(2)>.ji-m').text();
+    var ani_type = $(this).parents('.dh-y').find(".don-ff option:selected").parent().attr('label');
+    if (ani_type == '强调') {
+      ani_type = 1;
+    } else if (ani_type == '进入') {
+      ani_type = 0;
+    } else if (ani_type == '退出') {
+      ani_type = 2;
+    }
     $('.eles>li[data-cur="1"]>div:eq(0)').css('animation', ani_name + " " + ani_dur + ' ease ' + ani_delay + ' ' + ani_count + ' backwards');
     // ***1021
     setTimeout(function() {
@@ -963,7 +1014,7 @@ $(function() {
       "element": gpeid,
       "animation": ani_name,
       "start": 0,
-      "type": 0,
+      "type": ani_type,
       "duration": ani_dur,
       "delay": ani_delay,
       "count": ani_count,
@@ -973,7 +1024,7 @@ $(function() {
       "finish": "none",
     };
     elemObj[gpeid].animate[ani_id] = ani_obj;
-    updataAniStorage();
+    elemObj[gpeid].dataStorage();
   });
   // 动画方向 ?
   // 触发方式 ?
@@ -993,7 +1044,7 @@ $(function() {
       if (one_time > ani_dur) {
         ani_dur = one_time;
       }
-      box.css('animation', value.animation + " " + value.duration + " ease " + value.delay + " " + value.count + " backwards");
+      box.css('animation', value.animation + " " + one_dur + "s ease " + one_delay + "s " + value.count + " backwards");
       $('.eles>li[data-cur="1"]>div:eq(0)').wrap(box);
     });
     // 修复表单元素动画预览bug
@@ -1005,15 +1056,24 @@ $(function() {
     }, ani_dur * 1000 + 500);
   });
   // ***删除元素---------------------
-  // delete 按键删除元素
+  // delete 按键删除元素  1103***
   $(document).on("keydown", function(e) {
     e.stopPropagation();
     if (e.keyCode === 46) { // 如果键盘按的是delete键就删除当前激活项
-      var gpeid = $('.eles>li[data-cur="1"]').attr('id');
-      window.sessionStorage.removeItem(gpeid); // 清除对应的本地存储
-      delete elemObj[gpeid]; // 删除元素总集合中对应的成员
-      $('.eles>li[data-cur="1"]').remove(); // 删除元素
-      $('.srz[id*="' + gpeid + '"]').remove(); // 删除左侧对应图层  ***1021
+      if (confirm('确认删除元素?\n删除后无法恢复!')) {
+        var gpeid = $('.eles>li[data-cur="1"]').attr('id');
+        var obj = JSON.parse(window.sessionStorage.getItem(gpeid));
+        if (obj.sysgpeid == 0) { // 如果不存在系统id 则直接删除
+          window.sessionStorage.removeItem(gpeid); // 清除对应的本地存储
+        } else { // 如果存在系统id 则需要添加一个remove属性 来删除服务端对应元素
+          obj.remove = 1;
+          obj = JSON.stringify(obj);
+          window.sessionStorage.setItem(gpeid, obj);
+        }
+        delete elemObj[gpeid]; // 删除元素总集合中对应的成员
+        $('.eles>li[data-cur="1"]').remove(); // 删除元素
+        $('.srz[id*="' + gpeid + '"]').remove(); // 删除左侧对应图层  ***1021
+      }
     }
   });
   // 添加动画
@@ -1039,72 +1099,66 @@ $(function() {
         "finish": "none",
       };
       elemObj[gpeid].animate[ani_id] = ani_obj;
-      updataAniStorage();
+      elemObj[gpeid].dataStorage();
       // end     
       var dhs = (bg.find('.dh-y')) ? (bg.find('.dh-y').length + 1) : 1;
-      var tjdh = '<div class="dh-y ' + gpeid + '" id="' + ani_id + '"><div class="dh-y1"><span class="zhx hx-j"></span><span class="dh-z">动画' + dhs + '</span><span class="xh-x"></span></div><div class="dh-cz"><div class="chu-f"><span class="chu-fz">触发</span><select class="chu-fj"><option>进入页面</option><option>单击</option></select></div><div class="don-ff"><span class="chu-fz">动画</span><select class="input input--dropdown js--animations"><optgroup label="无"><option value = "no"> 无 </option></optgroup><optgroup label = "强调"><option value = "bounce"> 弹跳 </option><option value = "flash"> 闪动 </option><option value = "pulse"> 脉冲 </option><option value = "rubberBand"> 橡皮筋 </option><option value = "shake"> 轻摇 </option><option value = "swing"> 摆动 </option><option value = "tada"> 嗒哒 </option><option value = "wobble"> 摇晃 </option><option value = "jello"> 果冻 </option></optgroup><optgroup label = "进入"><option value = "slideInDown"> 上移入 </option><option value = "slideInLeft"> 左移入 </option><option value = "slideInRight"> 右移入 </option><option value = "slideInUp"> 下移入 </option><option value = "fadeIn"> 淡入 </option><option value = "fadeInDown"> 上淡入 </option><option value = "fadeInDownBig"> 上淡入大 </option><option value = "fadeInLeft"> 左淡入 </option><option value = "fadeInLeftBig"> 左淡入大 </option><option value = "fadeInRight"> 右淡入 </option><option value = "fadeInRightBig"> 右淡入大 </option><option value = "fadeInUp"> 下淡入 </option><option value = "fadeInUpBig"> 下淡入大 </option><option value = "bounceIn"> 弹入 </option><option value = "bounceInDown"> 向下弹入 </option><option value = "bounceInUp"> 向上弹入 </option><option value = "bounceInLeft"> 从左弹入 </option><option value = "bounceInRight"> 从右弹入 </option><option value = "hinge"> 悬掉 </option><option value = "flip"> 翻转 </option><option value = "flipInX"> X翻转 </option><option value = "flipInY"> Y翻转 </option><option value = "lightSpeedIn"> 光速 </option><option value = "rotateIn"> 旋转 </option><option value = "rotateInDownLeft"> 左下旋转 </option><option value = "rotateInDownRight"> 右下旋转 </option><option value = "rotateInUpLeft"> 左上旋转 </option><option value = "rotateInUpRight"> 右上旋转 </option><option value = "slideninLeft"> 滑动 </option><option value = "zoomIn"> 放大 </option><option value = "zoomInDown"> 下放大 </option><option value = "zoomInLeft"> 左放大 </option><option value = "zoomInRight"> 右放大 </option><option value = "zoomInUp"> 上放大 </option><option value = "rollIn"> 滚入 </option></optgroup><optgroup label = "退出"><option value = "slideOutDown"> 上移出 </option><option value = "slideOutLeft"> 左移出 </option><option value = "slideOutRight"> 右移出 </option><option value = "slideOutUp"> 下移出 </option><option value = "fadeOut"> 淡出 </option><option value = "fadeOutDown"> 下淡出 </option><option value = "fadeOutDownBig"> 下淡出大 </option><option value = "fadeOutLeft"> 左淡出 </option><option value = "fadeOutLeftBig"> 左淡出大 </option><option value = "fadeOutRight"> 右淡出 </option><option value = "fadeOutRightBig"> 右淡出大 </option><option value = "fadeOutUp"> 上淡出 </option><option value = "fadeOutUpBig"> 上淡出大 </option><option value = "bounceOut"> 弹出 </option><option value = "bounceOutDown"> 下弹出 </option><option value = "bounceOutLeft"> 左弹出 </option><option value = "bounceOutRight"> 右弹出 </option><option value = "bounceOutUp"> 上弹出 </option><option value = "flipOutX"> X翻转 </option><option value = "flipOutY"> Y翻转 </option><option value = "lightSpeedOut"> 光速 </option><option value = "rotateOut"> 旋转 </option><option value = "rotateOutDownLeft"> 左下旋转 </option><option value = "rotateOutDownRight"> 右下旋转 </option><option value = "rotateOutUpLeft"> 左上旋转 </option><option value = "rotateOutUpRight"> 右上旋转 </option><option value = "slideInRight"> 滑动 </option><option value = "zoomOut"> 缩小 </option><option value = "zoomOutDown"> 下缩小 </option><option value = "zoomOutLeft"> 左缩小 </option><option value = "zoomOutRight"> 右缩小 </option><option value = "zoomOutUp"> 上缩小 </option><option value = "rollOut"> 滚出 </option></optgroup></select><select class="zc-j"><option>中心</option><option>↑</option><option>→</option><option>↓</option><option>←</option></select></div><div class="zs-t"><span class="chu-fz">时间</span><span class="cjt-j aiti" style="border:none"></span><span class="ji-m">2s</span></div><div class="zs-t"><span class="chu-fz">延迟</span><span class="cjt-j delay"  style="border:none"></span><span class="ji-m">0s</span></div><div class="zs-t"><span class="chu-fz">次数</span><span class="cjt-j time" style="border:none"></span><span class="ji-m">1</span></div><div class="sx-dhc7"><span class="yin-y">循环</span><span class="xun-h"><span class="kgq-2"></span></span></div></div></div>';
+      var tjdh = '<div class="dh-y ' + gpeid + '" id="' + ani_id + '"><div class="dh-y1"><span class="zhx hx-j"></span><span class="dh-z">动画' + dhs + '</span><span class="xh-x"></span></div><div class="dh-cz"><div class="chu-f"><span class="chu-fz">触发</span><select class="chu-fj"><option>进入页面</option><option>单击</option></select></div><div class="don-ff"><span class="chu-fz">动画</span><select class="input input--dropdown js--animations"><optgroup label="无"><option value = "no"> 无 </option></optgroup><optgroup label = "强调"><option value = "bounce"> 弹跳 </option><option value = "flash"> 闪动 </option><option value = "pulse"> 脉冲 </option><option value = "rubberBand"> 橡皮筋 </option><option value = "shake"> 轻摇 </option><option value = "swing"> 摆动 </option><option value = "tada"> 嗒哒 </option><option value = "wobble"> 摇晃 </option><option value = "jello"> 果冻 </option><option value = "flip"> 翻转 </option></optgroup><optgroup label = "进入"><option value = "slideInDown"> 上移入 </option><option value = "slideInLeft"> 左移入 </option><option value = "slideInRight"> 右移入 </option><option value = "slideInUp"> 下移入 </option><option value = "fadeIn"> 淡入 </option><option value = "fadeInDown"> 上淡入 </option><option value = "fadeInDownBig"> 上淡入大 </option><option value = "fadeInLeft"> 左淡入 </option><option value = "fadeInLeftBig"> 左淡入大 </option><option value = "fadeInRight"> 右淡入 </option><option value = "fadeInRightBig"> 右淡入大 </option><option value = "fadeInUp"> 下淡入 </option><option value = "fadeInUpBig"> 下淡入大 </option><option value = "bounceIn"> 弹入 </option><option value = "bounceInDown"> 向下弹入 </option><option value = "bounceInUp"> 向上弹入 </option><option value = "bounceInLeft"> 从左弹入 </option><option value = "bounceInRight"> 从右弹入 </option><option value = "hinge"> 悬掉 </option><option value = "flipInX"> X翻转 </option><option value = "flipInY"> Y翻转 </option><option value = "lightSpeedIn"> 光速 </option><option value = "rotateIn"> 旋转 </option><option value = "rotateInDownLeft"> 左下旋转 </option><option value = "rotateInDownRight"> 右下旋转 </option><option value = "rotateInUpLeft"> 左上旋转 </option><option value = "rotateInUpRight"> 右上旋转 </option><option value = "slideInLeft"> 滑动 </option><option value = "zoomIn"> 放大 </option><option value = "zoomInDown"> 下放大 </option><option value = "zoomInLeft"> 左放大 </option><option value = "zoomInRight"> 右放大 </option><option value = "zoomInUp"> 上放大 </option><option value = "rollIn"> 滚入 </option></optgroup><optgroup label = "退出"><option value = "slideOutDown"> 上移出 </option><option value = "slideOutLeft"> 左移出 </option><option value = "slideOutRight"> 右移出 </option><option value = "slideOutUp"> 下移出 </option><option value = "fadeOut"> 淡出 </option><option value = "fadeOutDown"> 下淡出 </option><option value = "fadeOutDownBig"> 下淡出大 </option><option value = "fadeOutLeft"> 左淡出 </option><option value = "fadeOutLeftBig"> 左淡出大 </option><option value = "fadeOutRight"> 右淡出 </option><option value = "fadeOutRightBig"> 右淡出大 </option><option value = "fadeOutUp"> 上淡出 </option><option value = "fadeOutUpBig"> 上淡出大 </option><option value = "bounceOut"> 弹出 </option><option value = "bounceOutDown"> 下弹出 </option><option value = "bounceOutLeft"> 左弹出 </option><option value = "bounceOutRight"> 右弹出 </option><option value = "bounceOutUp"> 上弹出 </option><option value = "flipOutX"> X翻转 </option><option value = "flipOutY"> Y翻转 </option><option value = "lightSpeedOut"> 光速 </option><option value = "rotateOut"> 旋转 </option><option value = "rotateOutDownLeft"> 左下旋转 </option><option value = "rotateOutDownRight"> 右下旋转 </option><option value = "rotateOutUpLeft"> 左上旋转 </option><option value = "rotateOutUpRight"> 右上旋转 </option><option value = "slideInRight"> 滑动 </option><option value = "zoomOut"> 缩小 </option><option value = "zoomOutDown"> 下缩小 </option><option value = "zoomOutLeft"> 左缩小 </option><option value = "zoomOutRight"> 右缩小 </option><option value = "zoomOutUp"> 上缩小 </option><option value = "rollOut"> 滚出 </option></optgroup></select><select class="zc-j"><option>中心</option><option>↑</option><option>→</option><option>↓</option><option>←</option></select></div><div class="zs-t"><span class="chu-fz">时间</span><span class="cjt-j aiti" style="border:none"></span><span class="ji-m">2s</span></div><div class="zs-t"><span class="chu-fz">延迟</span><span class="cjt-j delay"  style="border:none"></span><span class="ji-m">0s</span></div><div class="zs-t"><span class="chu-fz">次数</span><span class="cjt-j time" style="border:none"></span><span class="ji-m">1</span></div><div class="sx-dhc7"><span class="yin-y">循环</span><span class="xun-h"><span class="kgq-2"></span></span></div></div></div>';
       bg.append(tjdh);
       // 动画设置滑块 功能 启动 同时存储初始化动画
       //动画时间
       $('.aiti').slider({
-          value: 10,
-          step: 5,
-          slide: function(event, ui) {
-            event.stopPropagation();
-            var ms = ui.value / 5;
-            $(this).parents('.dh-y').find('.aiti').next().text(ms + "s");
-            var elem = $(this);
-            aniShowAndStorage(elem);
-          }
-        })
-        //动画延迟
+        value: 10,
+        step: 1,
+        slide: function(event, ui) {
+          event.stopPropagation();
+          var ms = (ui.value / 10).toFixed(1);
+          $(this).parents('.dh-y').find('.aiti').next().text(ms + "s");
+          var elem = $(this);
+          aniShowAndStorage(elem);
+        }
+      });
+      //动画延迟
       $('.delay').slider({
-          step: 5,
-          slide: function(event, ui) {
-            event.stopPropagation();
-            var cs = ui.value / 5;
-            $(this).parents('.dh-y').find('.delay').next().text(cs + "s");
-            var elem = $(this);
-            aniShowAndStorage(elem);
-          }
-        })
-        //动画次数
+        step: 1,
+        slide: function(event, ui) {
+          event.stopPropagation();
+          var cs = (ui.value / 10).toFixed(1);
+          $(this).parents('.dh-y').find('.delay').next().text(cs + "s");
+          var elem = $(this);
+          aniShowAndStorage(elem);
+        }
+      });
+      //动画次数
       $('.time').slider({
-          value: 5,
-          step: 5,
-          slide: function(event, ui) {
-            event.stopPropagation();
-            var ms = ui.value / 5;
-            $(this).parents('.dh-y').find('.time').next().text(ms);
-            var elem = $(this);
-            aniShowAndStorage(elem);
-          }
-        })
-        //动画的循环  1026
-      $('.sx-sxc').on('click', '.xun-h', function(e) {
-        e.stopPropagation;
-        if ($(this).hasClass('lv')) {
-          $(this).removeClass('lv')
-          $(this).find('.kgq-2').css('left', '1px');
-          // 循环为否时 次数设置为指定次数
-          var gpeid = $('.eles>li[data-cur="1"]').attr('id');
-          var ani_id = $(this).parents('.' + gpeid).attr('id');
-          var ani_count = $(this).parents('.dh-y').find('.zs-t:eq(2)>.ji-m').text();
-          elemObj[gpeid].animate[ani_id].count = ani_count;
-          updataAniStorage();
-        } else {
-          $(this).addClass('lv')
-          $(this).find('.kgq-2').css('left', '12px');
-          // 循环为是时 次数设置为infinite
-          var gpeid = $('.eles>li[data-cur="1"]').attr('id');
-          var ani_id = $(this).parents('.' + gpeid).attr('id');
-          elemObj[gpeid].animate[ani_id].count = "infinite";
-          updataAniStorage();
+        value: 5,
+        step: 10,
+        slide: function(event, ui) {
+          event.stopPropagation();
+          var ms = ui.value / 10;
+          $(this).parents('.dh-y').find('.time').next().text(ms);
+          var elem = $(this);
+          aniShowAndStorage(elem);
         }
       });
     }
   });
-
+  //动画的循环  1104***
+  $('.sx-sxc').on('click', '.xun-h', function(e) {
+    e.stopPropagation();
+    if ($(this).hasClass('lv')) {
+      $(this).removeClass('lv')
+      $(this).find('.kgq-2').css('left', '1px');
+      $('.time').slider('enable');
+      // 循环为否时 次数设置为指定次数
+    } else {
+      $(this).addClass('lv')
+      $(this).find('.kgq-2').css('left', '12px');
+      $('.time').slider('disable');
+      // 循环为是时 次数设置为infinite
+    }
+    var elem = $(this);
+    aniShowAndStorage(elem);
+  });
   //删除动画
   $('.sx-sxc').on('click', '.xh-x', function() {
     // 删除动画时 删除对应元素对象中的对应动画  更新缓存
@@ -1162,6 +1216,7 @@ $(function() {
     // end
     $(".eles .box_txt").css('border', '0').children('.txt').attr('data-edit', '0').children().attr('contenteditable', 'false').blur();
     zwdj();
+    $('.y-t>div:eq(1)').trigger('click');
   });
   //点击左侧---左中右三边的联动
   $('.ya-shi').on('click', '.srz', function(e) {
@@ -1196,28 +1251,46 @@ $(function() {
   //删除选中的元素 1029
   $('.wzy').on('click', '.cllf', function(e) {
     e.stopPropagation()
-    var gpeid = $(this).parent().attr('id');
-    gpeid = gpeid.replace('-sh', '');
-    $(this).parent().remove();
-    $('#' + gpeid + '').remove();
-    window.sessionStorage.removeItem(gpeid); // 清除对应的本地存储
-    delete elemObj[gpeid]; // 删除元素总集合中对应的成员
-    if ($('.wzy li').length == 0) {
-      $('.wzy').hide();
-      $('.sr-w').find('.ar-j').removeClass('ar-rx').addClass('ar-r');
+    if (confirm('确认删除元素?\n删除后无法恢复!')) {
+      var gpeid = $(this).parent().attr('id');
+      gpeid = gpeid.replace('-sh', '');
+      $(this).parent().remove();
+      $('#' + gpeid + '').remove();
+      var obj = JSON.parse(window.sessionStorage.getItem(gpeid));
+      if (obj.sysgpeid == 0) { // 如果不存在系统id 则直接删除
+        window.sessionStorage.removeItem(gpeid); // 清除对应的本地存储
+      } else { // 如果存在系统id 则需要添加一个remove属性 来删除服务端对应元素
+        obj.remove = 1;
+        obj = JSON.stringify(obj);
+        window.sessionStorage.setItem(gpeid, obj);
+      }
+      delete elemObj[gpeid]; // 删除元素总集合中对应的成员
+      if ($('.wzy li').length == 0) {
+        $('.wzy').hide();
+        $('.sr-w').find('.ar-j').removeClass('ar-rx').addClass('ar-r');
+      }
     }
   });
   $('.tpy').on('click', '.cllf', function(e) {
     e.stopPropagation()
-    var gpeid = $(this).parent().attr('id');
-    gpeid = gpeid.replace('-xh', '');
-    $(this).parent().remove();
-    $('#' + gpeid + '').remove();
-    window.sessionStorage.removeItem(gpeid); // 清除对应的本地存储
-    delete elemObj[gpeid]; // 删除元素总集合中对应的成员
-    if ($('.tpy li').length == 0) {
-      $('.tpy').hide();
-      $('.sr-m').find('.ar-j').removeClass('ar-rx').addClass('ar-r');
+    if (confirm('确认删除元素?\n删除后无法恢复!')) {
+      var gpeid = $(this).parent().attr('id');
+      gpeid = gpeid.replace('-xh', '');
+      $(this).parent().remove();
+      $('#' + gpeid + '').remove();
+      var obj = JSON.parse(window.sessionStorage.getItem(gpeid));
+      if (obj.sysgpeid == 0) { // 如果不存在系统id 则直接删除
+        window.sessionStorage.removeItem(gpeid); // 清除对应的本地存储
+      } else { // 如果存在系统id 则需要添加一个remove属性 来删除服务端对应元素
+        obj.remove = 1;
+        obj = JSON.stringify(obj);
+        window.sessionStorage.setItem(gpeid, obj);
+      }
+      delete elemObj[gpeid]; // 删除元素总集合中对应的成员
+      if ($('.tpy li').length == 0) {
+        $('.tpy').hide();
+        $('.sr-m').find('.ar-j').removeClass('ar-rx').addClass('ar-r');
+      }
     }
   });
   // end
@@ -1276,6 +1349,7 @@ $(function() {
     }
     var self = $(this);
     ancs(self);
+    $('.y-t>div:eq(1)').trigger('click');
   });
 
   /* 裁剪功能 */
@@ -1499,16 +1573,312 @@ $(function() {
   $('.h_mr').on('click', function() {
     $('.zhe-z4').fadeIn();
   });
+
   //确定后退出
-  $('.tip-qd4').on('click', function() {
+  $('.tip-qd4').on('click', function(e) {
+    e.stopPropagation();
+    var elcur = $('.eles li[data-cur="1"]');
+    var gpeid = elcur.attr('id');
+    //输入框的恢复默认
+    if (elcur.hasClass('area')) {
+      $('.sr_zz .wbsr').val('').attr('placeholder', '姓名');
+      $('.sr_zz .xh-h').css('background-color', '#fff');
+      $('.sr_zz .xh-b').css('background-color', '#515151');
+      $('.sr_zz .fx1').slider({
+        value: 0
+      }).next().text('0px');
+      $('.sr_zz .hk2').slider({
+        value: 0
+      }).next().text('0px');
+      $('.sr_zz .huii').removeClass('lv').find('.kgq-2').css('left', '1px');
+      $('.sr_zz .yan-s').hide(400);
+      $('.sr_zz .ryys').css({
+        'background-color': '#515151',
+        'display': 'none'
+      });
+      $('.sr_zz .kzy-y').slideUp(400);
+      $('.sr_zz .rk5').slider({
+        value: 20
+      }).next().text('8px');
+      $('.sr_zz .rk6').slider({
+        value: 50
+      }).next().text('0px');
+      $('.sr_zz .rk7').slider({
+        value: 60
+      }).next().text('4px');
+      $('.sr_zz .baku').removeClass('lv').find('.kgq-2').css('left', '1px');
+      $('.sr_zz .yan-k').hide(400);
+      $('.sr_zz .ra-h').css({
+        'background-color': '#515151',
+        'display': 'none'
+      });
+      $('.sr_zz .kzy-z').slideUp(400);
+      $('.sr_zz .srk5').slider({
+        value: 5
+      }).next().text('1px');
+      $('.sr_zz .dw-p').text('0px');
+      $('.sr_zz .dw-x').text('0px');
+      $('.sr_zz .dw-k').text('200px');
+      $('.sr_zz .dw-g').text('40px');
+      elcur.css({
+        'width': 200,
+        'height': 40,
+        'top': 0,
+        'left': 0,
+      }).find('.bdsr').css('box-shadow', '#fff 0 0 0').find('.arcg').css({
+        'background-color': '#fff',
+        'color': '#515151',
+        'border-radius': 0,
+        'opacity': 1,
+        'border': '1px solid #fff',
+      });
+      elcur.find('textarea').attr('placeholder', '');
+      elemObj[gpeid].inputTxt = {};
+      elemObj[gpeid].width = 200;
+      elemObj[gpeid].height = 40;
+      elemObj[gpeid].positionLeft = 0;
+      elemObj[gpeid].positionTop = 0;
+      elemObj[gpeid].backgroundColor = "#fff";
+      elemObj[gpeid].color = "#515151";
+      elemObj[gpeid].opacity = 1;
+      elemObj[gpeid].borderRadius = 0;
+      elemObj[gpeid].boxShadowC = "#fff";
+      elemObj[gpeid].boxShadowS = 0;
+      elemObj[gpeid].boxShadowX = 0;
+      elemObj[gpeid].boxShadowY = 0;
+      elemObj[gpeid].borderSize = 1;
+      elemObj[gpeid].borderColor = "#fff";
+      elemObj[gpeid].dataStorage();
+    } else if (elcur.hasClass('bt')) {
+      $('.aa-nn .antj').val('').attr('placeholder', '请命名');
+      $('.aa-nn .ljmz').val('').attr('placeholder', 'http://');
+      $('.aa-nn .fx1').slider({
+        value: 0
+      }).next().text('0px');
+      $('.aa-nn .hk2').slider({
+        value: 0
+      }).next().text('0px');
+      $('.aa-nn .xb-h').css('background-color', '#fff');
+      $('.aa-nn .xb-b').css('background-color', '#515151');
+      $('.aa-nn .huii').removeClass('lv').find('.kgq-2').css('left', '1px');
+      $('.aa-nn .yan-s').hide(400);
+      $('.aa-nn .byys').css({
+        'background-color': '#515151',
+        'display': 'none'
+      });
+      $('.aa-nn .kzy-y').slideUp(400);
+      $('.aa-nn .bk5').slider({
+        value: 20
+      }).next().text('8px');
+      $('.aa-nn .bk6').slider({
+        value: 50
+      }).next().text('0px');
+      $('.aa-nn .bk7').slider({
+        value: 60
+      }).next().text('4px');
+      $('.aa-nn .dw-p').text('0px');
+      $('.aa-nn .dw-x').text('0px');
+      $('.aa-nn .dw-k').text('100px');
+      $('.aa-nn .dw-g').text('40px');
+      elcur.css({
+        'width': 100,
+        'height': 40,
+        'top': 0,
+        'left': 0
+      });
+      elcur.find('button').css({
+        'box-shadow': '#fff 0 0 0',
+        'color': '#515151'
+      }).text('请命名');
+      elcur.find('.anbc').css({
+        'background-color': '#fff',
+        'border-radius': 0,
+        'opacity': 1
+      });
+      elemObj[gpeid].width = 100;
+      elemObj[gpeid].height = 40;
+      elemObj[gpeid].positionLeft = 0;
+      elemObj[gpeid].positionTop = 0;
+      elemObj[gpeid].backgroundColor = "#fff";
+      elemObj[gpeid].color = "#515151";
+      elemObj[gpeid].opacity = 1;
+      elemObj[gpeid].borderRadius = 0;
+      elemObj[gpeid].boxShadowC = "#fff";
+      elemObj[gpeid].boxShadowS = 0;
+      elemObj[gpeid].boxShadowX = 0;
+      elemObj[gpeid].boxShadowY = 0;
+      elemObj[gpeid].inputTxt = "请命名";
+      elemObj[gpeid].dataStorage();
+    } else if (elcur.hasClass('dak')) {
+      $('.dx-k .ddxsk').val('').attr('placeholder', '姓名');
+      $('.dx-k .xc-h').css('background-color', '#fff');
+      $('.dx-k .xc-b').css('background-color', '#515151');
+      $('.dx-k .fx1').slider({
+        value: 0
+      }).next().text('0px');
+      $('.dx-k .hk2').slider({
+        value: 0
+      }).next().text('0px');
+      $('.dx-k .dw-p').text('0px');
+      $('.dx-k .dw-x').text('0px');
+      $('.dx-k .dw-k').text('100px');
+      $('.dx-k .dw-g').text('40px');
+      elcur.css({
+        'width': 100,
+        'height': 40,
+        'top': 0,
+        'left': 0
+      }).find('.bdxan').css('color', '#515151').find('.dxbc').css({
+        'opacity': 1,
+        'background-color': '#fff',
+        'border-radius': 0
+      });
+      elcur.find('.ddxnr').text('选项一');
+      elemObj[gpeid].width = 100;
+      elemObj[gpeid].height = 40;
+      elemObj[gpeid].positionLeft = 0;
+      elemObj[gpeid].positionTop = 0;
+      elemObj[gpeid].backgroundColor = "#fff";
+      elemObj[gpeid].color = "#515151";
+      elemObj[gpeid].opacity = 1;
+      elemObj[gpeid].borderRadius = 0;
+      elemObj[gpeid].inputTxt = "姓名";
+      elemObj[gpeid].dataStorage();
+    } else if (elcur.hasClass('xla')) {
+      $('.gt-mm .xlkko>option:gt(2)').remove();
+      $('.gt-mm .xx-hz>.bo-t1:gt(2)').remove();
+      $('.gt-mm .xlkko>option').text('');
+      $('.gt-mm .qs-r').val('').attr('placeholder', '请输入内容');
+      $('.gt-mm .xx-sz').text('3/9');
+      $('.gt-mm .fx1').slider({
+        value: 0
+      }).next().text('0px');
+      $('.gt-mm .hk2').slider({
+        value: 0
+      }).next().text('0px');
+      $('.gt-mm .xa-h').css('background-color', '#fff');
+      $('.gt-mm .xa-b').css('background-color', '#515151');
+      $('.gt-mm .huii').removeClass('lv').find('.kgq-2').css('left', '1px');
+      $('.gt-mm .yan-s').hide(400);
+      $('.gt-mm .xyys').css({
+        'background-color': '#515151',
+        'display': 'none'
+      });
+      $('.gt-mm .kzy-y').slideUp(400);
+      $('.gt-mm .xk5').slider({
+        value: 20
+      }).next().text('8px');
+      $('.gt-mm .xk6').slider({
+        value: 50
+      }).next().text('0px');
+      $('.gt-mm .xk7').slider({
+        value: 60
+      }).next().text('4px');
+      $('.gt-mm .dw-p').text('0px');
+      $('.gt-mm .dw-x').text('0px');
+      $('.gt-mm .dw-k').text('100px');
+      $('.gt-mm .dw-g').text('40px');
+      elcur.css({
+        'width': 100,
+        'height': 40,
+        'top': 0,
+        'left': 0
+      }).find('.xlko').css({
+        'background-color': '#fff',
+        'color': '#515151',
+        'opacity': 1,
+        'border-radius': 0,
+        'box-shadow': '#fff 0 0 0'
+      });
+      elcur.find('option:gt(2)').remove();
+      elcur.find('option').text('');
+      elemObj[gpeid].width = 100;
+      elemObj[gpeid].height = 40;
+      elemObj[gpeid].positionLeft = 0;
+      elemObj[gpeid].positionTop = 0;
+      elemObj[gpeid].backgroundColor = "#fff";
+      elemObj[gpeid].color = "#515151";
+      elemObj[gpeid].opacity = 1;
+      elemObj[gpeid].borderRadius = 0;
+      elemObj[gpeid].boxShadowC = "#fff";
+      elemObj[gpeid].boxShadowS = 0;
+      elemObj[gpeid].boxShadowX = 0;
+      elemObj[gpeid].boxShadowY = 0;
+      elemObj[gpeid].inputTxt = {};
+      var inputTxt_id1 = $('.gt-mm .xx-hz .qs-r').eq(0).attr('id');
+      var inputTxt_id2 = $('.gt-mm .xx-hz .qs-r').eq(1).attr('id');
+      var inputTxt_id3 = $('.gt-mm .xx-hz .qs-r').eq(2).attr('id');
+      elemObj[gpeid].inputTxt[inputTxt_id1] = "请输入内容";
+      elemObj[gpeid].inputTxt[inputTxt_id2] = "请输入内容";
+      elemObj[gpeid].inputTxt[inputTxt_id3] = "请输入内容";
+      elemObj[gpeid].dataStorage();
+    } else if (elcur.hasClass('at')) {
+      $('.tjx-h .xd-h').css('background-color', '#fff');
+      $('.tjx-h .xd-b').css('background-color', '#515151');
+      $('.tjx-h .fx1').slider({
+        value: 0
+      }).next().text('0px');
+      $('.tjx-h .hk2').slider({
+        value: 0
+      }).next().text('0px');
+      $('.tjx-h .bm-z').css('background-color', '#2eb3e8');
+      $('.tjx-h .bm-y').css('background-color', '#bbb');
+      $('.tjx-h .huii').removeClass('lv').find('.kgq-2').css('left', '1px');
+      $('.tjx-h .yan-s').hide(400);
+      $('.tjx-h .dyys').css({
+        'background-color': '#515151',
+        'display': 'none'
+      });
+      $('.tjx-h .kzy-y').slideUp(400);
+      $('.tjx-h .dk5').slider({
+        value: 20
+      }).next().text('8px');
+      $('.tjx-h .dk6').slider({
+        value: 50
+      }).next().text('0px');
+      $('.tjx-h .dk7').slider({
+        value: 60
+      }).next().text('4px');
+      $('.tjx-h .dw-p').text('0px');
+      $('.tjx-h .dw-x').text('0px');
+      $('.tjx-h .dw-k').text('100px');
+      $('.tjx-h .dw-g').text('40px');
+      elcur.css({
+        'width': 100,
+        'height': 40,
+        'top': 0,
+        'left': 0
+      }).find('.hd').css('box-shadow', '#fff 0 0 0').find('.fxbc').css({
+        'opacity': 1,
+        'border-radius': 0,
+        'background-color': '#fff'
+      });
+      elcur.find('.hdzt').css({
+        'color': '#ff5448',
+        'display': 'inline'
+      });
+      elcur.find('.cls-2').css('fill', '#ff5448');
+      elemObj[gpeid].backgroundColor = "#fff";
+      elemObj[gpeid].color = "red";
+      elemObj[gpeid].fill = "#ff5448";
+      elemObj[gpeid].opacity = 1;
+      elemObj[gpeid].borderRadius = 0;
+      elemObj[gpeid].boxShadowC = "#fff";
+      elemObj[gpeid].boxShadowS = 0;
+      elemObj[gpeid].boxShadowX = 0;
+      elemObj[gpeid].boxShadowY = 0;
+      elemObj[gpeid].width = 100;
+      elemObj[gpeid].height = 40;
+      elemObj[gpeid].positionLeft = 0;
+      elemObj[gpeid].positionTop = 0;
+      elemObj[gpeid].dataStorage();
+    }
     $('.zhe-z4').fadeOut(400);
   });
   //取消后退出
   $('.tip-qx4').on('click', function() {
     $('.zhe-z4').fadeOut(400);
   });
-
-
   //点击上传背景
   $('#file').change(function() {
     $('.sc-bt span').text('更换背景');
@@ -1617,6 +1987,8 @@ $(function() {
         elemObj[gpeid].textDecoration = "underline";
         elemObj[gpeid].dataStorage();
       }
+
+
       //文本字体的中划线
     } else if ($(this).hasClass('bt-s')) {
       if (font.css('text-decoration') == 'none') {
@@ -1668,14 +2040,14 @@ $(function() {
     },
     theme: 'default'
   });
-  //文本字体类型的设置
+  //文本字体类型的设置   1103***
   $('.wryh').change(function(e) {
-    var cur = $('.eles li[data-cur="1"]')
+    e.stopPropagation();
+    var cur = $('.eles li[data-cur="1"]');
     var gpeid = cur.attr('id');
     var val = $(this).find('option:selected').val();
-    e.stopPropagation();
-    cur.find('.txt>div').css('font-family', val);
-    elemObj[gpeid].fontFamily = "叶根友毛笔行书";
+    cur.find('.txt div').css('font-family', val);
+    elemObj[gpeid].fontFamily = val;
     elemObj[gpeid].dataStorage();
   });
   //文本字体大小的设置
@@ -1993,7 +2365,7 @@ $(function() {
       elemObj[gpeid].dataStorage();
     }
   });
-  //设置选中元素的的背景色(表单)
+  //设置表单背景色 1103***
   $('.szbjs').minicolors({
     change: function(hex, opacity) {
       var log;
@@ -2003,10 +2375,10 @@ $(function() {
         $('.eles li[data-cur="1"]').find('.anbc').css('background-color', log);
         $('.eles li[data-cur="1"]').find('.xlbc').css('background-color', log);
         $('.eles li[data-cur="1"]').find('.dxbc').css('background-color', log);
-        $('.eles li[data-cur="1"]').find('.dubc').css('background-color', log);
         $('.eles li[data-cur="1"]').find('.fxbc').css('background-color', log);
         $('.eles li[data-cur="1"]').find('.arcg').css('background-color', log);
         $('.bwj-z1').css('background-color', log);
+        $('.bwj-z1 .tzsz').val(log);
         var gpeid = $('.eles li[data-cur="1"]').attr('id');
         elemObj[gpeid].backgroundColor = log;
         elemObj[gpeid].dataStorage();
@@ -2025,7 +2397,6 @@ $(function() {
         $('.eles li[data-cur="1"]').find('button').css('color', log);
         $('.eles li[data-cur="1"]').find('select').css('color', log);
         $('.eles li[data-cur="1"]').find('.bdxan').css('color', log);
-        $('.eles li[data-cur="1"]').find('.bsxan').css('color', log);
         $('.eles li[data-cur="1"]').find('textarea').css('color', log);
         $('.bwj-z2').css('background-color', log);
         var gpeid = $('.eles li[data-cur="1"]').attr('id');
@@ -2062,7 +2433,6 @@ $(function() {
       $('.eles li[data-cur="1"]').find('.anbc').css('border-radius', bjz);
       $('.eles li[data-cur="1"]').find('.xlbc').css('border-radius', bjz);
       $('.eles li[data-cur="1"]').find('.dxbc').css('border-radius', bjz);
-      $('.eles li[data-cur="1"]').find('.dubc').css('border-radius', bjz);
       $('.eles li[data-cur="1"]').find('.fxbc').css('border-radius', bjz);
       $('.eles li[data-cur="1"]').find('.arcg').css('border-radius', bjz);
       var yjxsz = (ui.value * 0.5).toFixed(0) + '%';
@@ -2218,6 +2588,7 @@ $(function() {
     }
   });
   //设置下拉框的颜色
+  ///设置按钮阴影的颜色
   $('.xzyys').minicolors({
     position: 'right',
     change: function(hex, opacity) {
@@ -2285,6 +2656,7 @@ $(function() {
     }
   });
   //设置互动阴影的颜色
+  ////设置互动阴影的颜色
   $('.dzyys').minicolors({
     position: 'right',
     change: function(hex, opacity) {
@@ -2297,7 +2669,7 @@ $(function() {
         var sz = $('.dsz-z').text();
         $('.dyys').css('background-color', log);
         $('.tjx-h .sztt').css('background-color', log);
-        $('.tjx-h .tzsz').val(log);
+        $('.tjx-h .tzsz:eq(2)').val(log);
         $('.eles li[data-cur="1"]').find('.hd').css('box-shadow', '' + log + ' ' + xz + ' ' + yz + ' ' + sz);
         var gpeid = $('.eles li[data-cur="1"]').attr('id');
         elemObj[gpeid].boxShadowC = log;
@@ -2313,7 +2685,7 @@ $(function() {
       var bjz = (ui.value * 0.4).toFixed(0);
       var xz = $('.dxz-z').text();
       var yz = $('.dyz-z').text();
-      var cz = $('.tjx-h .tzsz').val();
+      var cz = $('.tjx-h .tzsz:eq(2)').val();
       $('.eles li[data-cur="1"]').find('.hd').css('box-shadow', '' + cz + ' ' + xz + ' ' + yz + ' ' + bjz + 'px');
       $(this).next().text(bjz + 'px');
       var gpeid = $('.eles li[data-cur="1"]').attr('id');
@@ -2328,7 +2700,7 @@ $(function() {
       var bjz = ((ui.value - 50) * 0.4).toFixed(0);
       var yz = $('.dyz-z').text();
       var sz = $('.dsz-z').text();
-      var cz = $('.tjx-h .tzsz').val();
+      var cz = $('.tjx-h .tzsz:eq(2)').val();
       $('.eles li[data-cur="1"]').find('.hd').css('box-shadow', '' + cz + ' ' + bjz + 'px ' + yz + ' ' + sz);
       $(this).next().text(bjz + "px");
       var gpeid = $('.eles li[data-cur="1"]').attr('id');
@@ -2345,7 +2717,7 @@ $(function() {
       xz = xz.replace("px", "");
       var sz = $('.dsz-z').text();
       sz = sz.replace("px", "");
-      var cz = $('.tjx-h .tzsz').val();
+      var cz = $('.tjx-h .tzsz:eq(2)').val();
       $('.eles li[data-cur="1"]').find('.hd').css('box-shadow', '' + cz + ' ' + xz + ' ' + bjz + 'px ' + sz);
       $(this).next().text(bjz + "px");
       var gpeid = $('.eles li[data-cur="1"]').attr('id');
@@ -2440,7 +2812,10 @@ $(function() {
         $(this).find('.kgq-2').css('left', '12px');
         $(this).nextAll().show();
         $(this).next().next().css('background-color', '#515151');
-        $(this).parent().next().slideDown(400);
+        $('.kzy-z').slideDown(400);
+        $('.kzy-z .srk5').slider({
+          value: 5
+        }).next().text('1px');
         el.css('border', '1px solid #515151');
         elemObj[gpeid].borderSize = 1;
         elemObj[gpeid].borderColor = "#515151";
@@ -2515,7 +2890,7 @@ $(function() {
     },
     theme: 'default'
   });
-  //互动页颜色控制器
+  //互动页颜色控制器  1103***
   $('.hdcsz').minicolors({
     position: 'right',
     change: function(hex, opacity) {
@@ -2526,19 +2901,21 @@ $(function() {
         $('.ysko').css('background-color', log);
         $('.eles li[data-cur="1"]').find('.cls-2').css('fill', log);
         $('.eles li[data-cur="1"]').find('.hdzt').css('color', log);
+        $('.tjx-h .tzsz:eq(1)').val(log);
         var gpeid = $('.eles li[data-cur="1"]').attr('id');
-        elemObj[gpeid].backgroundColor = log;
         elemObj[gpeid].color = log;
         elemObj[gpeid].dataStorage();
       } catch (e) {}
     },
     theme: 'default'
   });
-  //互动界面的处理
+  //添加互动  // 1103***
   $('.xzs-t').on('click', 'div', function(e) {
     e.stopPropagation();
     hdxl();
     var src = $(this).find('img').attr('src');
+    var eleType = Number($(this).attr('data-type'));
+    var eleId = Number($(this).attr('data-id'));
     $('.eles li').attr('data-cur', '0');
     $('.eles li>div').not('.graph,.pic,.txt,.input,.shape,.hd').hide();
     var gpid = $('.btcd .x-zk[page-cur="1"]').attr('id').replace('_zs', '');
@@ -2554,7 +2931,11 @@ $(function() {
     elemObj[gpeid] = oneElem;
     // 添加gpid区分不同页面 
     elemObj[gpeid].gpid = gpid;
-    elemObj[gpeid].eleType = 526; // 1101***
+    elemObj[gpeid].eleType = eleType;
+    elemObj[gpeid].zIndex = 160;
+    elemObj[gpeid].eleId = eleId;
+    elemObj[gpeid].color = '#ff5448';
+    elemObj[gpeid].path = oneactive;
     elemObj[gpeid].dataStorage();
   });
   //设置选中元素的背景透明度
@@ -2564,7 +2945,6 @@ $(function() {
       $('.eles li[data-cur="1"]>div').eq(0).find('.fxbc').css('opacity', bjz);
       $('.eles li[data-cur="1"]>div').eq(0).find('.anbc').css('opacity', bjz);
       $('.eles li[data-cur="1"]>div').eq(0).find('.dxbc').css('opacity', bjz);
-      $('.eles li[data-cur="1"]>div').eq(0).find('.dubc').css('opacity', bjz);
       $('.eles li[data-cur="1"]>div').eq(0).find('.xlbc').css('opacity', bjz);
       $('.eles li[data-cur="1"]>div').eq(0).find('.arcg').css('opacity', bjz);
       $(this).next().text(ui.value + "%");
@@ -2587,6 +2967,7 @@ $(function() {
     $('.eles li[data-cur="1"]').find('.hdzt').css('display', 'block');
     elemObj[num].width = he;
     elemObj[num].height = wi;
+    elemObj[num].full = "block";
     elemObj[num].dataStorage();
     if ($('.eles .at').length == 0) {
       return;
@@ -2606,7 +2987,7 @@ $(function() {
     $('.eles li[data-cur="1"]').find('.hdzt').css('display', 'inline');
     elemObj[num].width = he;
     elemObj[num].height = wi;
-    elemObj[num].textAlign = "left";
+    elemObj[num].full = "inline";
     elemObj[num].dataStorage();
     if ($('.eles .at').length == 0) {
       return;
@@ -2634,6 +3015,7 @@ $(function() {
   $('.content').on('click', '.cancel_upload', function(e) {
     e.stopPropagation;
     $('#picUpload').hide(200);
+    $('.upload_preview').empty();
   });
   // 初始化插件 配置参数
   $("#demo").zyUpload({
@@ -2675,7 +3057,7 @@ $(function() {
   //制作页预览
   $('.k-j1').on('click', function(e) {
     e.stopPropagation;
-    var giftObj = saveGift();
+    var giftObj = saveGift('haspath');
     if (giftObj.giftPageElements.length < 2) {
       alert('页面为空无法预览');
       return;
@@ -2713,29 +3095,61 @@ $(function() {
       $('.tx').remove();
     })
     //摇一摇效果
-  $('.dh-jh').on('click', 'div', function(e) {
+    //花瓣，枫叶，雪花，气泡特效
+  $('.dh-jh').on('click', '.ybtx', function(e) {
       e.stopPropagation();
+      $('.cy-y .sx-dhc3').show();
+      if ($('.eles .box_yy')) {
+        var gpeid = $('.eles .box_yy').attr('id');
+        $('.box_yy').remove();
+        window.sessionStorage.removeItem(gpeid);
+      }
+      var imgSrc = $(this).attr('data-src');
       var elem = $('<li class="box_yy" style="position:absolute;top:0;left:0;width:100%;height:100%"><div class="yytx" style="width:100%;height:100%"></div></li>');
       $('.eles').append(elem);
       $('.yxj-ys').show();
+      var tx_id = 'tx_' + Math.floor(Math.random() * 10000000000);
+      $('.box_yy').attr('id', tx_id);
+      $('.box_yy').attr('gpid', gpid);
+      // 初始化一个背景
+      elemObj[tx_id] = {
+        "gpeid": tx_id,
+        "sysgpeid": "0",
+        "gpid": gpid,
+        "sysgpid": "0",
+        "eleId": "0",
+        "eleType": "406",
+        "zIndex": "500",
+        "backgroundColor": "",
+        "imgTime": "20",
+        "imgSize": "36",
+        "imgTyle": imgSrc,
+        "effectType":"",
+        "opacity": 1,
+        "animate": {}
+      };
+      window.sessionStorage.setItem(tx_id, JSON.stringify(elemObj[tx_id]));
       $('.yytx').snowfall({
-        image: "images/yyytp/qipao.png",
+        image: imgSrc,
         flakeCount: 20,
         minSize: 15, //15
-        maxSize: 72 //72
+        maxSize: 36 //72
       });
+      var gpeid = $('.box_yy').attr('id');
       $('.txqr').slider({
         value: 50,
         slide: function(event, ui) {
           event.stopPropagation();
           $('.yytx').snowfall('clear');
+          var imgS = elemObj[gpeid].imgSize;
           var cs = ((100 - ui.value) / 2.5).toFixed(0);
           $('.yytx').snowfall({
-            image: "images/yyytp/qipao.png",
+            image: imgSrc,
             flakeCount: cs,
-            minSize: 10,
-            maxSize: 80
+            minSize: 15,
+            maxSize: imgS
           });
+          updataEffect('imgTime', cs);
         }
       })
       $('.txdx').slider({
@@ -2743,21 +3157,93 @@ $(function() {
         slide: function(event, ui) {
           event.stopPropagation();
           $('.yytx').snowfall('clear');
-          var cs = (100 - ui.value);
+          var imgT = elemObj[gpeid].imgTime;
+          var ds = (100 - ui.value);
           $('.yytx').snowfall({
-            image: "images/yyytp/qipao.png",
-            flakeCount: 40,
+            image: imgSrc,
+            flakeCount: imgT,
             minSize: 10,
-            maxSize: cs
+            maxSize: ds
           });
+          updataEffect('imgSize', ds);
         }
       })
+    })
+    //烟花特效
+  $('.y-aha').on('click', function(e) {
+    e.stopPropagation();
+    $('.cy-y .sx-dhc3').hide();
+    if ($('.eles .box_yy')) {
+      var gpeid = $('.eles .box_yy').attr('id');
+      $('.box_yy').remove();
+      window.sessionStorage.removeItem(gpeid);
+    }
+    var elem = $('<li class="box_yy" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:500"><div class="yytx" style="width:100%;height:100%"></div></li>');
+    $('.eles').append(elem);
+    $('.yxj-ys').show();
+    var tx_id = 'tx_' + Math.floor(Math.random() * 10000000000);
+    $('.box_yy').attr('id', tx_id);
+    $('.box_yy').attr('gpid', gpid);
+    // 初始化一个背景
+    elemObj[tx_id] = {
+      "gpeid": tx_id,
+      "sysgpeid": "0",
+      "gpid": gpid,
+      "sysgpid": "0",
+      "eleId": "0",
+      "eleType": "406",
+      "zIndex": "500",
+      "backgroundColor": "",
+      "imgTime": "",
+      "imgSize": "",
+      "imgType": "",
+      "path": "",
+      "effectType":"",
+      "opacity": 1,
+      "animate": {}
+    };
+    window.sessionStorage.setItem(tx_id, JSON.stringify(elemObj[tx_id]));
+    $('.box_yy').fireworks({
+      sound: false, // sound effect
+      opacity: 0.95,
+      width: '320',
+      height: '504',
+    });
+  });
+  //点击摇一摇让动画展示和消失
+  $('.yxj-ys').on('click',function(e){
+      e.stopPropagation();
+      if($('.eles .box_yy').hasClass('box_yy')){
+        $('.box_yy').remove();
+      }else{
+        var gpid = $('.eles').attr('gpid');
+        // console.log(gpid);
+        var objs = getStorage();
+        $.each(objs, function(i,v){
+            if(v.gpid == gpid && v.eleType == 406){
+              // var v = v;
+              var elem = $('<li class="box_yy" gpid="'+v.gpid+'" id="'+v.gpeid+'"  style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:500"><div class="yytx" style="width:100%;height:100%"></div></li>');
+              $('.eles').append(elem);
+              $('.yytx').snowfall({
+                  image: v.imgTyle,
+                  flakeCount: v.imgTime,
+                  minSize: 15, //15
+                  maxSize: v.imgSize //72
+               });
+            }
+        })
+
+      }
+      
+      
     })
     //删除特效摇一摇
   $('.ysxc-1').on('click', function(e) {
     e.stopPropagation();
-    $(this).parent().hide()
+    $(this).parent().hide();
+    var gpeid = $('.box_yy').attr('id');
     $('.box_yy').remove();
+    window.sessionStorage.removeItem(gpeid);
   });
   // 背景图片裁剪
   var clipArea = new bjj.PhotoClip("#clipArea", {
@@ -2794,6 +3280,35 @@ $(function() {
     },
     theme: 'default'
   });
-
-
 })
+$(function() {
+  // 首先判断有没有参数传递 如果有就为二次修改 并且根据作品id来获得作品详情
+  // 获取作品id
+  var gift_id = window.location.href.match(/gift_id=(\d+)/g);
+  if (gift_id) {
+    gift_id = gift_id[0].split('=')[1];
+    // 清空缓存 \ 清空操作对象集合 \ 清空页面
+    window.sessionStorage.clear();
+    elemObj = {};
+    $('.eles').remove();
+    $('.x-zk').remove();
+    // 获取作品详情  解析后渲染并存储至缓存 默认第一页加载到操作对象集合
+    getData({
+      "gid": gift_id,
+    }, 'giftsService.do', 'getGiftDetail', 'one_draft');
+  }
+});
+// 点击页面 生成当前页面缩略图
+$('.y-t>div:eq(0)').on('click', function() {
+  $('.eles li>div').not('.graph,.pic,.txt,.input,.shape,.hd').hide();
+  html2canvas($('.eles'), {
+    onrendered: function(canvas) {
+      if ($('.x-zk[page-cur="1"]').attr('canvas')) {
+        $('.x-zk[page-cur="1"] canvas').replaceWith(canvas);
+      }else{
+        $('.x-zk[page-cur="1"]').attr('canvas','1').append(canvas);
+      }
+      $(canvas).css('transform','scale(0.3125) translateX(-239px) translateY(-493px)');
+    },
+  });
+});

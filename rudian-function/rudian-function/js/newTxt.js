@@ -54,7 +54,7 @@ function newTxt(txtElem, gpeid) {
     this.gpeid = 'txt_' + Math.floor(Math.random() * 10000000000);
     // 样式
     this.fontSize = 24;
-    this.fontFamily = "microsoft yahei";
+    this.fontFamily = "微软雅黑";
     this.fontText = "请输入文本";
     this.textDecoration = "none";
     this.color = "#515151";

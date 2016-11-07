@@ -18,7 +18,7 @@ function newInput(inputElem, gpeid) {
   this.mouseCur = {};
   this.boxPosition = {};
   this.divStart = {};
-  
+
   var elemObjs = getStorage();
   if (gpeid) {
     this.gpeid = gpeid;
@@ -46,6 +46,9 @@ function newInput(inputElem, gpeid) {
     var border = elemObjs[gpeid].border.split(' solid ');
     this.borderSize = border[0];
     this.borderColor = border[1];
+    this.display = elemObjs[gpeid].display;
+    this.eleId = elemObjs[gpeid].eleId;
+    this.path = elemObjs[gpeid].path;
   } else {
     // 随机生成编号
     this.gpeid = 'input_' + Math.floor(Math.random() * 10000000000);
@@ -72,12 +75,15 @@ function newInput(inputElem, gpeid) {
     this.eleType = 0;
     this.sysgpeid = 0;
     this.sysgpid = 0;
+    this.display = "inline";
+    this.eleId = 0;
+    this.path = 0;
   }
   var self = this;
   // 本地存储
   this.dataStorage = function() {
     self.box.attr('id', self.gpeid);
-    var storageStr = '{"gpeid":"' + self.gpeid + '","sysgpeid":'+self.sysgpeid+',"gpid":' + self.gpid + ',"sysgpid":'+self.sysgpid+',"eleType":'+self.eleType+',"opacity":' + this.opacity + ',"border":"'+self.borderSize+'px solid '+self.borderColor+'","boxShadow":"' + self.boxShadowC + ' ' + self.boxShadowX + 'px ' + self.boxShadowY + 'px ' + self.boxShadowS + 'px","inputTxt":' + JSON.stringify(self.inputTxt) + ',"left":' + self.positionLeft + ',"top":' + self.positionTop + ',"zIndex":'+self.zIndex+',"width":' + self.width + ',"height":' + self.height + ',"rotaAngle":' + self.totalAngle + ',"borderRadius":' + self.borderRadius + ',"backgroundColor":"' + self.backgroundColor + '","color":"' + self.color + '","fontSize":"","fontFamily":"","color":"","fontWeight":"","textShadow":"","fontDirection":"","textAlign":"","fontText":"","animate":' + JSON.stringify(self.animate) + '}';
+    var storageStr = '{"gpeid":"' + self.gpeid + '","sysgpeid":' + self.sysgpeid + ',"gpid":' + self.gpid + ',"sysgpid":' + self.sysgpid + ',"eleType":' + self.eleType + ',"opacity":' + self.opacity + ',"border":"' + self.borderSize + 'px solid ' + self.borderColor + '","boxShadow":"' + self.boxShadowC + ' ' + self.boxShadowX + 'px ' + self.boxShadowY + 'px ' + self.boxShadowS + 'px","inputTxt":' + JSON.stringify(self.inputTxt) + ',"left":' + self.positionLeft + ',"top":' + self.positionTop + ',"zIndex":' + self.zIndex + ',"width":' + self.width + ',"height":' + self.height + ',"rotaAngle":' + self.totalAngle + ',"borderRadius":' + self.borderRadius + ',"backgroundColor":"' + self.backgroundColor + '","path":'+JSON.stringify(self.path)+',"eleId":'+self.eleId+',"color":"' + self.color + '","display":"' + self.display + '","animate":' + JSON.stringify(self.animate) + '}';
     window.sessionStorage.setItem(self.gpeid, storageStr);
   };
   if (!gpeid) {

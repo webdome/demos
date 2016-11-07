@@ -1,5 +1,5 @@
 // 取出所有本地存储、页面、作品一起解析为待保存的gift对象
-function saveGift() {
+function saveGift(func) {
 	var elemObjs = getStorage();
 	var giftObj = {};
 	var giftPageElements = [];
@@ -40,7 +40,8 @@ function saveGift() {
 			var textshadowS = parseInt(textshadow[3]) * 2;
 			value.textShadow = textshadowC + ' ' + textshadowX + 'px ' + textshadowY + 'px ' + textshadowS + 'px';
 		}
-		if (value.path) {
+		// 如果传入func 则不删除path 以便制作页预览
+		if (value.path && !func) {
 			delete value.path;
 		}
 		var inputTxt = [];
@@ -64,6 +65,10 @@ function saveGift() {
 	$.each(pages, function(key, value) {
 		var gpid = Number($(value).attr('id').replace('_zs', ''));
 		var sysgpid = Number($(value).attr('sysgpid')) ? Number($(value).attr('sysgpid')) : 0;
+		var remove = '0';
+		if ($(value).attr('remove')) {
+			remove = '1';
+		}
 		var obj = {
 			"gpid": gpid,
 			"sysgpid": sysgpid,
@@ -71,6 +76,7 @@ function saveGift() {
 			"sysgid": sysgid,
 			"reOrder": pageIndex++,
 			"modId": "0",
+			'remove': remove,
 		};
 		giftPages.push(obj);
 	});
@@ -97,6 +103,10 @@ function getStorage() {
 	return objs;
 	// console.log(objs);
 }
+// 删除元素 添加remove属性
+function updataDelElem() {
+
+}
 // 更新图片本地存储
 function updatePicStorage(key, value) {
 	var num = $('.eles>li[data-cur="1"]').attr('id');
@@ -110,10 +120,10 @@ function setStorage(obj) {
 	});
 }
 // 更新动画本地存储
-function updataAniStorage() {
-	var gpeid = $('.eles>li[data-cur="1"]').attr('id');
-	elemObj[gpeid].dataStorage();
-}
+// function updataAniStorage() {
+// 	var gpeid = $('.eles>li[data-cur="1"]').attr('id');
+// 	elemObj[gpeid].dataStorage();
+// }
 // 更新背景对象属性及本地存储
 function updataBgStorage(key, value) {
 	var gpeid = $('.eles>.box_bg').attr('id');
@@ -123,6 +133,15 @@ function updataBgStorage(key, value) {
 	bgStorage = JSON.stringify(bgStorage);
 	window.sessionStorage.setItem(gpeid, bgStorage);
 }
+// 更新特效摇一摇对象属性及本地存储
+function updataEffect(key, value) {
+	var gpeid = $('.eles>.box_yy').attr('id');
+	elemObj[gpeid][key] = value;
+	var yyStorage = JSON.parse(window.sessionStorage.getItem(gpeid));
+	yyStorage[key] = value;
+	yyStorage = JSON.stringify(yyStorage);
+	window.sessionStorage.setItem(gpeid, yyStorage);
+}
 // 动画存储
 function aniShowAndStorage(elem) {
 	var ani_name = elem.parents('.dh-y').find(".don-ff option:selected").val();
@@ -131,11 +150,23 @@ function aniShowAndStorage(elem) {
 	var ani_dur = elem.parents('.dh-y').find('.zs-t:eq(0)>.ji-m').text();
 	var ani_delay = elem.parents('.dh-y').find('.zs-t:eq(1)>.ji-m').text();
 	var ani_count = elem.parents('.dh-y').find('.zs-t:eq(2)>.ji-m').text();
+	if (elem.parents('.dh-y').find('.xun-h').hasClass('lv')) {
+		ani_count = 'infinite';
+		console.log(ani_count);
+	}
+	var ani_type = elem.parents('.dh-y').find('.don-ff>select:eq(0) option:selected').parent().attr('label');
+	if (ani_type == '强调') {
+		ani_type = 1;
+	} else if (ani_type == '进入') {
+		ani_type = 0;
+	} else if (ani_type == '退出') {
+		ani_type = 2;
+	}
 	var ani_obj = {
 		"element": gpeid,
 		"animation": ani_name,
 		"start": 0,
-		"type": 0,
+		"type": ani_type,
 		"duration": ani_dur,
 		"delay": ani_delay,
 		"count": ani_count,
@@ -145,5 +176,5 @@ function aniShowAndStorage(elem) {
 		"finish": "none",
 	};
 	elemObj[gpeid].animate[ani_id] = ani_obj;
-	updataAniStorage();
+	elemObj[gpeid].dataStorage();
 }

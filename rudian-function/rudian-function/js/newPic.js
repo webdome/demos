@@ -134,9 +134,9 @@ function newPic(picElem, gpeid) {
     self.box[0].style.top = self.positionTop - h / 2 + "px";
     //右拉时元素大小位置的显示
     var widz = (self.width + w).toFixed(0) + "px";
-    $('.pic-sd .tzzb').text(widz);
+    $('.pic-sd .thzb').text(widz);
     var heiz = (self.height + h).toFixed(0) + "px";
-    $('.pic-sd .thzb').text(heiz);
+    $('.pic-sd .tzzb').text(heiz);
     var topz = self.positionTop - h / 2;
     topz = topz.toFixed(0) + "px";
     $('.pic-sd .zzb').text(topz);
@@ -175,9 +175,9 @@ function newPic(picElem, gpeid) {
     self.box[0].style.left = self.positionLeft - w / 2 + "px";
     //底部拉时元素大小位置的显示
     var widz = (self.width + w).toFixed(0) + "px";
-    $('.pic-sd .tzzb').text(widz);
+    $('.pic-sd .thzb').text(widz);
     var heiz = (self.height + h).toFixed(0) + "px";
-    $('.pic-sd .thzb').text(heiz);
+    $('.pic-sd .tzzb').text(heiz);
     var leftz = self.positionLeft - w / 2;
     leftz = leftz.toFixed(0) + "px";
     $('.pic-sd .hzb').text(leftz);
@@ -217,9 +217,9 @@ function newPic(picElem, gpeid) {
     self.box[0].style.top = self.positionTop - h / 2 + "px";
     //左拉时元素大小位置的显示
     var widz = (self.width + w).toFixed(0) + "px";
-    $('.pic-sd .tzzb').text(widz);
+    $('.pic-sd .thzb').text(widz);
     var heiz = (self.height + h).toFixed(0) + "px";
-    $('.pic-sd .thzb').text(heiz);
+    $('.pic-sd .tzzb').text(heiz);
     var leftz = self.positionLeft - w / 2;
     leftz = leftz.toFixed(0) + "px";
     $('.pic-sd .hzb').text(leftz);
@@ -263,9 +263,9 @@ function newPic(picElem, gpeid) {
     self.box[0].style.top = self.positionTop - h + "px";
     //头部拉时元素大小位置的显示
     var widz = (self.width + w).toFixed(0) + "px";
-    $('.pic-sd .tzzb').text(widz);
+    $('.pic-sd .thzb').text(widz);
     var heiz = (self.height + h).toFixed(0) + "px";
-    $('.pic-sd .thzb').text(heiz);
+    $('.pic-sd .tzzb').text(heiz);
     var leftz = self.positionLeft - w / 2;
     leftz = leftz.toFixed(0) + "px";
     $('.pic-sd .hzb').text(leftz);
@@ -307,9 +307,9 @@ function newPic(picElem, gpeid) {
     self.box[0].style.height = self.height + h + "px";
     //右下角拉改变元素的大小
     var widz = (self.width + w).toFixed(0) + "px";
-    $('.pic-sd .tzzb').text(widz);
+    $('.pic-sd .thzb').text(widz);
     var heiz = (self.height + h).toFixed(0) + "px";
-    $('.pic-sd .thzb').text(heiz);
+    $('.pic-sd .tzzb').text(heiz);
   };
   this.stopBottomRightDrag = function(e) {
     e.stopPropagation();
@@ -344,9 +344,9 @@ function newPic(picElem, gpeid) {
     self.box[0].style.left = self.positionLeft - w + "px";
     //左下角拉改变元素的大小和left值
     var widz = (self.width + w).toFixed(0) + "px";
-    $('.pic-sd .tzzb').text(widz);
+    $('.pic-sd .thzb').text(widz);
     var heiz = (self.height + h).toFixed(0) + "px";
-    $('.pic-sd .thzb').text(heiz);
+    $('.pic-sd .tzzb').text(heiz);
     var leftz = self.positionLeft - w;
     leftz = leftz.toFixed(0) + "px";
     $('.pic-sd .hzb').text(leftz);
@@ -386,9 +386,9 @@ function newPic(picElem, gpeid) {
     self.box[0].style.left = self.positionLeft - w + "px";
     //左上角拉改变元素的大小和位置
     var widz = (self.width + w).toFixed(0) + "px";
-    $('.pic-sd .tzzb').text(widz);
+    $('.pic-sd .thzb').text(widz);
     var heiz = (self.height + h).toFixed(0) + "px";
-    $('.pic-sd .thzb').text(heiz);
+    $('.pic-sd .tzzb').text(heiz);
     var leftz = self.positionLeft - w;
     leftz = leftz.toFixed(0) + "px";
     $('.pic-sd .hzb').text(leftz);
@@ -431,9 +431,9 @@ function newPic(picElem, gpeid) {
     self.box[0].style.top = self.positionTop - h + "px";
     //右上角拉改变元素的大小和top值
     var widz = (self.width + w).toFixed(0) + "px";
-    $('.pic-sd .tzzb').text(widz);
+    $('.pic-sd .thzb').text(widz);
     var heiz = (self.height + h).toFixed(0) + "px";
-    $('.pic-sd .thzb').text(heiz);
+    $('.pic-sd .tzzb').text(heiz);
     var topz = self.positionTop - h;
     topz = topz.toFixed(0) + "px";
     $('.pic-sd .zzb').text(topz);

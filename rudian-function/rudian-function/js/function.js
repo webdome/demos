@@ -244,6 +244,7 @@ var cstt = function() {
       'display': 'none',
       'background-color': '#515151'
     });
+    $('.tzsz').val('#515151'); //1103***
     $('.kzy-y').css('display', 'none');
     $('.hk5').slider({
       value: 20
@@ -283,6 +284,9 @@ var cstt = function() {
     $('.bwj-z2').css('background-color', '#333');
     $('.kzsps').hide();
     $('.ysko').css('background-color', '#2eb3e8');
+    // 文本
+    $('.wryh').val('微软雅黑');
+    $('.ess').val('24px');
   }
   //再次操作选中图片时右边操作区对应的值
 var cztfz = function(myz) {
@@ -304,7 +308,7 @@ var cztfz = function(myz) {
     });
     $('.hk1').next().text('' + op + '%');
     $('.hk2').slider({
-      value: br*2
+      value: br * 2
     });
     $('.hk2').next().text('' + br + '%');
     $('.hk3').slider({
@@ -371,6 +375,10 @@ var cztfz = function(myz) {
 var czwfz = function() {
   var gpeid = $('.eles li[data-cur="1"]').attr('id');
   var op = ((1 - elemObj[gpeid].opacity) * 100).toFixed(0);
+  var ztlx = elemObj[gpeid].fontFamily;
+  var ztdx = elemObj[gpeid].fontSize;
+  $('.wryh').val(ztlx);
+  $('.ess').val(ztdx + 'px');
   $('.hk1').slider({
     value: op
   });
@@ -429,7 +437,7 @@ var czwfz = function() {
   $('.zzb').text('' + topz + 'px');
 }
 
-//再次点击按钮操作区对应的值
+//再次点击按钮操作区对应的值   1103***所有圆角用br赋值
 var andyz = function() {
   var gpeid = $('.eles li[data-cur="1"]').attr('id');
   var op = ((1 - elemObj[gpeid].opacity) * 100).toFixed(0);
@@ -437,6 +445,11 @@ var andyz = function() {
     value: op
   });
   $('.fx1').next().text('' + op + '%');
+  var br = elemObj[gpeid].borderRadius;
+  $('.hk2').slider({
+    value: br * 2
+  });
+  $('.hk2').next().text('' + br + '%');
   var ro = parseInt(elemObj[gpeid].totalAngle);
   var roz = (ro / 3.6);
   $('.hk3').slider({
@@ -584,12 +597,12 @@ var ddxla = function() {
       $('.fx1').next().text('' + op + '%');
       var whz = wi >= he ? he : wi;
       var br = elemObj[gpeid].borderRadius;
-      var hk2z = ((br / whz) * 200).toFixed(0);
-      var xhk2z = ((br / whz) * 100).toFixed(0);
+      // var hk2z = ((br / whz) * 200).toFixed(0);
+      // var xhk2z = ((br / whz) * 100).toFixed(0);
       $('.hk2').slider({
-        value: hk2z
+        value: br * 2
       });
-      $('.hk2').next().text('' + xhk2z + '%');
+      $('.hk2').next().text('' + br + '%');
       var bj = elemObj[gpeid].backgroundColor;
       var ys = elemObj[gpeid].color;
       $('.bwj-z1').css('background-color', bj);
@@ -667,12 +680,12 @@ var ddzcc = function() {
     $('.fx1').next().text('' + op + '%');
     var whz = wi >= he ? he : wi;
     var br = elemObj[gpeid].borderRadius;
-    var hk2z = ((br / whz) * 200).toFixed(0);
-    var xhk2z = ((br / whz) * 100).toFixed(0);
+    // var hk2z = ((br / whz) * 200).toFixed(0);
+    // var xhk2z = ((br / whz) * 100).toFixed(0);
     $('.hk2').slider({
-      value: hk2z
+      value: br * 2
     });
-    $('.hk2').next().text('' + xhk2z + '%');
+    $('.hk2').next().text('' + br + '%');
     var bj = elemObj[gpeid].backgroundColor;
     var ys = elemObj[gpeid].color;
     $('.bwj-z1').css('background-color', bj);
@@ -742,12 +755,12 @@ var rhdxl = function() {
     var hez = he.toFixed(0);
     var whz = wi >= he ? he : wi;
     var br = elemObj[gpeid].borderRadius;
-    var hk2z = ((br / whz) * 200).toFixed(0);
-    var xhk2z = ((br / whz) * 100).toFixed(0);
+    // var hk2z = ((br / whz) * 200).toFixed(0);
+    // var xhk2z = ((br / whz) * 100).toFixed(0);
     $('.hk2').slider({
-      value: hk2z
+      value: br * 2
     });
-    $('.hk2').next().text('' + xhk2z + '%');
+    $('.hk2').next().text('' + br + '%');
     var bg = elemObj[gpeid].backgroundColor;
     var co = elemObj[gpeid].fill;
     $('.xd-h').css('background-color', bg);
@@ -798,7 +811,7 @@ var rhdxl = function() {
       $('.dk7').next().text('' + byz + 'px');
     }
   }
-  //动画的添加与删除
+  //动画的添加与删除 1104***
 var ancs = function(self) {
   // ***删除动画页元素
   $('.dh-y').remove();
@@ -815,29 +828,37 @@ var ancs = function(self) {
     var ani_dur = value.duration;
     var ani_delay = value.delay;
     var ani_count = value.count;
-    var one_animate = '<div class="dh-y ' + gpeid + '" id="' + key + '"><div class="dh-y1"><span class="zhx hx-j"></span><span class="dh-z">动画' + (n++) + '</span><span class="xh-x"></span></div><div class="dh-cz"><div class="chu-f"><span class="chu-fz">触发</span><select class="chu-fj"><option>进入页面</option><option>单击</option></select></div><div class="don-ff"><span class="chu-fz">动画</span><select class="input input--dropdown js--animations"><optgroup label="无"><option value = "no"> 无 </option></optgroup><optgroup label = "强调"><option value = "bounce"> 弹跳 </option><option value = "flash"> 闪动 </option><option value = "pulse"> 脉冲 </option><option value = "rubberBand"> 橡皮筋 </option><option value = "shake"> 轻摇 </option><option value = "swing"> 摆动 </option><option value = "tada"> 嗒哒 </option><option value = "wobble"> 摇晃 </option><option value = "jello"> 果冻 </option></optgroup><optgroup label = "进入"><option value = "slideInDown"> 上移入 </option><option value = "slideInLeft"> 左移入 </option><option value = "slideInRight"> 右移入 </option><option value = "slideInUp"> 下移入 </option><option value = "fadeIn"> 淡入 </option><option value = "fadeInDown"> 上淡入 </option><option value = "fadeInDownBig"> 上淡入大 </option><option value = "fadeInLeft"> 左淡入 </option><option value = "fadeInLeftBig"> 左淡入大 </option><option value = "fadeInRight"> 右淡入 </option><option value = "fadeInRightBig"> 右淡入大 </option><option value = "fadeInUp"> 下淡入 </option><option value = "fadeInUpBig"> 下淡入大 </option><option value = "bounceIn"> 弹入 </option><option value = "bounceInDown"> 向下弹入 </option><option value = "bounceInUp"> 向上弹入 </option><option value = "bounceInLeft"> 从左弹入 </option><option value = "bounceInRight"> 从右弹入 </option><option value = "hinge"> 悬掉 </option><option value = "flip"> 翻转 </option><option value = "flipInX"> X翻转 </option><option value = "flipInY"> Y翻转 </option><option value = "lightSpeedIn"> 光速 </option><option value = "rotateIn"> 旋转 </option><option value = "rotateInDownLeft"> 左下旋转 </option><option value = "rotateInDownRight"> 右下旋转 </option><option value = "rotateInUpLeft"> 左上旋转 </option><option value = "rotateInUpRight"> 右上旋转 </option><option value = "slideninLeft"> 滑动 </option><option value = "zoomIn"> 放大 </option><option value = "zoomInDown"> 下放大 </option><option value = "zoomInLeft"> 左放大 </option><option value = "zoomInRight"> 右放大 </option><option value = "zoomInUp"> 上放大 </option><option value = "rollIn"> 滚入 </option></optgroup><optgroup label = "退出"><option value = "slideOutDown"> 上移出 </option><option value = "slideOutLeft"> 左移出 </option><option value = "slideOutRight"> 右移出 </option><option value = "slideOutUp"> 下移出 </option><option value = "fadeOut"> 淡出 </option><option value = "fadeOutDown"> 下淡出 </option><option value = "fadeOutDownBig"> 下淡出大 </option><option value = "fadeOutLeft"> 左淡出 </option><option value = "fadeOutLeftBig"> 左淡出大 </option><option value = "fadeOutRight"> 右淡出 </option><option value = "fadeOutRightBig"> 右淡出大 </option><option value = "fadeOutUp"> 上淡出 </option><option value = "fadeOutUpBig"> 上淡出大 </option><option value = "bounceOut"> 弹出 </option><option value = "bounceOutDown"> 下弹出 </option><option value = "bounceOutLeft"> 左弹出 </option><option value = "bounceOutRight"> 右弹出 </option><option value = "bounceOutUp"> 上弹出 </option><option value = "flipOutX"> X翻转 </option><option value = "flipOutY"> Y翻转 </option><option value = "lightSpeedOut"> 光速 </option><option value = "rotateOut"> 旋转 </option><option value = "rotateOutDownLeft"> 左下旋转 </option><option value = "rotateOutDownRight"> 右下旋转 </option><option value = "rotateOutUpLeft"> 左上旋转 </option><option value = "rotateOutUpRight"> 右上旋转 </option><option value = "slideInRight"> 滑动 </option><option value = "zoomOut"> 缩小 </option><option value = "zoomOutDown"> 下缩小 </option><option value = "zoomOutLeft"> 左缩小 </option><option value = "zoomOutRight"> 右缩小 </option><option value = "zoomOutUp"> 上缩小 </option><option value = "rollOut"> 滚出 </option></optgroup></select><select class="zc-j"><option>中心</option><option>↑</option><option>→</option><option>↓</option><option>←</option></select></div><div class="zs-t"><span class="chu-fz">时间</span><span class="cjt-j aiti" style="border:none"></span><span class="ji-m">' + ani_dur + '</span></div><div class="zs-t"><span class="chu-fz">延迟</span><span class="cjt-j delay"  style="border:none"></span><span class="ji-m">' + ani_delay + '</span></div><div class="zs-t"><span class="chu-fz">次数</span><span class="cjt-j time" style="border:none"></span><span class="ji-m">' + ani_count + '</span></div><div class="sx-dhc7"><span class="yin-y">循环</span><span class="xun-h"><span class="kgq-2"></span></span></div></div></div>';
+    if (value.count == 'infinite') {
+      ani_count = 1;
+    }
+    var one_animate = '<div class="dh-y ' + gpeid + '" id="' + key + '"><div class="dh-y1"><span class="zhx hx-j"></span><span class="dh-z">动画' + (n++) + '</span><span class="xh-x"></span></div><div class="dh-cz"><div class="chu-f"><span class="chu-fz">触发</span><select class="chu-fj"><option>进入页面</option><option>单击</option></select></div><div class="don-ff"><span class="chu-fz">动画</span><select class="input input--dropdown js--animations"><optgroup label="无"><option value = "no"> 无 </option></optgroup><optgroup label = "强调"><option value = "bounce"> 弹跳 </option><option value = "flash"> 闪动 </option><option value = "pulse"> 脉冲 </option><option value = "rubberBand"> 橡皮筋 </option><option value = "shake"> 轻摇 </option><option value = "swing"> 摆动 </option><option value = "tada"> 嗒哒 </option><option value = "wobble"> 摇晃 </option><option value = "jello"> 果冻 </option><option value = "flip"> 翻转 </option></optgroup><optgroup label = "进入"><option value = "slideInDown"> 上移入 </option><option value = "slideInLeft"> 左移入 </option><option value = "slideInRight"> 右移入 </option><option value = "slideInUp"> 下移入 </option><option value = "fadeIn"> 淡入 </option><option value = "fadeInDown"> 上淡入 </option><option value = "fadeInDownBig"> 上淡入大 </option><option value = "fadeInLeft"> 左淡入 </option><option value = "fadeInLeftBig"> 左淡入大 </option><option value = "fadeInRight"> 右淡入 </option><option value = "fadeInRightBig"> 右淡入大 </option><option value = "fadeInUp"> 下淡入 </option><option value = "fadeInUpBig"> 下淡入大 </option><option value = "bounceIn"> 弹入 </option><option value = "bounceInDown"> 向下弹入 </option><option value = "bounceInUp"> 向上弹入 </option><option value = "bounceInLeft"> 从左弹入 </option><option value = "bounceInRight"> 从右弹入 </option><option value = "hinge"> 悬掉 </option><option value = "flipInX"> X翻转 </option><option value = "flipInY"> Y翻转 </option><option value = "lightSpeedIn"> 光速 </option><option value = "rotateIn"> 旋转 </option><option value = "rotateInDownLeft"> 左下旋转 </option><option value = "rotateInDownRight"> 右下旋转 </option><option value = "rotateInUpLeft"> 左上旋转 </option><option value = "rotateInUpRight"> 右上旋转 </option><option value = "slideInLeft"> 滑动 </option><option value = "zoomIn"> 放大 </option><option value = "zoomInDown"> 下放大 </option><option value = "zoomInLeft"> 左放大 </option><option value = "zoomInRight"> 右放大 </option><option value = "zoomInUp"> 上放大 </option><option value = "rollIn"> 滚入 </option></optgroup><optgroup label = "退出"><option value = "slideOutDown"> 上移出 </option><option value = "slideOutLeft"> 左移出 </option><option value = "slideOutRight"> 右移出 </option><option value = "slideOutUp"> 下移出 </option><option value = "fadeOut"> 淡出 </option><option value = "fadeOutDown"> 下淡出 </option><option value = "fadeOutDownBig"> 下淡出大 </option><option value = "fadeOutLeft"> 左淡出 </option><option value = "fadeOutLeftBig"> 左淡出大 </option><option value = "fadeOutRight"> 右淡出 </option><option value = "fadeOutRightBig"> 右淡出大 </option><option value = "fadeOutUp"> 上淡出 </option><option value = "fadeOutUpBig"> 上淡出大 </option><option value = "bounceOut"> 弹出 </option><option value = "bounceOutDown"> 下弹出 </option><option value = "bounceOutLeft"> 左弹出 </option><option value = "bounceOutRight"> 右弹出 </option><option value = "bounceOutUp"> 上弹出 </option><option value = "flipOutX"> X翻转 </option><option value = "flipOutY"> Y翻转 </option><option value = "lightSpeedOut"> 光速 </option><option value = "rotateOut"> 旋转 </option><option value = "rotateOutDownLeft"> 左下旋转 </option><option value = "rotateOutDownRight"> 右下旋转 </option><option value = "rotateOutUpLeft"> 左上旋转 </option><option value = "rotateOutUpRight"> 右上旋转 </option><option value = "slideInRight"> 滑动 </option><option value = "zoomOut"> 缩小 </option><option value = "zoomOutDown"> 下缩小 </option><option value = "zoomOutLeft"> 左缩小 </option><option value = "zoomOutRight"> 右缩小 </option><option value = "zoomOutUp"> 上缩小 </option><option value = "rollOut"> 滚出 </option></optgroup></select><select class="zc-j"><option>中心</option><option>↑</option><option>→</option><option>↓</option><option>←</option></select></div><div class="zs-t"><span class="chu-fz">时间</span><span class="cjt-j aiti" style="border:none"></span><span class="ji-m">' + ani_dur + '</span></div><div class="zs-t"><span class="chu-fz">延迟</span><span class="cjt-j delay"  style="border:none"></span><span class="ji-m">' + ani_delay + '</span></div><div class="zs-t"><span class="chu-fz">次数</span><span class="cjt-j time" style="border:none"></span><span class="ji-m">' + ani_count + '</span></div><div class="sx-dhc7"><span class="yin-y">循环</span><span class="xun-h"><span class="kgq-2"></span></span></div></div></div>';
+    if (value.count == 'infinite') {
+      one_animate = one_animate.replace('class="xun-h"', 'class="xun-h lv"').replace('class="kgq-2"', 'class="kgq-2" style="left:12px;"');
+    }
     one_animate = one_animate.replace('value = "' + ani_name + '"', 'value="' + ani_name + '" selected');
     $(one_animate).appendTo($('.sx-sxc'));
     // 找到对应id的动画设置栏  设置滑块的功能与滑块的位置
     // 动画时间滑块
+    $('#' + key + ' .aiti').parents('.dh-y').find('.aiti').next().text(ani_dur + "s");
     $('#' + key + ' .aiti').slider({
-      value: parseInt(ani_dur) * 5,
-      step: 5,
+      value: parseFloat(ani_dur) * 10,
+      step: 1,
       slide: function(event, ui) {
         event.stopPropagation();
-        var ms = ui.value / 5;
+        var ms = (ui.value / 10).toFixed(1);
         $(this).parents('.dh-y').find('.aiti').next().text(ms + "s");
         var elem = $(this);
         aniShowAndStorage(elem);
       }
     });
     // 动画延迟滑块
+    $('#' + key + ' .delay').parents('.dh-y').find('.delay').next().text(ani_delay + "s");
     $('#' + key + ' .delay').slider({
-      value: parseInt(ani_delay) * 5,
-      step: 5,
+      value: parseFloat(ani_delay) * 10,
+      step: 1,
       slide: function(event, ui) {
         event.stopPropagation();
-        var cs = ui.value / 5;
+        var cs = (ui.value / 10).toFixed(1);
         $(this).parents('.dh-y').find('.delay').next().text(cs + "s");
         var elem = $(this);
         aniShowAndStorage(elem);
@@ -845,16 +866,19 @@ var ancs = function(self) {
     });
     // 动画次数滑块
     $('#' + key + ' .time').slider({
-      value: parseInt(ani_count) * 5,
-      step: 5,
+      value: parseFloat(ani_count) * 10,
+      step: 10,
       slide: function(event, ui) {
         event.stopPropagation();
-        var ms = ui.value / 5;
+        var ms = ui.value / 10;
         $(this).parents('.dh-y').find('.time').next().text(ms);
         var elem = $(this);
         aniShowAndStorage(elem);
       }
     });
+    if (value.count == 'infinite') {
+      $('#' + key + ' .time').slider('disable');
+    }
   });
 }
 
@@ -903,7 +927,7 @@ var sekcd = function() {
     $('.dw-k').text('0px');
     $('.dw-g').text('0px');
   }
-  //输入框按钮的再次点击
+  //输入框的再次点击
 var srkrd = function() {
   var gpeid = $('.eles li[data-cur="1"]').attr('id');
   var op = ((1 - elemObj[gpeid].opacity) * 100).toFixed(0);
@@ -917,12 +941,12 @@ var srkrd = function() {
   $('.fx1').next().text('' + op + '%');
   var whz = wi >= he ? he : wi;
   var br = elemObj[gpeid].borderRadius;
-  var hk2z = ((br / whz) * 200).toFixed(0);
-  var xhk2z = ((br / whz) * 100).toFixed(0);
+  // var hk2z = ((br / whz) * 200).toFixed(0);
+  // var xhk2z = ((br / whz) * 100).toFixed(0);
   $('.hk2').slider({
-    value: hk2z
+    value: br * 2
   });
-  $('.hk2').next().text('' + xhk2z + '%');
+  $('.hk2').next().text('' + br + '%');
   var bj = elemObj[gpeid].backgroundColor;
   var ys = elemObj[gpeid].color;
   $('.xh-h').css('background-color', bj);
