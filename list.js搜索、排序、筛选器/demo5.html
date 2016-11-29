@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>增删</title>
+		<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+		<script src="js/list.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body {
+			  font-family:sans-serif;
+			}
+			table td, table th {
+			  padding:5px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="contacts">
+		  <table>
+		    <thead>
+		      <tr>
+		        <th class="sort" data-sort="name">姓名</th>
+		        <th class="sort" data-sort="age">年龄</th>
+		        <th class="sort" data-sort="city">城市</th>
+		        <th colspan="2">
+		          <input type="text" class="search" placeholder="搜索" />
+		        </th>
+		      </tr>
+		    </thead>
+		    <tbody class="list">
+		      <tr>
+		        <td class="id" style="display:none;">1</td>
+		        <td class="name">大制</td>
+		        <td class="age">27</td>
+		        <td class="city">深圳</td>
+		        <td class="edit"><button class="edit-item-btn">编辑</button></td>
+		        <td class="remove"><button class="remove-item-btn">删除</button></td>
+		      </tr>
+		      <tr>
+		        <td class="id" style="display:none;">2</td>
+		        <td class="name">大痣</td>
+		        <td class="age">27</td>
+		        <td class="city">深圳</td>
+		        <td class="edit"><button class="edit-item-btn">编辑</button></td>
+		        <td class="remove"><button class="remove-item-btn">删除</button></td>
+		      </tr>
+		      <tr>
+		        <td class="id" style="display:none;">3</td>
+		        <td class="name">大志</td>
+		        <td class="age">27</td>
+		        <td class="city">深圳</td>
+		        <td class="edit"><button class="edit-item-btn">编辑</button></td>
+		        <td class="remove"><button class="remove-item-btn">删除</button></td>
+		      </tr>
+		      <tr>
+		        <td class="id" style="display:none;">4</td>
+		        <td class="name">大智</td>
+		        <td class="age">27</td>
+		        <td class="city">深圳</td>
+		        <td class="edit"><button class="edit-item-btn">编辑</button></td>
+		        <td class="remove"><button class="remove-item-btn">删除</button></td>
+		      </tr>
+		    </tbody>
+		  </table>
+		  <table>
+		    <td class="name">
+		      <input type="hidden" id="id-field" />
+		      <input type="text" id="name-field" placeholder="姓名" />
+		    </td>
+		    <td class="age">
+		      <input type="text" id="age-field" placeholder="年龄" />
+		    </td>
+		    <td class="city">
+		      <input type="text" id="city-field" placeholder="城市" />
+		    </td>
+		    <td class="add">
+		      <button id="add-btn">增加</button>
+		      <button id="edit-btn">编辑</button>
+		    </td>
+		  </table>
+		  
+		  <p>一个demo关于 <code>add()</code>, <code>values()</code> and <code>remove()</code>.</p>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	var options = {
+	  valueNames: [ 'id', 'name', 'age', 'city' ]
+	};
+	
+	// Init list
+	var contactList = new List('contacts', options);
+	
+	var idField = $('#id-field'),
+	    nameField = $('#name-field'),
+	    ageField = $('#age-field'),
+	    cityField = $('#city-field'),
+	    addBtn = $('#add-btn'),
+	    editBtn = $('#edit-btn').hide(),
+	    removeBtns = $('.remove-item-btn'),
+	    editBtns = $('.edit-item-btn');
+	
+	refreshCallbacks();
+	
+	addBtn.click(function() {
+	  contactList.add({
+	    id: Math.floor(Math.random()*110000),
+	    name: nameField.val(),
+	    age: ageField.val(),
+	    city: cityField.val()
+	  });
+	  clearFields();
+	  refreshCallbacks();
+	});
+	
+	editBtn.click(function() {
+	  var item = contactList.get('id', idField.val())[0];
+	  item.values({
+	    id:idField.val(),
+	    name: nameField.val(),
+	    age: ageField.val(),
+	    city: cityField.val()
+	  });
+	  clearFields();
+	  editBtn.hide();
+	  addBtn.show();
+	});
+	
+	function refreshCallbacks() {
+	  removeBtns = $(removeBtns.selector);
+	  editBtns = $(editBtns.selector);
+	  
+	  removeBtns.click(function() {
+	    var itemId = $(this).closest('tr').find('.id').text();
+	    contactList.remove('id', itemId);
+	  });
+	  
+	  editBtns.click(function() {
+	    var itemId = $(this).closest('tr').find('.id').text();
+	    var itemValues = contactList.get('id', itemId)[0].values();
+	    console.log(itemValues)
+	    idField.val(itemValues.id);
+	    nameField.val(itemValues.name);
+	    ageField.val(itemValues.age);
+	    cityField.val(itemValues.city);
+	    
+	    editBtn.show();
+	    addBtn.hide();
+	  });
+	}
+	
+	function clearFields() {
+	  nameField.val('');
+	  ageField.val('');
+	  cityField.val('');
+	}	
+</script>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/list.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="hacker-list">
+	        <ul class="list">
+			    <li data-id="1">
+				    <a href="https://baidu.com" class="link name">Jonny</a>
+				    <p class="born timestamp" data-timestamp="1234">1986</p>
+				    <img class="image" src="img/image.png" />
+			    </li>
+			</ul>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+	var options = {
+	  valueNames: [
+	    'name',
+	    'born',
+	    { data: ['id'] },
+	    { name: 'timestamp', attr: 'data-timestamp' },
+	    { name: 'link', attr: 'href' },
+	    { name: 'image', attr: 'src' }
+	  ]
+	};
+	var hackerList = new List('hacker-list', options);
+	
+	hackerList.add({
+	  name: 'Jonas',
+	  born: '1985',
+	  id: 2,
+	  timestamp: '1337',
+	  link: 'https://baidu.com',
+	  image: 'img/1.jpg'
+	});
+</script>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/list.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div id="hacker-list">
+			<input class="search" />
+            <span class="sort" data-sort="name">Sort by name</span>
+ 			<span class="sort" data-sort="city">Sort by city</span>
+		    <ul class="list">
+		    	<li>
+		        	<h3 class="name">Jonny</h3>
+		        	<p class="city">Stockholm</p>
+		   	    </li>
+		    </ul>
+		</div>
+	</body>
+</html>
+<script type="text/javascript">
+var options = {
+  valueNames: ['name', 'city']
+};
+var values = [
+	    { name: 'a1', city:'中国' }, 
+	    { name: 'a2', city:'中国' }
+	];
+var hackerList = new List('hacker-list', options,values);
+
+hackerList.add( { name: 'Jonas', city:'Berlin' });
+</script>
