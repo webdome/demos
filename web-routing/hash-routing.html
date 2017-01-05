@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<ul> 
+	    <li><a href="#/">turn white</a></li> 
+	    <li><a href="#/#666">turn blue</a></li> 
+	    <li><a href="#/#999">turn green</a></li> 
+	</ul> 
+</body>
+<script>
+	function Router(){
+		this.routes = {};
+		this.currentUrl = '';
+	}
+	Router.prototype.route = function(path,callback){
+		this.routes[path] = callback || function(){};
+	}
+	Router.prototype.refresh = function(){
+		this.currentUrl = location.hash.slice(1) || '/';
+		this.routes[this.currentUrl]();
+	}
+	Router.prototype.init = function(){
+		window.addEventListener('load',this.refresh.bind(this),false);
+		window.addEventListener('hashchange', this.refresh.bind(this), false);
+	}
+	window.Router = new Router();
+	window.Router.init();
+	// 
+	var content = document.querySelector('body');
+	// change Page anything
+	function changeBgColor(color) {
+	    content.style.backgroundColor = color;
+	}
+	Router.route('/', function() {
+	    changeBgColor('white');
+	});
+	Router.route('/#666', function() {
+	    changeBgColor('#666');
+	});
+	Router.route('/#999', function() {
+	    changeBgColor('#999');
+	});
+</script>
+</html>
