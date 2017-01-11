@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>directive</title>
+	<script src="libs/jquery-2.1.3.min.js"></script>
+	<script src="libs/vue.js"></script>
+	<script src="libs/vue-router.js"></script>
+	<style>
+		div,button{
+			margin: 10px;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			-o-user-select: none;
+			user-select: none;
+		}
+		.addnum{
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div id="demo1">
+		<!-- 插值 -->
+	  <div>“Mustache” 语法（双大括号）：{{num}}</div>
+		<div>javascript字符串拼接：{{num + '我是拼接来的'}}</div>
+		<div>
+			javascript三元表达式：
+			{{ num > 2 ? 'YES' : 'NO' }}
+		</div>
+		<div>
+			javascript字符串翻转操作：
+			{{ msg.split('').reverse().join('') }}
+		</div>
+	  <div v-once>v-once：{{msg}}</div>
+	  <div v-html="rawHtml"></div>
+	  <div v-text="'hello ' + user.firstName + ' ' + user.lastName"></div>
+	  <div v-on:click="addnum" class="addnum">点我加</div>
+	  <div v-bind:id="dynamicId"> v-bind：动态绑定HTML属性值</div>
+		<div v-bind:class="'list-'+dynamicId">
+			v-bind：动态拼接HTML属性值
+		</div>
+	  <button v-bind:disabled="num < 3">如果条件被求值为 false 的话该属性会被移除</button><button v-on:click="addnum" class="addnum">点我3次解除按钮</button>
+	</div>
+	<!-- 指令 可在指令后冒号加参数 可在指令后点加修饰符-->
+	<div id="demo2">
+		<span v-if="seen">seen变量决定我是否可见</span>
+		<button v-on:click="toggle">隐藏</button>
+		<br>
+		<a v-bind:href="url" target="_blank">{{url}}</a>
+		<button v-on:click.prevent="changeurl">变为sohu</button>
+	</div>
+	<!-- 过滤器  Vue 2.x 中，过滤器只能在 mustache 绑定和 v-bind 表达式（从 2.1.0 开始支持）中使用-->
+	<div id="demo3">
+		<div>{{message}} 过滤后 {{message | filterA('***') | filterB}}</div>
+	</div>
+	<!-- 缩写 -->
+	<p>Vue.js 为两个最为常用的指令提供了特别的缩写</p>
+	<p style="text-indent:2em;">v-bind:href="url"&nbsp;&nbsp;:href="url"</p>
+	<p style="text-indent:2em;">v-on:click="doSomething"&nbsp;&nbsp;@click="doSomething"</p>
+<script>
+// 插值
+	var demo1 = new Vue({
+		el:'#demo1',
+		data:{
+			num:0,
+			msg:'该节点上所有的数据不会改变',
+			rawHtml:'<h3>v-html：输出真正的 HTML</h3>',
+			dynamicId:'v-bind',
+			user:{firstName:'chen',lastName:'wei'}
+		},
+		methods:{
+			addnum:function(){
+				++this.num;
+			}
+		}
+	});
+// 指令
+	var demo2 = new Vue({
+		el:'#demo2',
+		data:{
+			seen:true,
+			url:'http://www.baidu.com',
+		},
+		methods:{
+			toggle:function(){
+				this.seen = false;
+			},
+			changeurl:function(){
+				this.url = "http://www.sohu.com";
+			}
+		}
+	});
+	// 过滤器  过滤器函数总接受表达式的值作为第一个参数  过滤器是 JavaScript 函数，因此可以接受参数
+	var demo3 = new Vue({
+		el:'#demo3',
+		data:{
+			message:'AbCdEfG123',
+		},
+		filters:{
+			filterA:function(value,split){
+				return value.replace(/[a-z]/g,split);
+			},
+			filterB:function(value){
+				return value.replace(/\d/g,'数字');
+			}
+		}
+	});
+</script>
+</body>
+</html>

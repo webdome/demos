@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS读取/保存文件的方法</title>
+</head>
+<body>
+  <div>
+    <input type="file" id="files" style="display:none" onchange="import2();"/>
+    <input type="button" id="import" value="导入"/>
+    <textarea id="show" style="width:400px;height:600px;"></textarea>
+    <input type="button" id="export" value="导出"/>
+  </div>
+  <script src="jquery-2.1.3.min.js"></script>
+  <script src="FileSaver.js"></script>
+  <script>
+    $("#import").click(function(){//点击导入按钮，使files触发点击事件，然后完成读取文件的操作。
+        $("#files").click();
+    });
+    function import2(){
+        var selectedFile = document.getElementById("files").files[0];//获取读取的File对象
+        var name = selectedFile.name;//读取选中文件的文件名
+        var size = selectedFile.size;//读取选中文件的大小
+        console.log("文件名:"+name+"大小："+size);
+
+        var reader = new FileReader();//这里是核心！！！读取操作就是由它完成的。
+        reader.readAsText(selectedFile);//读取文件的内容
+
+        reader.onload = function(){
+            //console.log(this.result);//当读取完成之后会回调这个函数，然后此时文件的内容存储到了result中。直接操作即可。
+            $('#show').val(this.result);
+        };
+    }
+    //JS文件
+    $("#export").click(function(){
+        var content = $('#show').val();
+        var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, "file.txt");//saveAs(blob,filename)
+    });
+  </script>
+</body>
+</html>
