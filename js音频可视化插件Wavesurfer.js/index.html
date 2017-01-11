@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>wavesurfer.js | Playlist</title>
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
+
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/ribbon.css" />
+
+        <!-- wavesurfer.js -->
+        <script src="js/wavesurfer.min.js"></script>
+
+        <!-- App -->
+        <script src="js/app.js"></script>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="header">
+                <ul class="nav nav-pills pull-right">
+                    <li><a href="/"><i class="glyphicon glyphicon-home"></i></a></li>
+                </ul>
+
+                <h1 itemprop="name">wavesurfer.js Playlist Demo</h1>
+            </div>
+
+            <div id="demo">
+                <div class="row" style="margin: 30px 0">
+                    <div class="col-sm-10">
+                        <div id="waveform">
+                            <!-- Here be waveform -->
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <button class="btn btn-success btn-block" id="playPause">
+                            <span id="play">
+                                <i class="glyphicon glyphicon-play"></i>
+                                Play
+                            </span>
+
+                            <span id="pause" style="display: none">
+                                <i class="glyphicon glyphicon-pause"></i>
+                                Pause
+                            </span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="list-group" id="playlist">
+                    <a href="jq22com.mp3" class="list-group-item">
+                        <i class="glyphicon glyphicon-play"></i>
+                        Wake
+                        <span class="badge">4:35</span>
+                    </a>
+
+
+                </div>
+            </div>
+
+            
+        </div>
+
+        
+
+        
+    </body>
+</html>
