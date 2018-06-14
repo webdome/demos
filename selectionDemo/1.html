@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>Document</title>
+  <style>
+    header, footer, main {
+    display: block;
+}
+
+header {
+    position: fixed;
+    height: 50px;
+    left: 0;
+    right: 0;
+    top: 0;
+}
+
+footer {
+    position: fixed;
+    height: 34px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+main {
+    /* main绝对定位，进行内部滚动 */
+    position: absolute;
+    top: 50px;
+    bottom: 34px;
+    /* 使之可以滚动 */
+    overflow-y: scroll;
+}
+
+main .content {
+    height: 2000px;
+}
+  </style>
+</head>
+<body class="layout-scroll-fixed">
+    <!-- fixed定位的头部 -->
+    <header>
+        
+    </header>
+    
+    <!-- 可以滚动的区域 -->
+    <main>
+        <div class="content">
+        <!-- 内容在这里... -->
+        <ul>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+          <li>123</li>
+        </ul>
+        </div>
+    </main>
+    
+    <!-- fixed定位的底部 -->
+    <footer>
+        <input type="text" placeholder="Footer..."/>
+        <button class="submit">提交</button>
+    </footer>
+    <script>
+      window.onresize = function(e){
+
+if(e.target.outerHeight < $('body').height()){
+    $('#bottom').css({'position':'static'});
+}else{
+    $('#bottom').css({'position':'fixed'});
+}
+}`
+    </script>
+</body>
+</html>

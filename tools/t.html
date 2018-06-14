@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>常用组件</title>
+  <script type="text/javascript">
+    // 屏幕自适应
+    var winW = document.documentElement.clientWidth;
+    var desW = 750;
+    var fontSize = 100;
+    var rem = desW / fontSize;
+    if (winW > desW) {
+      winw = desW;
+    }
+    document.documentElement.style.fontSize = winW / rem + "px";
+  </script>
+  <link rel="stylesheet" href="common.css">
+  <script src="jquery-2.1.3.min.js"></script>
+  <script src="common.js"></script>
+</head>
+
+<body>
+  <button id="confirm">确认框</button>
+  <button id="notify">通知框</button>
+  <button id="loading">加载框</button>
+  <script>
+    document.getElementById("confirm").onclick = function() {
+      popFunc.popConfirm("确定删除该项");
+    }
+    document.getElementById("notify").onclick = function() {
+      popFunc.popNotify("删除成功");
+    }
+    document.getElementById("loading").onclick = function() {
+      popFunc.popLoading("删除成功");
+      setTimeout(popFunc.removeLoading, 2000);
+    }
+  </script>
+</body>
+
+</html>

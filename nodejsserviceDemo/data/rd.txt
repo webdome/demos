@@ -1,0 +1,9 @@
+入点三版官网
+http://www.easyinto.com/third/
+入点H5制作
+http://www.easyinto.com/love/rudian/index.html
+
+判断手机端 执行指定代码
+if (/(iphone)|(android)/g.test(window.navigator.userAgent.toLowerCase())) {
+	window.location.pathname = "rudian-phone";
+}

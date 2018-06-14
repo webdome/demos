@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>nodejs server test</title>
+</head>
+
+<body>
+  <button id="get">获取信息</button>
+  <button id="set">保存信息</button>
+  <button id="nofound">错误接口</button>
+  <script src="js/jquery-2.1.3.min.js"></script>
+  <script>
+    $('#get').on("click", function(e) {
+      e.stopPropagation();
+      var data = { id: 1 };
+      $.ajax({
+        type: "post",
+        url: "http://192.168.1.222:8080/getUserMsg",
+        data: data,
+        dataType: "JSON",
+        success: function(res) {
+          console.log(res);
+        }
+      });
+    });
+    $('#set').on("click", function(e) {
+      e.stopPropagation();
+      var data = { username: "a", sex: "male", age: "12", email: "11@qq.com" };
+      $.ajax({
+        type: "post",
+        url: "http://192.168.1.222:8080/register",
+        data: data,
+        dataType: "JSON",
+        success: function(res) {
+          console.log(res);
+        }
+      });
+    });
+    $('#nofound').on("click", function(e) {
+      e.stopPropagation();
+      var data = { id: 1 };
+      $.ajax({
+        type: "post",
+        url: "http://192.168.1.222:8080/nofound",
+        data: data,
+        dataType: "JSON",
+        success: function(res) {
+          console.log(res);
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

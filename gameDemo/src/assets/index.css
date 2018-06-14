@@ -1,0 +1,935 @@
+/* html {
+  font-size: 100px;
+  width: 100%;
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-size: 0.12rem;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: "microsoft yahei";
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: transparent;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+a {
+  text-decoration: none;
+}
+.clearfix:after {
+  content: "";
+  display: block;
+  height: 0;
+  overflow: hidden;
+  clear: both;
+}
+
+#nearby,#ranking,#award,#history{
+  display: none;
+}
+.bounce-enter-active {
+  animation: bounce-in .3s;
+}
+@keyframes bounce-in {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+@-webkit-keyframes bounce-in {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+.seat1 {
+  height: 0.4rem;
+}
+.seat {
+  height: 1rem;
+}
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+#nearby, #ranking, #award, #history {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; Prevent native touch events on Windows
+  touch-action: none;
+  -ms-touch-action: none; Prevent the callout on tap-hold and text selection
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;  Prevent text resize on orientation change, useful for web-apps
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  -o-text-size-adjust: none;
+}
+#nearbypullDown, #nearbypullUp,#rankingpullDown, #rankingpullUp,#awardpullDown, #awardpullUp,#historypullDown, #historypullUp {
+  display: none;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  text-align: center;
+}
+.pulldown-tips {
+  position: absolute;
+  top: -0.4rem;
+  left: 0;
+  width: 100%;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  text-align: center;
+} */
+
+/*top*/
+.top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.4rem;
+  z-index: 999;
+  background-color: #fff;
+}
+.top .logo {
+  position: absolute;
+  top: 0.1rem;
+  left: 0.1rem;
+  bottom: 0.1rem;
+  width: 1rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  /*background-image: url(../images/logo.png);*/
+}
+.top .title {
+  overflow: hidden;
+  text-align: center;
+  margin: 0 1.2rem;
+  line-height: 0.4rem;
+  font-size: 0.14rem;
+  font-weight: 700;
+}
+
+/*banner*/
+.banner {
+  overflow: hidden;
+  height: 1.485rem;
+}
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+.swiper-slide {
+  background-size: contain;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+
+/*information*/
+.information {
+  overflow: hidden;
+  height: 0.6rem;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+/* .information .roundBox {
+  width: 128rem;
+} */
+.information ul {
+  float: left;
+}
+.information ul li {
+  line-height: 0.6rem;
+  overflow: hidden;
+  float: left;
+  margin-right: 0.1rem;
+  color: #515151;
+}
+.information ul li i {
+  font-style: normal;
+}
+.information ul li i.i1 {
+  color: #06f;
+}
+.information ul li i.i2 {
+  color: #f00;
+}
+.information ul li i.i3 {
+  color: #f00;
+}
+
+/*search*/
+.searchBox {
+  overflow: hidden;
+  height: 0.6rem;
+}
+.searchBox ul {
+  margin: 0 0.1rem;
+}
+.searchBox ul li {
+  float: left;
+  width: 25%;
+  overflow: hidden;
+  text-align: center;
+  line-height: 0.6rem;
+  height: 0.6rem;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: right 0.1rem;
+  background-size: 0.4rem;
+}
+.searchBox ul li .drownList {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  opacity: 0;
+}
+.searchBox ul li i {
+  font-style: normal;
+  display: block;
+  margin: 0 0.46rem 0 0.1rem;
+  text-align: center;
+}
+.searchBox ul li.position {
+  background-image: url(./position.png);
+}
+.searchBox ul li.store {
+  background-image: url(./store.png);
+}
+.searchBox ul li.rule {
+  background-image: url(./rule.png);
+}
+.searchBox ul li.c {
+  width: 50%;
+}
+
+/*actListBox*/
+.actListBox {
+  background-color: #f0f0f0;
+}
+.actListBox ul li {
+  background-color: #fff;
+  margin-top: 0.2rem;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0 0.06rem 0.12rem 0 #ccc;
+}
+.actListBox ul li .actInfo {
+  overflow: hidden;
+  padding: 0.1rem 0.2rem;
+  border-bottom: 1px solid #f1f1f1;
+}
+.actListBox ul li .companyInfo {
+  overflow: hidden 0.2rem;
+  padding: 0.1rem;
+  line-height: 0.6rem;
+}
+.actListBox ul li .companyInfo .c_logo {
+  float: left;
+  border-radius: 0.1rem;
+  overflow: hidden;
+  width: 1rem;
+  height: 0.6rem;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+}
+.actListBox ul li .companyInfo .c_name {
+  float: left;
+  width: 4rem;
+  margin-left: 0.2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #666;
+}
+.actListBox ul li .companyInfo .c_position {
+  float: right;
+  overflow: hidden;
+  color: #666;
+}
+.actListBox ul li {
+  overflow: hidden;
+}
+.actListBox ul li .logo {
+  float: left;
+  border-radius: 0.1rem;
+  overflow: hidden;
+  width: 1.6rem;
+  height: 1.6rem;
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  box-shadow: 0px 0px 0.1rem 0 #ccc;
+}
+.actListBox ul li .game {
+  float: left;
+  margin-left: 0.1rem;
+  overflow: hidden;
+}
+.actListBox ul li .game .g_name {
+  font-size: 0.28rem;
+  line-height: 0.5rem;
+}
+.actListBox ul li .game .g_join {
+  line-height: 0.6rem;
+}
+.actListBox ul li .game .g_time {
+  line-height: 0.5rem;
+}
+.actListBox ul li .game .g_time i {
+  font-style: normal;
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  text-align: center;
+  background-color: #F00;
+  color: #fff;
+  border-radius: 0.6rem;
+}
+.actListBox ul li .game .g_time_2 {
+  color: #f00;
+}
+.actListBox ul li .make {
+  float: right;
+  overflow: hidden;
+}
+.actListBox ul li .make .m_info {
+  text-align: right;
+  line-height: 0.5rem;
+  overflow: hidden;
+}
+.actListBox ul li .make .m_info i {
+  font-style: normal;
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  text-align: center;
+  background-color: #999;
+  color: #fff;
+  border-radius: 0.06rem;
+}
+.actListBox ul li .make .m_info a {
+  float: right;
+  width: 1.2rem;
+  color: #06f;
+  text-align: center;
+}
+.actListBox ul li .make .m_join {
+  text-align: right;
+  height: 0.6rem;
+  overflow: hidden;
+}
+.actListBox ul li .make .m_join a {
+  float: right;
+  height: 0.5rem;
+  line-height: 0.5rem;
+  width: 1.2rem;
+  margin: 0.06rem;
+  background-color: #0C3;
+  color: #fff;
+  border-radius: 0.1rem;
+  text-align: center;
+  box-shadow: 0 0.06rem 0.12rem 0 #ccc;
+}
+.actListBox ul li .make .m_join_1 a {
+  border: 0.02rem solid #0c3;
+  height: 0.46rem;
+  width: 1.16rem;
+  background-color: #fff;
+  color: #0c3;
+}
+.actListBox ul li .make .m_join_0 a:after {
+  content: "参与"
+}
+.actListBox ul li .make .m_join_1 a:after {
+  content: "练习"
+}
+.actListBox ul li .make .m_join_2 a:after {
+  content: "试玩"
+}
+.actListBox ul li .make .m_join_2 a {
+  background-color: #999;
+  color: #fff;
+}
+.actListBox ul li .make .m_score {
+  text-align: right;
+  line-height: 0.5rem;
+}
+
+/*menu*/
+.menu {
+  overflow: hidden;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fff;
+  height: 0.6rem;
+  border-top: 1px solid #ccc;
+  background-color: #fefefe;
+}
+.menu ul li {
+  float: left;
+  text-align: center;
+  width: 25%;
+  line-height: 0.6rem;
+  overflow: hidden;
+}
+.menu ul li a {
+  display: block;
+  color: #515151;
+  line-height: 0.95rem;
+  background-repeat: no-repeat;
+  background-position: center 0.05rem;
+  background-size: 0.3rem;
+}
+/* .menu ul li.dingwei a {
+  background-image: url(../images/dingwei.png);
+}
+.menu ul li.bangdan a {
+  background-image: url(../images/bangdan.png);
+}
+.menu ul li.jiangpin a {
+  background-image: url(../images/jiangpin.png);
+}
+.menu ul li.lishi a {
+  background-image: url(../images/lishi.png);
+}
+.menu ul li.dingwei.cur a {
+  background-image: url(../images/dingwei2.png);
+  color: #64c850
+}
+.menu ul li.bangdan.cur a {
+  background-image: url(../images/bangdan2.png);
+  color: #64c850
+}
+.menu ul li.jiangpin.cur a {
+  background-image: url(../images/jiangpin2.png);
+  color: #64c850
+}
+.menu ul li.lishi.cur a {
+  background-image: url(../images/lishi2.png);
+  color: #64c850
+} */
+#allmap {
+  display: none;
+}
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 2000;
+}
+#loading>div {
+  width: 2rem;
+  height: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -1rem;
+  margin-top: -0.5rem;
+}
+#loading>div>i {
+  display: block;
+  width: 1.44rem;
+  height: 0.37rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  /*background-image: url(../images/logo.png);*/
+  margin: 0 auto;
+}
+#loading>div>span {
+  display: block;
+  text-align: center;
+  font-size: 0.2rem;
+  margin-top: 0.2rem;
+}
+
+/*榜单*/
+#ranking {
+  background-color: #f0f0f0;
+  border-top: 1px solid transparent;
+}
+#ranking .oneshop {
+  background-color: #fff;
+  margin-top: 0.1rem;
+}
+#ranking .shoprank {
+  box-shadow: 0 0.05rem 0.06rem 0 #ccc;
+}
+#ranking .shopmsg {
+  width: 100%;
+  height: 0.5rem;
+  padding: 0.1rem;
+  box-sizing: border-box;
+  border-bottom: 1px solid #cbcbcb;
+  box-shadow: 0 -0.02rem 0.03rem 0 #ccc;
+}
+#ranking .shopmsg>i {
+  float: left;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 0.5rem;
+  height: 100%;
+  background-color: #9c6969;
+  border-radius: 5px;
+  margin-right: 0.2rem;
+}
+#ranking .shopmsg>b {
+  float: left;
+  line-height: 0.3rem;
+  font-size: 0.16rem;
+  color: #666;
+  font-weight: normal;
+  width: 1.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#ranking .shopmsg>span {
+  float: right;
+  line-height: 0.3rem;
+  font-size: 0.16rem;
+  color: #666;
+}
+#ranking .onelist {
+  height: 0.7rem;
+  padding: 0.05rem 0.1rem;
+  box-sizing: border-box;
+}
+#ranking .onelist:last-child .msg {
+  border: 0;
+}
+#ranking .onelist .pic {
+  float: left;
+  width: 0.7rem;
+}
+#ranking .onelist .pic>span {
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  background-color: #8ea963;
+  margin-top: 0.05rem;
+}
+#ranking .onelist .msg {
+  float: right;
+  width: calc(100% - 0.7rem);
+  border-bottom: 1px solid #cbcbcb;
+}
+#ranking .onelist .msg>div {
+  height: 0.3rem;
+  line-height: 0.3rem;
+}
+#ranking .onelist .msg>div:last-child {
+  padding-bottom: 0.05rem;
+}
+#ranking .onelist .msg>div>span>i {
+  color: red;
+  margin-left: 0.16rem;
+  font-style: normal;
+}
+#ranking .onelist .msg>div>span:nth-child(1) {
+  float: left;
+  font-size: 0.16rem;
+}
+#ranking .onelist .msg>div:nth-child(1)>span:nth-child(2) {
+  color: blue;
+}
+#ranking .onelist .msg>div:nth-child(2)>span:nth-child(1) {
+  width: 1.6rem;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#ranking .onelist .msg>div:nth-child(2)>span:nth-child(2) {
+  color: #666;
+}
+#ranking .onelist .msg>div>span:nth-child(2) {
+  float: right;
+  font-size: 0.16rem;
+}
+
+/*奖品*/
+#app .showmsg{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+.userList{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0.8rem 0.3rem;
+  background-color: #fff;
+}
+.userList .tit {
+    overflow: hidden;
+    height: .5rem;
+    border-bottom: 1px solid #ccc;
+    color: #666;
+    text-indent: .16rem;
+    font-weight: 700;
+    font-size: .14rem;
+    line-height: .5rem;
+}
+.userList .itemBox {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.05rem;
+    bottom: 0.05rem;
+    left: 0.05rem;
+    overflow: hidden;
+    overflow-y: auto;
+    background-color: #fff;
+}
+.userList ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.userList ul li {
+    position: relative;
+    overflow: hidden;
+    padding: 0 .16rem;
+}
+.userList ul li .u_head {
+    position: absolute;
+    top: .16rem;
+    left: .16rem;
+    overflow: hidden;
+    width: .5rem;
+    height: .5rem;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.userList ul li .u_info {
+    overflow: hidden;
+    margin-left: .68rem;
+    padding: .16rem 0;
+    border-bottom: 1px solid #ccc;
+    line-height: .25rem;
+}
+.userList ul li .u_info .u_row {
+    overflow: hidden;
+}
+.userList ul li .u_info .u_row .u_column1 {
+    float: left;
+}
+.userList ul li .u_info .u_row .u_column2 {
+    float: right;
+}
+#qrimage{
+	display: none;
+}
+#app .ewm{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+#app .ewm>div{
+  width: 3rem;
+  height: 3.4rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -1.5rem;
+  margin-top: -1.7rem;
+  background-color: #fff;
+  border-radius: 0.05rem;
+}
+#app .ewm>div>div{
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0 auto;
+  margin-top: 0.25rem;
+}
+#app .ewm>div>p{
+  text-align: center;
+  font-size: 0.16rem;
+}
+#award {
+  background-color: #f0f0f0;
+  border-top: 1px solid transparent;
+}
+#award .oneshop {
+  background-color: #fff;
+  margin-top: 0.1rem;
+}
+#award .shoprank {
+  box-shadow: 0 0.05rem 0.06rem 0 #ccc;
+}
+#award .shopmsg {
+  width: 100%;
+  height: 0.5rem;
+  padding: 0.1rem;
+  box-sizing: border-box;
+  border-bottom: 1px solid #cbcbcb;
+}
+#award .shopmsg>i {
+  float: left;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 0.5rem;
+  height: 100%;
+  background-color: #9c6969;
+  border-radius: 5px;
+  margin-right: 0.2rem;
+}
+#award .shopmsg>b {
+  float: left;
+  line-height: 0.3rem;
+  font-size: 0.14rem;
+  color: #666;
+  font-weight: normal;
+  width: 1.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#award .shopmsg>span {
+  float: right;
+  line-height: 0.3rem;
+  font-size: 0.14rem;
+  color: #666;
+}
+#award .shopmsg>span>i {
+  font-style: normal;
+  margin-left: 0.1rem;
+  color: #000;
+}
+#award .onelist {
+  height: 0.7rem;
+  padding: 0.05rem 0.1rem;
+  box-sizing: border-box;
+}
+#award .onelist:last-child .msg {
+  border: 0;
+}
+#award .onelist .pic {
+  float: left;
+  width: 0.7rem;
+}
+#award .onelist .pic>span {
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  background-color: #8ea963;
+  margin-top: 0.05rem;
+}
+#award .onelist .msg {
+  float: right;
+  width: calc(100% - 0.7rem);
+  border-bottom: 1px solid #cbcbcb;
+}
+#award .onelist .msg>div {
+  height: 0.3rem;
+  line-height: 0.3rem;
+}
+#award .onelist .msg>div:last-child {
+  padding-bottom: 0.05rem;
+}
+#award .onelist .msg>div>span>i {
+  color: red;
+  margin-left: 0.16rem;
+  font-style: normal;
+}
+#award .onelist .msg>div>span {
+  font-size: 0.16rem;
+}
+#award .onelist .msg>div>span:nth-child(1) {
+  float: left;
+  width: 2rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#award .onelist .msg>div>span:nth-child(2) {
+  float: right;
+}
+#award .onelist .msg>div:nth-child(1)>span:nth-child(1) {
+  color: #666;
+}
+#award .onelist .msg>div:nth-child(1)>span:nth-child(2) {
+  color: #666;
+}
+#award .onelist .msg>div:nth-child(2)>span:nth-child(2) {
+  background-color: #00cc33;
+  color: #fff;
+  border-radius: 5px;
+  font-size: 0.14rem;
+  width: 0.45rem;
+  height: 0.25rem;
+  line-height: 0.25rem;
+  margin-top: 0.05rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+/*历史*/
+#history {
+  background-color: #f0f0f0;
+  border-top: 1px solid transparent;
+}
+#history .oneshop {
+  background-color: #fff;
+  margin-top: 0.1rem;
+}
+#history .shoprank {
+  box-shadow: 0 0.05rem 0.06rem 0 #ccc;
+}
+#history .shopmsg {
+  width: 100%;
+  height: 0.5rem;
+  padding: 0.1rem;
+  box-sizing: border-box;
+  border-bottom: 1px solid #cbcbcb;
+}
+#history .shopmsg>i {
+  float: left;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  width: 0.5rem;
+  height: 100%;
+  background-color: #9c6969;
+  border-radius: 5px;
+  margin-right: 0.2rem;
+}
+#history .shopmsg>b {
+  float: left;
+  line-height: 0.3rem;
+  font-size: 0.14rem;
+  color: #666;
+  font-weight: normal;
+  width: 1.6rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#history .shopmsg>span {
+  float: right;
+  line-height: 0.3rem;
+  font-size: 0.14rem;
+  color: #666;
+}
+#history .shopmsg>span>i {
+  font-style: normal;
+  margin-left: 0.1rem;
+  color: #000;
+}
+#history .onelist {
+  height: 0.7rem;
+  padding: 0.05rem 0.1rem;
+  box-sizing: border-box;
+}
+#history .onelist:last-child .msg {
+  border: 0;
+}
+#history .onelist .pic {
+  float: left;
+  width: 0.7rem;
+}
+#history .onelist .pic>span {
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  background-color: #8ea963;
+  margin-top: 0.05rem;
+}
+#history .onelist .msg {
+  float: right;
+  width: calc(100% - 0.7rem);
+  border-bottom: 1px solid #cbcbcb;
+}
+#history .onelist .msg>div {
+  height: 0.3rem;
+  line-height: 0.3rem;
+}
+#history .onelist .msg>div>span>i {
+  color: red;
+  margin-left: 0.16rem;
+  font-style: normal;
+}
+#history .onelist .msg>div>span:nth-child(1)>i {
+  color: #00cc33;
+}
+#history .onelist .msg>div>span {
+  font-size: 0.16rem;
+}
+#history .onelist .msg>div>span:nth-child(1) {
+  float: left;
+}
+#history .onelist .msg>div>span:nth-child(2) {
+  float: right;
+}
+#history .onelist .msg>div:nth-child(1)>span:nth-child(1) {
+  color: #666;
+}
+#history .onelist .msg>div:nth-child(1)>span:nth-child(2) {
+  color: #666;
+}
+#award .onelist .msg>div:nth-child(2)>span:nth-child(2).used{
+  background-color: #ccc;
+}
+#award .onelist .msg>div:nth-child(2)>span:nth-child(2):after{
+  content: "使用";
+}
+#award .onelist .msg>div:nth-child(2)>span:nth-child(2).used:after{
+  content: "已使用";
+}

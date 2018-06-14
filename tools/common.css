@@ -1,0 +1,177 @@
+/*通知框*/
+.poptip {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 20;
+}
+.poptip>div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4rem;
+  margin-left: -2rem;
+  margin-top: -0.5rem;
+  text-align: center;
+  padding: 0.3rem 0.2rem;
+  background-color: #fff;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.32rem;
+  border-radius: 0.1rem;
+}
+/*确认框*/
+.popconfirm {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 20;
+}
+.popconfirm>div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 5rem;
+  height: 2.5rem;
+  background-color: #fff;
+  color: #666;
+  font-size: 0.32rem;
+  margin: auto;
+  border-radius: 0.1rem;
+}
+.popconfirm>div>div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popconfirm>div>div.txt {
+  height: 1.6rem;
+  padding: 0.4rem 0.2rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+.popconfirm>div>div.btn>div {
+  width: 1.2rem;
+  height: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.popconfirm>div>div.btn>div.no {
+  background-color: #ccc;
+}
+.popconfirm>div>div.btn>div.yes {
+  background-color: #64C850;
+  margin-left: 0.6rem;
+}
+
+/*加载框*/
+.loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.6);
+}
+.loadEffect {
+  width: 2rem;
+  height: 2rem;
+  position: relative;
+  margin: 0 auto;
+  top: 50%;
+  margin-top: -1rem;
+}
+.loadEffect span {
+  display: inline-block;
+  width: .32rem;
+  height: .32rem;
+  border-radius: 50%;
+  background: #64C850;
+  position: absolute;
+  -webkit-animation: load 1.04s ease infinite;
+  animation: load 1.04s ease infinite;
+}
+@-webkit-keyframes load {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+@keyframes load {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+.loadEffect span:nth-child(1) {
+  left: 0;
+  top: 50%;
+  margin-top: -.16rem;
+  -webkit-animation-delay: 0.13s;
+  animation-delay: 0.13s;
+}
+.loadEffect span:nth-child(2) {
+  left: .28rem;
+  top: .28rem;
+  -webkit-animation-delay: 0.26s;
+  animation-delay: 0.26s;
+}
+.loadEffect span:nth-child(3) {
+  left: 50%;
+  top: 0;
+  margin-left: -.16rem;
+  -webkit-animation-delay: 0.39s;
+  animation-delay: 0.39s;
+}
+.loadEffect span:nth-child(4) {
+  top: .28rem;
+  right: .28rem;
+  -webkit-animation-delay: 0.52s;
+  animation-delay: 0.52s;
+}
+.loadEffect span:nth-child(5) {
+  right: 0;
+  top: 50%;
+  margin-top: -.16rem;
+  -webkit-animation-delay: 0.65s;
+  animation-delay: 0.65s;
+}
+.loadEffect span:nth-child(6) {
+  right: .28rem;
+  bottom: .28rem;
+  -webkit-animation-delay: 0.78s;
+  animation-delay: 0.78s;
+}
+.loadEffect span:nth-child(7) {
+  bottom: 0;
+  left: 50%;
+  margin-left: -.16rem;
+  -webkit-animation-delay: 0.91s;
+  animation-delay: 0.91s;
+}
+.loadEffect span:nth-child(8) {
+  bottom: .28rem;
+  left: .28rem;
+  -webkit-animation-delay: 1.04s;
+  animation-delay: 1.04s;
+}

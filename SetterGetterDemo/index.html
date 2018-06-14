@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>响应式</title>
+</head>
+
+<body>
+  <div id="username">我是大生姜</div>
+  <div id="phone">13721083318</div>
+  <script>
+    var obj = { username: "我是大生姜", phone: 13721083318 };
+    Object.defineProperty(obj, "username", {
+      set: function(val) {
+        console.log("赋值" + val);
+        this._username = val;
+        document.getElementById("username").innerText = val;
+      },
+      get: function(e) {
+        console.log("取值");
+        return this._username;
+      }
+    });
+    Object.defineProperty(obj, "phone", {
+      set: function(val) {
+        this._phone = val;
+        document.getElementById("phone").innerText = val;
+      },
+      get: function(e) {
+        return this._phone;
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://a.alipayobjects.com/g/h5-lib/alipayjsapi/3.0.3/alipayjsapi.min.js"></script>
+  <script src="jquery-2.1.3.min.js"></script>
+</head>
+
+<body>
+  <!--<form name="punchout_form" method="post" action="https://openapi.alipay.com/gateway.do?sign=H8roLcZaql%2BllloWcnvB6q5NVdefVw0K%2BP4s3ST2Tx%2FuNzkodW%2FWaQA3wxorzEWglC5Py3JC4KMsUuxNGRiAREPKh9c1XojfdYHfBdwU0dnT1ux4rQukH1jYx67iVPDp9aVLOlfeTVPQnq%2Bgd3dY0OyVy1NQrMjzdY7THmyzBX%2Fmu8T4mBGXU4S2MJiSvagAFEam9HoOfbJrBlPLBd9wiovcXC4HLPfvbfqC6uDnruIf2MgQozJI13ujb1uzpZbmuIqE7hp9rW%2Fh6yljIQYs0%2FJUKVPCW7DDMUPODigVpMq6Ut6AVfkJK7rmXIQzQDhSnAfm9FnhzlxdWfxOXO6V3g%3D%3D&timestamp=2017-07-11+16%3A50%3A30&sign_type=RSA2&notify_url=http%3A%2F%2Fwww.easyinto.com%2Falipay%2Fzfb_scan_notify.jsp&charset=utf-8&app_id=2016112503274813&method=alipay.trade.wap.pay&return_url=http%3A%2F%2Fwww.easyinto.com%2Flove%2Frudian%2Factive%2Falipayok.html&version=1.0&alipay_sdk=alipay-sdk-java-dynamicVersionNo&format=json 
+
+">
+    <input type="hidden" name="biz_content" value="{&quot;body&quot;:&quot;消费&quot;,&quot;out_trade_no&quot;:&quot;1821563755&quot;,&quot;product_code&quot;:&quot;QUICK_WAP_PAY&quot;,&quot;subject&quot;:&quot;AES测试收款0.1元&quot;,&quot;timeout_express&quot;:&quot;2m&quot;,&quot;total_amount&quot;:&quot;0.1&quot;}">
+    <input type="submit" value="立即支付" style="display:none">
+  </form>-->
+  <h1>点击以下按钮唤起收银台支付</h1>
+  <a href="javascript:void(0)" class="tradeno">交易号唤起</a>
+  <script>
+    function ready(callback) {
+      // 如果jsbridge已经注入则直接调用
+      if (window.AlipayJSBridge) {
+        callback && callback();
+      } else {
+        // 如果没有注入则监听注入的事件
+        document.addEventListener('AlipayJSBridgeReady', callback, false);
+      }
+    }
+    ready(function() {
+      document.querySelector('.tradeno').addEventListener('click', function() {
+        AlipayJSBridge.call("tradePay", {
+          tradeNO: "1821563755"
+        }, function(result) {
+          alert(JSON.stringify(result));
+        });
+      });
+    });
+  </script>
+  <script>
+    // document.forms[0].submit();
+    // $.ajax({
+    //   type: "get",
+    //   url: "https://openapi.alipay.com/gateway.do?sign=H8roLcZaql%2BllloWcnvB6q5NVdefVw0K%2BP4s3ST2Tx%2FuNzkodW%2FWaQA3wxorzEWglC5Py3JC4KMsUuxNGRiAREPKh9c1XojfdYHfBdwU0dnT1ux4rQukH1jYx67iVPDp9aVLOlfeTVPQnq%2Bgd3dY0OyVy1NQrMjzdY7THmyzBX%2Fmu8T4mBGXU4S2MJiSvagAFEam9HoOfbJrBlPLBd9wiovcXC4HLPfvbfqC6uDnruIf2MgQozJI13ujb1uzpZbmuIqE7hp9rW%2Fh6yljIQYs0%2FJUKVPCW7DDMUPODigVpMq6Ut6AVfkJK7rmXIQzQDhSnAfm9FnhzlxdWfxOXO6V3g%3D%3D&timestamp=2017-07-11+16%3A50%3A30&sign_type=RSA2&notify_url=http%3A%2F%2Fwww.easyinto.com%2Falipay%2Fzfb_scan_notify.jsp&charset=utf-8&app_id=2016112503274813&method=alipay.trade.wap.pay&return_url=http%3A%2F%2Fwww.easyinto.com%2Flove%2Frudian%2Factive%2Falipayok.html&version=1.0&alipay_sdk=alipay-sdk-java-dynamicVersionNo&format=json",
+    //   data: {
+    //     'biz_content': "{&quot;body&quot;:&quot;消费&quot;,&quot;out_trade_no&quot;:&quot;1821563755&quot;,&quot;product_code&quot;:&quot;QUICK_WAP_PAY&quot;,&quot;subject&quot;:&quot;AES测试收款0.1元&quot;,&quot;timeout_express&quot;:&quot;2m&quot;,&quot;total_amount&quot;:&quot;0.1&quot;}"
+    //   },
+    //   dataType: 'jsonp',
+    //   success: function(response) {
+    //     alert(JSON.stringify(response));
+    //   },
+    //   error: function(response) {
+    //     alert(JSON.stringify(response));
+
+    //   }
+    // });
+  </script>
+</body>
+
+</html>

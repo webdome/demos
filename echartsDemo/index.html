@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>echarts简单运用</title>
+  <style>
+    #demo,
+    body,
+    html {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="demo"></div>
+  <script src="jquery-2.1.3.min.js"></script>
+  <script src="echarts.min.js"></script>
+  <script>
+    var histogram = echarts.init(document.getElementById('demo'));
+    // 指定图表的配置项和数据
+    var option = {
+      title: {
+        subtext: '统计截止：' + new Date(new Date().setDate(new Date().getDate() - 1)).toLocaleDateString()
+      },
+      tooltip: {
+        trigger: 'axis',
+        backgroundColor: 'transparent',
+        borderColor: '#47ebeb',
+        borderWidth: 1,
+        axisPointer: {
+          type: 'line',
+          lineStyle: {
+            color: '#48b',
+            width: 1,
+            type: 'dashed'
+          },
+        }
+      },
+      legend: {
+        textStyle: {
+          color: '#999'
+        },
+        data: [{
+          name: '访客量（UV）',
+          icon: 'bar',
+          textStyle: {
+            color: '#999'
+          }
+        }, {
+          name: '浏览量（PV）',
+          icon: 'bar',
+          textStyle: {
+            color: '#999'
+          }
+        }]
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          dataView: {
+            show: true,
+            readOnly: false
+          },
+          magicType: {
+            show: true,
+            type: ['line', 'bar']
+          },
+          restore: {
+            show: true
+          },
+          saveAsImage: {
+            show: true
+          }
+        }
+      },
+      calculable: true,
+      xAxis: [{
+        type: 'category',
+        data: [1, 2, 3],
+        axisLine: {
+          lineStyle: {
+            color: '#666',
+            width: 1,
+            type: 'solid'
+          }
+        },
+        axisTick: {
+          length: 10,
+        },
+        axisLabel: {
+          margin: 15,
+          textStyle: {
+            color: '#999'
+          }
+        }
+      }],
+      yAxis: [{
+        type: 'value',
+        show: false
+      }],
+      series: [{
+        name: '浏览量（PV）',
+        type: 'line',
+        itemStyle: {
+          normal: {
+            color: '#ea6103',
+            lineStyle: {
+              width: 1
+            }
+          }
+        },
+        data: [4, 5, 6],
+        markPoint: {
+          // 标注大小，半宽（半径）参数，当图形为方向或菱形则总宽度为symbolSize * 2
+          symbol: 'circle',
+          symbolSize: 16,
+          itemStyle: {
+            normal: {
+              color: 'rgba(234,97,3,0.4)',
+              borderWidth: 0, // 标注边线线宽，单位px，默认为1
+              label: {
+                show: false
+              }
+            },
+            emphasis: {
+              borderColor: '#ea6103',
+              borderWidth: 3,
+              label: {
+                show: false
+              }
+            }
+          },
+          effect: {
+            show: true,
+            shadowBlur: 0
+          },
+          data: [{
+            type: 'max',
+            name: '最大值'
+          }, {
+            type: 'min',
+            name: '最小值'
+          }],
+        },
+        markLine: {
+          data: [{
+            type: 'average',
+            name: '平均值'
+          }]
+        }
+      }, {
+        name: '访客量（UV）',
+        type: 'line',
+        itemStyle: {
+          normal: {
+            color: '#eda637',
+            lineStyle: {
+              width: 1
+            }
+          }
+        },
+        data: [7, 8, 9],
+        markPoint: {
+          symbol: 'circle',
+          symbolSize: 16,
+          itemStyle: {
+            normal: {
+              color: 'rgba(237,166,55,0.4)',
+              borderWidth: 0,
+              label: {
+                show: false
+              }
+            },
+            emphasis: {
+              borderColor: '#eda637',
+              borderWidth: 3,
+              label: {
+                show: false
+              }
+            }
+          },
+          effect: {
+            show: true,
+            shadowBlur: 0
+          },
+          data: [{
+            type: 'max',
+            name: '最大值'
+          }, {
+            type: 'min',
+            name: '最小值'
+          }],
+        },
+        markLine: {
+          data: [{
+            type: 'average',
+            name: '平均值'
+          }]
+        }
+      }]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    histogram.setOption(option);
+  </script>
+</body>
+
+</html>
