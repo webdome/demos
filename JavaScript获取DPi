@@ -1,0 +1,12 @@
+ function getDPI() {
+    var arrDPI = new Array;
+    var devicePixelRatio = window.devicePixelRatio || 1;
+    var tmpNode = document.createElement("DIV");
+    tmpNode.style.cssText = "height: 1in; left: -100%; position: absolute; top: -100%; width: 1in;";
+    document.body.appendChild(tmpNode);
+    arrDPI[0] = parseInt(tmpNode.offsetWidth)* devicePixelRatio;
+    arrDPI[1] = parseInt(tmpNode.offsetHeight)*devicePixelRatio;
+    tmpNode.parentNode.removeChild(tmpNode);
+
+    return arrDPI;
+}

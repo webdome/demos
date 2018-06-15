@@ -1,0 +1,22 @@
+
+//rem是移动端常用的尺寸单位，rem通过控制html的font-size的大小为标准，对页面单位进行调整，
+//rem布局方式就是，通过监听浏览器窗口大小的改变，从而改变页面单位，使其达到适配所有屏幕的效果
+
+///////////////////////////////////////下面是 rem布局的代码片段///////////////////////////////////////////
+
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=640){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
